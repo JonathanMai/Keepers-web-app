@@ -9,6 +9,7 @@ class RoutersList extends Component {
         <Router>
             <Switch>
                 <Route path="/" exact component={App} />
+                <Route path="/login" exact component={LoginPage} />
                 <Route render={() => <h1>Page not found</h1>} />
             </Switch>
         </Router>
