@@ -1,7 +1,7 @@
 <p align="center">
   <img src="http://finder.startupnationcentral.org/image_cloud/keepers-child-safety_be03ca57-524a-11e6-914d-1599937b2892?w=300&h=300"  /></p>
   
-# Keepers Web-Application
+# Keepers - Web Application
 Web application for the parent side of Keepers application.
 
 ## Tools & Practices
