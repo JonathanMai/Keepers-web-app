@@ -11,6 +11,6 @@ We're trying to use the best tools and practices in order to produce a quality e
 |---|---|
 | Version Control System| [git](https://git-scm.com/) & [github](https://github.com/JonathanMai/Keepers-bot/) |
 | Recommended IDE | [Visual Studio Code](https://code.visualstudio.com/) |
-| Github Issues | [![GitHub issues](https://img.shields.io/github/issues/JonathanMai/Keepers-bot.svg?style=flat)](https://github.com/JonathanMai/Keepers-bot/issues) |
-| Project Management Board| [Project Board](https://github.com/JonathanMai/Keepers-bot/projects/2) |
+| Github Issues | [![GitHub issues](https://img.shields.io/github/issues/JonathanMai/Keepers-web-app.svg?style=flat)](https://github.com/JonathanMai/Keepers-web-app/issues) |
+| Project Management Board| [Project Board](https://github.com/JonathanMai/Keepers-web-app/projects/1) |
 | Project Status | On Development |
