@@ -5,16 +5,22 @@ import axios from 'axios';
 const url = 'https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/users/login';
 
 class SignInForm extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            validPassword: null
+        };
+    }
     render() {
         return(
-            <Form inline onSubmit={this.signIn.bind(this)}>
+            <Form onSubmit={this.signIn.bind(this)}>
                 <FormGroup controlId="formInlineEmail">
                     <ControlLabel>Email</ControlLabel>{' '}
                     <FormControl type="email" placeholder="Email" inputRef={ref => this.email = ref} />
                 </FormGroup>{' '}
-                <FormGroup controlId="formInlinePassword">
+                <FormGroup controlId="formInlinePassword" validationState={this.state.validPassword}>
                     <ControlLabel>Password</ControlLabel>{' '}
-                    <FormControl type="password" placeholder="Password" inputRef={ref => this.password = ref}/>{' '}
+                    <FormControl type="password" placeholder="Password" inputRef={ref => this.password = ref} />{' '}
                     <Button type="submit">Sign In</Button>
                 </FormGroup>
             </Form>
@@ -27,12 +33,18 @@ class SignInForm extends React.Component {
         var email = this.email.value;
         var password = this.password.value;
         axios.post(url,{
-            'email': 'vin100@vin100.com',
+            'email': 'vin100@vin100.co',
             'password': '123456', 
             'deviceId': '183ec23d93215f65'
         })
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .then(res => console.log(res))  // todo:redirect
+        .catch(error => {
+            if(error.response.data.message === 'Password does not match') {
+                this.setState({
+                    validPassword: "error"
+                });
+            }
+        });
 
     }
 }
