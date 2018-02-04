@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 
+const url = 'https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/users/login';
+
 class SignInForm extends React.Component {
     render() {
         return(
@@ -24,7 +26,14 @@ class SignInForm extends React.Component {
         event.preventDefault(); // prevent auto refresh the page after submit.
         var email = this.email.value;
         var password = this.password.value;
-        axios.get('http://api.icndb.com/jokes/random').then(res => console.log(res.data.value.joke)).catch(err => console.log(err));
+        axios.post(url,{
+            'email': 'vin100@vin100.com',
+            'password': '123456', 
+            'deviceId': '183ec23d93215f65'
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+
     }
 }
 
