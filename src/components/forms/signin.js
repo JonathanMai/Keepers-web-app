@@ -1,10 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
-import axios from 'axios';
 import RegisterModal from './RegisterModal'
-
-const url = 'https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/users/login';
-// const 
+import Login from '../serviceAPI'
 
 class SignInForm extends React.Component {
     constructor(props) {
@@ -29,12 +26,12 @@ class SignInForm extends React.Component {
                 </Form>
                 <RegisterModal ref={ instance => {
                      this.child = instance;
-                }} register={this.register.bind(this)}/>
+                }} redirectTo={this.redirectToRegister.bind(this)}/>
             </div>
         );
     }
 
-    register() {
+    redirectToRegister() {
         this.props.history.push("/register");
     }
 
@@ -43,15 +40,9 @@ class SignInForm extends React.Component {
         event.preventDefault(); // prevent auto refresh the page after submit.
         var email = this.email.value;
         var password = this.password.value;
-        axios.post(url,{
-            'email': 'vin100@vin100.co',
-            'password': '123456', 
-            'deviceId': '183ec23d93215f65'
-        })
-        .then(res => {
-            console.log(res);
-        })  // todo:redirect
-        .catch(error => {
+        Login(email, password).then(res => {
+            console.log(res);   // todo: redirect to main menu.
+        }).catch(error => {
             if(error.response.data.message === 'Email does not exists') {
                 this.child.showModal();
             } else if(error.response.data.message === 'Password does not match') {

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+
 
 class RegisterModal extends React.Component {
     constructor(props) {
@@ -18,12 +20,11 @@ class RegisterModal extends React.Component {
                 aria-labelledby="contained-modal-title">
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">
-                        Contained Modal
+                        The user does not exists
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Elit est explicabo ipsum eaque dolorem blanditiis doloribus sed id
-                    ipsam, beatae, rem fuga id earum? Inventore et facilis obcaecati.
+                    Do you want to create a new account?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.register.bind(this)}>Register</Button>
@@ -45,8 +46,12 @@ class RegisterModal extends React.Component {
     }
     register() {
         this.handleHide();
-        this.props.register();
+        this.props.redirectTo();
     }
 };
 
 export default RegisterModal
+
+RegisterModal.propTypes = {
+    redirectTo: PropTypes.func
+};
