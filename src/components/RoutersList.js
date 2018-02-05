@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import App from './App';
 import LoginPage from './pages/LoginPage';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class RoutersList extends Component {
     render() {

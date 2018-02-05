@@ -28,9 +28,13 @@ class SignInForm extends React.Component {
                 </Form>
                 <RegisterModal ref={ instance => {
                      this.child = instance;
-                }}/>
+                }} register={this.register.bind(this)}/>
             </div>
         );
+    }
+
+    register() {
+        this.props.history.push("/register");
     }
 
     

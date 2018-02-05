@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
 
 class RegisterModal extends React.Component {
     constructor(props) {
@@ -27,7 +26,7 @@ class RegisterModal extends React.Component {
                     ipsam, beatae, rem fuga id earum? Inventore et facilis obcaecati.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.register}>Register</Button>
+                    <Button onClick={this.register.bind(this)}>Register</Button>
                     <Button onClick={this.handleHide.bind(this)}>Close</Button>
                 </Modal.Footer>
             </Modal>
@@ -45,7 +44,8 @@ class RegisterModal extends React.Component {
         });
     }
     register() {
-      
+        this.handleHide();
+        this.props.register();
     }
 };
 

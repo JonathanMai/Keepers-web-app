@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import SignInForm from '../forms/SignIn';
 
-const LoginPage = () => {
+const LoginPage = (props) => {
     return (
         <div>
             <h1>In login page</h1>
-            <SignInForm/>
+            <SignInForm history={props.history}/>
         </div>
     );
 }
