@@ -4,12 +4,13 @@ import axios from 'axios';
 import RegisterModal from './RegisterModal'
 
 const url = 'https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/users/login';
+// const 
 
 class SignInForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            validPassword: null
+            validPassword: null,
         };
     }
     render() {
