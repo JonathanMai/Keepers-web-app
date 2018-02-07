@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 
 const url = "https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/"

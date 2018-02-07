@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SignInForm from '../forms/SignInForm';
 import RegisterForm from '../forms/RegisterForm';
 
