@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import RoutersList from './components/RoutersList';
-import { createStore, combineReducers } from 'redux';
+import store from './store';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -20,8 +20,6 @@ const reducerA = (state = {showModal: false}, action) => {
 const reducerB = (state = {}, action) => {
     return state;
 };
-
-const store = createStore(combineReducers({reducerA, reducerB}));
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SignInForm from '../forms/SignIn';
+import SignInForm from '../forms/SignInForm';
 import RegisterForm from '../forms/RegisterForm';
 
 const LoginPage = (props) => {
