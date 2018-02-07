@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
 import RegisterModal from './RegisterModal'
 import Login from '../serviceAPI'
+import { connect } from 'react-redux'
 
 class SignInForm extends React.Component {
     constructor(props) {
@@ -24,9 +25,7 @@ class SignInForm extends React.Component {
                         <Button type="submit">Sign In</Button>
                     </FormGroup>
                 </Form>
-                <RegisterModal ref={ instance => {
-                     this.child = instance;
-                }} redirectTo={this.redirectToRegister.bind(this)}/>
+                <RegisterModal redirectTo={this.redirectToRegister.bind(this)} />
             </div>
         );
     }
@@ -44,7 +43,7 @@ class SignInForm extends React.Component {
             console.log(res);   // todo: redirect to main menu.
         }).catch(error => {
             if(error.response.data.message === 'Email does not exists') {
-                this.child.showModal();
+                this.props.setShowModal(true);
             } else if(error.response.data.message === 'Password does not match') {
                 this.setState({
                     validPassword: "error"
@@ -54,4 +53,21 @@ class SignInForm extends React.Component {
     }
 }
 
-export default SignInForm;
+const mapStateToProps = (state) => {
+    return {
+        registerModal: state.reducerA
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setShowModal: (val) => {
+            dispatch({
+                type: "SET_SHOW_MODAL",
+                value: val
+            });
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
