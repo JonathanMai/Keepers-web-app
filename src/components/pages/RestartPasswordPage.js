@@ -1,6 +1,5 @@
 import React from 'react';
 import { SendRestartCode, ResetPassword } from '../../serviceAPI';
-import { connect } from 'react-redux';
 import { EnterEmailForm, RestoreForm } from '../forms/RestorePasswordForm';
 
 class RestartPasswordPage extends React.Component {
@@ -14,7 +13,7 @@ class RestartPasswordPage extends React.Component {
     render() {
         var renderPage;
 
-        if(this.state.page == 1) {
+        if(this.state.page === 1) {
             renderPage = (<EnterEmailForm submit={this.sendRestartCode.bind(this)}/>)
         }
 
