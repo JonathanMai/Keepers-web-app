@@ -46,9 +46,11 @@ class SignInForm extends React.Component {
         event.preventDefault(); // prevent auto refresh the page after submit.
         var email = this.email.value;
         var password = this.password.value;
-        Login(email, password).then(res => {
-            console.log(res);   // todo: redirect to main menu.
-        }).catch(error => {
+        
+       // Sends package and handling the respond.
+        Login(email, password).then(res => {  // When respond package is with status 200
+            this.props.history.push('/keepers-dashboard');   // todo: redirect to main menu.
+        }).catch(error => { // When respond package is with error status - 400 ...
             if(error.response.data.message === 'Email does not exists') {
                 this.props.setShowModal(true);
             } else if(error.response.data.message === 'Password does not match') {
