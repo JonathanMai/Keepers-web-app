@@ -21,7 +21,7 @@ export const Register = (name, email, password) => {
     });
 };
 
-export const ForgotPassword = (email) => {
+export const SendRestartCode = (email) => {
     return axios.head(url + "users/reset",{
         params: {
             "email": email

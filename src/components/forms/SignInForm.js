@@ -1,8 +1,9 @@
 import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
-import { RegisterModal } from '../modals/RegisterModal'
-import { Login } from '../../serviceAPI'
-import { connect } from 'react-redux'
+import { RegisterModal } from '../modals/RegisterModal';
+import { Login } from '../../serviceAPI';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class SignInForm extends React.Component {
     render() {
@@ -19,10 +20,12 @@ class SignInForm extends React.Component {
                         <Button type="submit">Sign In</Button>
                     </FormGroup>
                 </Form>
+                <Link to={"/restore-password"}>Forgot Password</Link>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
                     registerUser={this.redirectToRegister.bind(this)}/>
+
             </div>
         );
     }
