@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
-import RegisterModal from './RegisterModal'
+import { RegisterModal } from './RegisterModal'
 import Login from '../serviceAPI'
 import { connect } from 'react-redux'
 
@@ -25,9 +25,16 @@ class SignInForm extends React.Component {
                         <Button type="submit">Sign In</Button>
                     </FormGroup>
                 </Form>
-                <RegisterModal redirectTo={this.redirectToRegister.bind(this)} />
+                <RegisterModal 
+                    showModal={this.props.registerModal.showModal} 
+                    closeModal={this.closeRegisterModal.bind(this)}
+                    registerUser={this.redirectToRegister.bind(this)}/>
             </div>
         );
+    }
+
+    closeRegisterModal() {
+        this.props.setShowModal(false);
     }
 
     redirectToRegister() {
