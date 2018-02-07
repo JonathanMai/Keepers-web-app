@@ -3,7 +3,6 @@ import { Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export const RegisterModal = (props) => {
-    console.log(props);
         return (
             <Modal
                 show={props.showModal}

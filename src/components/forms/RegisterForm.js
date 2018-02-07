@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
-import { Register } from '../serviceAPI';
+import { Register } from '../../serviceAPI';
 
 class RegisterForm extends React.Component {
     render() {

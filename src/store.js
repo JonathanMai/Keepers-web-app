@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
 import reducerA from './reducers/reducerA';
-import reducerB from './reducers/reducerB';
+import reducerAccountInfo from './reducers/reducerAccountInfo';
 
-const store = createStore(combineReducers({reducerA: reducerA, reducerB: reducerB}));
+const store = createStore(combineReducers({reducerA: reducerA, reducerAccountInfo: reducerAccountInfo}));
 
 export default store;
 

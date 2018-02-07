@@ -1,25 +1,19 @@
 import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
-import { RegisterModal } from './RegisterModal'
-import Login from '../serviceAPI'
+import { RegisterModal } from '../modals/RegisterModal'
+import { Login } from '../../serviceAPI'
 import { connect } from 'react-redux'
 
 class SignInForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            validPassword: null,
-        };
-    }
     render() {
         return(
             <div>
                 <Form onSubmit={this.signIn.bind(this)}>
                     <FormGroup controlId="formInlineEmail">
                         <ControlLabel>Email</ControlLabel>{' '}
-                        <FormControl type="email" placeholder="Email" inputRef={ref => this.email = ref} />
+                        <FormControl type="email" placeholder="Email" inputRef={ref => this.email = ref} /> 
                     </FormGroup>{' '}
-                    <FormGroup controlId="formInlinePassword" validationState={this.state.validPassword}>
+                    <FormGroup controlId="formInlinePassword" validationState={this.props.wrongPassword}>
                         <ControlLabel>Password</ControlLabel>{' '}
                         <FormControl type="password" placeholder="Password" inputRef={ref => this.password = ref} />{' '}
                         <Button type="submit">Sign In</Button>
@@ -54,9 +48,7 @@ class SignInForm extends React.Component {
             if(error.response.data.message === 'Email does not exists') {
                 this.props.setShowModal(true);
             } else if(error.response.data.message === 'Password does not match') {
-                this.setState({
-                    validPassword: "error"
-                });
+                this.props.setPasswordErrors("error");
             }
         });
     }
@@ -64,7 +56,8 @@ class SignInForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        registerModal: state.reducerA
+        registerModal: state.reducerA,
+        wrongPassword: state.reducerA.wrongPassword
     };
 };
 
@@ -74,6 +67,12 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({
                 type: "SET_SHOW_MODAL",
                 value: val
+            });
+        },
+        setPasswordErrors: (error) => {
+            dispatch({
+                type: "WRONG_PASSWORD_VALIDATION",
+                value: error
             });
         }
     };

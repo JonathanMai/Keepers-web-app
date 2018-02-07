@@ -2,11 +2,11 @@ import axios from 'axios';
 
 const url = "https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/"
 
-const Login = (email, password) => {
+export const Login = (email, password) => {
     return axios.post(url + "users/login",{
-        'email': 'vin100@vin100.co',
-        'password': '123456', 
-        'deviceId': 'webClient'
+        "email": email,
+        "password": password, 
+        "deviceId": 'webClient'
     });
 };
 
@@ -21,11 +21,23 @@ export const Register = (name, email, password) => {
     });
 };
 
-export const ResetPassword = (props) => {
-
+export const ForgotPassword = (email) => {
+    return axios.head(url + "users/reset",{
+        params: {
+            "email": email
+        }       
+    });
 };
 
-export default Login
+
+export const ResetPassword = (email, password, code) => {
+    return axios.post(url + "users/reset",{
+        "email": email,
+        "password": password,
+        "code": code
+
+    });
+};
 
 const generateRandomPIN = function() {
     var random = (Math.random() * 9000) + 1000;
