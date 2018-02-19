@@ -47,14 +47,17 @@ class Dashboard extends Component {
     }
 
     handleSelect(key) {
-       console.log("aaaaa");
+       alert("We switch to " + key);
+       this.setState({
+           initialTab: key
+       });
     }
 
     render() {                   
         return  (<div>
                     <h1> INSIDE DASHBOARD ;)</h1>
-                    <Tabs defaultActiveKey={this.state.initialTab} id="Dashboard_tabs">
-                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name} onSelect={this.handleSelect} eventKey={index}/>)} 
+                    <Tabs onSelect={this.handleSelect} defaultActiveKey={this.state.initialTab} id="Dashboard_tabs">
+                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name} eventKey={index}/>)} 
                     </Tabs>
                 </div>)
     }
