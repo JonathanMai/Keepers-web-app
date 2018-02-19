@@ -11,9 +11,9 @@ class RoutersList extends Component {
         <Router>
             <Switch>
                 <Route path="/" exact component={App} />
-                <Route path="/login" exact component={LoginPage} />
+                {/* <Route path="/login" exact component={LoginPage} />
                 <Route path="/register" exact component={LoginPage} />
-                <Route path="/restore-password" exact component={RestartPasswordPage} />
+                <Route path="/restore-password" exact component={RestartPasswordPage} /> */}
                 <Route path="/keepers-dashboard" exact component={Dashboard} />
                 <Route render={() => <h1>Page not found</h1>} />
             </Switch>
