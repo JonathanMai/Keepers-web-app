@@ -1,10 +1,38 @@
 import axios from 'axios';
 
-const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/parents/"
+const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/parents/";
+const auth = "0bb4f5a1-7c07-4da5-8712-15fbf32dea1e";
+const parentId = 521;
+const phoneNumber = 9720540000004;
+
+export const GetById = () => {
+    return axios.get(url + "getById/" + parentId,{
+        headers: {
+            auth: auth
+        }
+    });
+}
+
+export const GetProfileByID = () => {
+    return axios.get(url + "profileById/" + parentId,{
+        headers: {
+            auth: auth
+        }
+    });
+}
+
+export const GetAllChildren = () => {
+    return axios.get(url + "getAllChildrenForParent/" + parentId,{
+        headers: {
+            auth: auth
+        }
+    });
+}
 
 
-/* Old method and api calls(Login and user related calls) - not used for now.
-const url = "https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/"
+// ------------------------------------------------------------------------------------------------------------------------------
+//      Old method and api calls(Login and user related calls) - not used for now.
+// const url = "https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/"
 
 // Login api - login to user using email and password.
 export const Login = (email, password) => {
@@ -51,5 +79,3 @@ const generateRandomPIN = function() {
     random = Math.ceil(random);
     return random.toString();
 }
-
-**/
