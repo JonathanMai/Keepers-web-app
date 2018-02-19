@@ -7,9 +7,11 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            childrens: []
+            childrens: [],
+            initialTab: 0
         }
         this.getAllChildren = this.getAllChildren.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.getAllChildren();
         
     }
@@ -33,11 +35,10 @@ class Dashboard extends Component {
 
     getAllChildren() {
         GetAllChildren().then(res => {  // When respond package is with status 200
-            console.log("parse json:" + JSON.parse(res.data) + "\n")
-            JSON.parse(res.data.map)(child => {
-                this.setState({
-                    childrens: this.state.childrens.push(child)
-                });
+            var children = [];
+            res.data.map(obj => {children.push(obj)});
+            this.setState({
+                    childrens: children
             });
 
         }).catch(error => { // When respond package is with error status - 400 ...
@@ -45,17 +46,17 @@ class Dashboard extends Component {
         });
     }
 
+    handleSelect(key) {
+       console.log("aaaaa");
+    }
 
-    render() {           
-        console.log(this.state.childrens);
-        
-
-        return  <div>
+    render() {                   
+        return  (<div>
                     <h1> INSIDE DASHBOARD ;)</h1>
-                    {/* <Tabs>
-                        {this.state.childrens.map(child => <Tab>{child.name}</Tab>) }
-                    </Tabs> */}
-                </div>
+                    <Tabs defaultActiveKey={this.state.initialTab} id="Dashboard_tabs">
+                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name} onSelect={this.handleSelect} eventKey={index}/>)} 
+                    </Tabs>
+                </div>)
     }
 }
 
