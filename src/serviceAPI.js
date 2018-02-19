@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/parents/"
+
+
+/* Old method and api calls(Login and user related calls) - not used for now.
 const url = "https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/"
 
+// Login api - login to user using email and password.
 export const Login = (email, password) => {
     return axios.post(url + "users/login",{
         "email": email,
@@ -10,6 +15,7 @@ export const Login = (email, password) => {
     });
 };
 
+// Register api - register new user using name, email and password.
 export const Register = (name, email, password) => {
     return axios.post(url + "users", {
         "name": name,
@@ -21,6 +27,7 @@ export const Register = (name, email, password) => {
     });
 };
 
+// Request a code to restart password using email.
 export const SendRestartCode = (email) => {
     return axios.head(url + "users/reset",{
         params: {
@@ -29,7 +36,7 @@ export const SendRestartCode = (email) => {
     });
 };
 
-
+// Restart password using code sent to email.
 export const ResetPassword = (email, password, code) => {
     return axios.post(url + "users/reset",{
         "email": email,
@@ -44,3 +51,5 @@ const generateRandomPIN = function() {
     random = Math.ceil(random);
     return random.toString();
 }
+
+**/
