@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import { GetById, GetProfileByID, GetAllChildren } from "../../serviceAPI";
-import Charts from '../Charts';
+import AbusiveConversationsChart from '../Charts/AbusiveConversationsChart';
+import UsageTimeChart from '../Charts/UsageTimeChart';
 
 class Dashboard extends Component {
 
@@ -57,12 +58,24 @@ class Dashboard extends Component {
 
     buildTab() { // TODO: need to style it as part of the page(another panel).
         console.log("tab");
-        return 
+        return (
             <div>
-                Graph of abusive conversations
-                <Charts child={this.state.tab}/>
-                Usage time
+                <Row >
+                    <Col xs={9} md={7} xl={10}>   
+                        Graph of abusive conversations
+                        <AbusiveConversationsChart child={this.state.tab} type={1}/>
+                        Usage time
+                        <UsageTimeChart child={this.state.tab} type={2}/>
+                    </Col>
+                    <Col xs={6} md={4}>
+                        Offensive conversations
+                    </Col>
+                </Row>
+                <Row>
+                    GPS
+                </Row>
             </div>
+        );
     }
 
     render() {                   
