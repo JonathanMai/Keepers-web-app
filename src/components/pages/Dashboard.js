@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import { GetById, GetProfileByID, GetAllChildren } from "../../serviceAPI";
 import Charts from '../Charts';
 
@@ -55,8 +55,14 @@ class Dashboard extends Component {
        console.log(key);
     }
 
-    buildTab() {
-        return (<Charts child={this.state.tab}/>);
+    buildTab() { // TODO: need to style it as part of the page(another panel).
+        console.log("tab");
+        return 
+            <div>
+                Graph of abusive conversations
+                <Charts child={this.state.tab}/>
+                Usage time
+            </div>
     }
 
     render() {                   
@@ -65,7 +71,7 @@ class Dashboard extends Component {
                     <ul className="tabs-nav nav navbar-nav navbar-left">
                     </ul>
                     <Tabs defaultActiveKey={this.state.tab} id="Dashboard_tabs" onSelect={this.handleSelect}>
-                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name}  eventKey={index}>{this.buildTab()}</Tab>)} 
+                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name} eventKey={index}>{this.buildTab()}</Tab>)} 
                     </Tabs>
                 </div>)
     }
