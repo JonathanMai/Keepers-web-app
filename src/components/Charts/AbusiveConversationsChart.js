@@ -4,7 +4,6 @@ import { Bar, Line, Pie } from 'react-chartjs-2';
 class AbusiveConversationsChart extends Component {
     constructor(props) {
         super(props);
-        console.log("HERE");
         this.state = {
             chartData: {
                 labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
