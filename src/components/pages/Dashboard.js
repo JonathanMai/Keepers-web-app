@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { GetById, GetProfileByID, GetAllChildren } from "../../serviceAPI";
+import Charts from '../Charts';
 
 class Dashboard extends Component {
 
@@ -8,12 +9,12 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             childrens: [],
-            initialTab: 0
+            tab: 0
         }
         this.getAllChildren = this.getAllChildren.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.buildTab = this.buildTab.bind(this);
         this.getAllChildren();
-        
     }
 
     getById() {
@@ -47,17 +48,24 @@ class Dashboard extends Component {
     }
 
     handleSelect(key) {
-       alert("We switch to " + key);
-       this.setState({
-           initialTab: key
-       });
+        this.setState({
+            ...this.state,
+            tab: key
+        });
+       console.log(key);
+    }
+
+    buildTab() {
+        return (<Charts child={this.state.tab}/>);
     }
 
     render() {                   
         return  (<div>
                     <h1> INSIDE DASHBOARD ;)</h1>
-                    <Tabs onSelect={this.handleSelect} defaultActiveKey={this.state.initialTab} id="Dashboard_tabs">
-                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name} eventKey={index}/>)} 
+                    <ul className="tabs-nav nav navbar-nav navbar-left">
+                    </ul>
+                    <Tabs defaultActiveKey={this.state.tab} id="Dashboard_tabs" onSelect={this.handleSelect}>
+                        { this.state.childrens.map((child,index) => <Tab key={index} title={child.name}  eventKey={index}>{this.buildTab()}</Tab>)} 
                     </Tabs>
                 </div>)
     }
