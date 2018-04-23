@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/parents/";
-const auth = "0bb4f5a1-7c07-4da5-8712-15fbf32dea1e";
-const parentId = 521;
-const phoneNumber = 9720540000004;
+const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/";
+const auth = "75a82246-c6be-495f-b431-5cbbec8a86e8";
+const parentId = 31;
+const phoneNumber = "9720527078570";
 
 export const GetById = () => {
-    return axios.get(url + "getById/" + parentId,{
+    return axios.get(url + "parents/getById/" + parentId,{
         headers: {
             auth: auth
         }
@@ -14,7 +14,7 @@ export const GetById = () => {
 }
 
 export const GetProfileByID = () => {
-    return axios.get(url + "profileById/" + parentId,{
+    return axios.get(url + "parents/profileById/" + parentId,{
         headers: {
             auth: auth
         }
@@ -22,7 +22,17 @@ export const GetProfileByID = () => {
 }
 
 export const GetAllChildren = () => {
-    return axios.get(url + "getAllChildrenForParent/" + parentId,{
+    return axios.get(url + "parents/getAllChildrenForParent/" + parentId,{
+        headers: {
+            auth: auth
+        }
+    });
+}
+
+export const GetMessagesStatistics = (id, startTime, endTime) => {
+    console.log(startTime);
+    console.log(endTime);
+    return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
             auth: auth
         }
