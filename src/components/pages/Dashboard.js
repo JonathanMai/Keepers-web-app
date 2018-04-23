@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
-import { Line, Chart} from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import { GetById, GetProfileByID, GetAllChildren, GetMessagesStatistics } from "../../serviceAPI";
 import AbusiveConversationsChart from '../Charts/AbusiveConversationsChart';
 import UsageTimeChart from '../Charts/UsageTimeChart';
@@ -14,10 +14,12 @@ class Dashboard extends Component {
         this.state = {
             tab: 0, // Holds the current tab index the user viewing.
             date: [1523745328078, 1524475486880],
+            daysRange: 0,
             draw: false,
             childrens: [], // Holds all the childrens(objects).
             dateLabels: [],
-            abusiveChartData: []
+            abusiveChartData: [],
+            usageTimeChartData: []
         }
         
         // Binds all the functions.
@@ -25,8 +27,10 @@ class Dashboard extends Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.buildTab = this.buildTab.bind(this);
         this.getChildMessagesStatistics = this.getChildMessagesStatistics.bind(this);
-        this.createDataset = this.createDataset.bind(this);
-
+        this.createStatisticsDataset = this.createStatisticsDataset.bind(this);
+        this.getChildUsageTime = this.getChildUsageTime.bind(this);
+        // this.createUsageTimeDataset = this.createUsageTimeDataset.bind(this);
+        this.getDatesLabels = this.getDatesLabels.bind(this);
         this.getAllChildren(); // Checks how many childrens there are in the account.
     }
 
@@ -60,11 +64,31 @@ class Dashboard extends Component {
                     ...this.state,
                     childrens: children
             });
+            this.setState({
+                ...this.state,
+                daysRange: this.state.date.length > 1 ? moment.utc(this.state.date[1]).diff(moment.utc(this.state.date[0]), 'days') : 1
+            });
+            this.getDatesLabels();
             this.getChildMessagesStatistics();
+            this.getChildUsageTime();
             console.log("FINE");
 
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log("error");
+        });
+
+    }
+
+    //Gets all the labels.
+    getDatesLabels() {
+        let day = moment.utc(this.state.date[0]); // Creates a moment object from the first day.
+        let labels = [];
+        for(let i=0; i<=this.state.daysRange; i++)
+            labels.push(moment.utc(day).add(i,'days').format("MMMM D").toString());
+
+        this.setState({
+            ...this.state,
+            dateLabels: labels
         });
 
     }
@@ -75,10 +99,9 @@ class Dashboard extends Component {
         let lastDay = moment.utc(this.state.date[1]);
         // var stillUtc = moment.utc(lastDay).toDate();
         // var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
-        let daysRange =  this.state.date.length > 1 ? moment(lastDay).diff(moment(day), 'days') : 1; // Sets the count of the days in range.
-        let labels = [];
         let newData = [];
         let flag = 0;
+        let daysRange = this.state.daysRange;
 
         for(let i=0; i<this.state.childrens.length;  i++) {
             let tempDay = moment.utc(day);
@@ -91,8 +114,6 @@ class Dashboard extends Component {
                 for(let j=0; j<=daysRange;  j++, tempDay=moment.utc(day).add(j,'days')) {
                     // datesLabel.push(moment(day).format("MMMM DD"));
                     // day=moment(day).add(1,'days').format("MMMM D");
-                    if(i == 0)
-                        labels.push(moment.utc(tempDay).format("MMMM D").toString());
                     let index = j;
                     GetMessagesStatistics(child, moment.utc(tempDay).startOf('day'), moment.utc(tempDay).add(1,'days').startOf('day')).then(res => {  // When respond package is with status 200
                         let result = res.data;
@@ -107,34 +128,22 @@ class Dashboard extends Component {
                                     ...this.state,
                                     draw: true
                                 });
-                            },100);
-
+                            },10);
                         }
                     }).catch(error => { // When respond package is with error status - 400 ...
                         console.log(error.data);
                     });
                 };
-                if(i == 0)
-                    this.setState({
-                        ...this.state,
-                        dateLabels: labels
-                    });
                 tempData.push(countEasy);
                 tempData.push(countMedium);
                 tempData.push(countHard);
                 newData.push(tempData);
-                this.createDataset(tempData);
-                console.log(this.state);
-
+                this.createStatisticsDataset(tempData);
         }
-
-
-
-        console.log(this.state);
     }
 
 
-    createDataset(data){
+    createStatisticsDataset(data){
         let newData = {
             labels: this.state.dateLabels,
             datasets:[
@@ -166,15 +175,17 @@ class Dashboard extends Component {
         };
         let oldData = this.state.abusiveChartData;
         oldData.push(newData);
-
-        console.log("HERERERERERERERERERERE");
-        console.log(this.state);
+        
         this.setState({
             ...this.state,
             abusiveChartData: oldData
         });
     }
 
+    // Gets and sets the child usage time.
+    getChildUsageTime() {
+
+    }
     // Handles the selcted tab that was pushed. 0527250985
     handleSelect(key) {
 
@@ -226,14 +237,20 @@ class Dashboard extends Component {
                                  },
                                 maintaninAspectRatio: false,
                                 animation: {
-                                    duration: 100,
+                                    duration: 1200,
                                     easing: 'easeInCubic'
                                 }
                             }}
                             redraw
                         />
                         Usage time
-                        <UsageTimeChart child={this.state.tab} labels={this.state.labels} />
+                        <Bar
+                            data={this.state.usageTimeChartData}
+                            height={60}
+                            options={{
+                                maintaninAspectRatio: false
+                            }}
+                        />
                     </Col>
                     <Col xs={6} md={4}>
                         Offensive conversations
