@@ -1,65 +1,54 @@
 import React, { Component } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
+import { connect } from 'react-redux';
 
 class AbusiveConversationsChart extends Component {
+    
     constructor(props) {
         super(props);
+        console.log("INSIDE ABUSIVe");
+        console.log(this.props.data);
+
         this.state = {
-            chartData: {
-                labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
-                datasets:[
-                    // Level 1 words - lowest words
-                    {
-                        label:['level 1'],
-                        data:[
-                            95072,
-                            106519,
-                            181045,
-                            105162,
-                            480022,
-                            9507,
-                            153060
-                        ],
-                        borderColor: 'rgba(255, 230, 100, 1)',
-                        pointRadius: 2,
-                        fill: false
-                    },
-                    // Level 2 words - medium words
-                    {
-                        label:['level 2'],
-                        data:[
-                            95072,
-                            153060,
-                            181045,
-                            153060,
-                            106519,
-                            105162
-                        ],
-                        borderColor: 'rgba(255, 128, 0, 1)',
-                        pointRadius: 2,
-                        fill: false
-                    },
-                    // Level 3 words - worst words
-                    {                 
-                    label:['level 3'],
-                    data:[
-                        617594,
-                        181045,
-                        153060,
-                        106519,
-                        105162,
-                        95072
-                    ],
-                    borderColor: 'rgba(255, 0, 0, 1)',
-                    pointRadius: 2,
-                    fill: false
-            }]
-            }
+            chartData: this.props.abusiveChartData
         }
     }
-    
-    render() {
 
+    updateChart () {
+        this.chartData.update();
+    }
+    
+    // fillData() {
+    //     var date = [1514757600000, 1519875891875];
+
+    //     // Calculate the difference in milliseconds
+    //     var difference_ms = date2_ms - date1_ms;
+    //     //take out milliseconds
+    //     difference_ms = difference_ms/1000;
+    //     var seconds = Math.floor(difference_ms % 60);
+    //     difference_ms = difference_ms/60; 
+    //     var minutes = Math.floor(difference_ms % 60);
+    //     difference_ms = difference_ms/60; 
+    //     var hours = Math.floor(difference_ms % 24);  
+    //     var days = Math.floor(difference_ms/24);
+
+    //     var actualDateStart = new Date(1514757600000);
+    //     var labels;
+    //     var data1;
+    //     var data2;
+    //     var data3;        
+
+    //     for(i=0; i<days; i++){
+    //     }
+    //     this.setState({
+    //         labels = []
+    //     })
+    // }
+
+    render() {
+        // for(let i = 0; i < this.props.labels.length; i++){
+        //     console.log(this.props.labels[i]);
+        // }
         return (
             <div className="chart">
                 <Line
