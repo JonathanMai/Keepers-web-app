@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "chart.js": "^2.7.1",
+    "google-map-react": "^0.34.0",
     "moment": "^2.22.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
@@ -22,5 +23,3 @@
     "eject": "react-scripts eject"
   }
 }
-
-
