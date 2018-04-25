@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/";
-const auth = "75a82246-c6be-495f-b431-5cbbec8a86e8";
-const parentId = 31;
+const auth = "0600b4de-3642-49cf-994a-8fc7dfaaf65d";
+const parentId = 51;
 const phoneNumber = "9720527078570";
 
 export const GetById = () => {
@@ -30,8 +30,7 @@ export const GetAllChildren = () => {
 }
 
 export const GetMessagesStatistics = (id, startTime, endTime) => {
-    console.log(startTime);
-    console.log(endTime);
+
     return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
             auth: auth
@@ -39,6 +38,24 @@ export const GetMessagesStatistics = (id, startTime, endTime) => {
     });
 }
 
+export const GetMessagesHeads = (id, startTime, endTime, page) => {
+
+    return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
+        headers: {
+            auth: auth
+        }
+    });
+}
+
+export const GetBatteryLevel = (id, startTime, endTime) => {
+    console.log(startTime);
+    console.log(endTime);
+    return axios.get(url + "devices/" + id + "/battery/level?startTime=" + startTime + "&endTime=" + endTime,{
+        headers: {
+            auth: auth
+        }
+    });
+}
 
 // ------------------------------------------------------------------------------------------------------------------------------
 //      Old method and api calls(Login and user related calls) - not used for now.
