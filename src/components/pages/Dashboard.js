@@ -4,6 +4,7 @@ import { Line, Bar } from 'react-chartjs-2';
 import { GetById, GetProfileByID, GetAllChildren, GetMessagesStatistics, GetMessagesHeads, GetBatteryLevel } from "../../serviceAPI";
 import AbusiveConversationsChart from '../Charts/AbusiveConversationsChart';
 import UsageTimeChart from '../Charts/UsageTimeChart';
+import Box from '../Box';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -57,11 +58,6 @@ class Dashboard extends Component {
     //         console.log(error.response);
     //     });
     // }
-    
-    // Convert milliseconds to date.
-    millisecToDate(millisec) {
-        return moment(millisec).format("Do MM");
-    }
 
     // Sets how many childrens the user have.
     getAllChildren() {
@@ -79,6 +75,7 @@ class Dashboard extends Component {
             this.getDatesLabels();
             this.getChildMessagesStatistics();
             // this.getChildUsageTime();
+            // setTimeout(
             this.getMessagesHeads();
             // GetMessages(this.state.childrens[0].id, moment.utc(this.state.date[0]).startOf('day'), moment.utc(this.state.date[1]).add(1,'days').startOf('day'), 0).then(res => {  // When respond package is with status 200
             //     console.log(res);
@@ -95,7 +92,6 @@ class Dashboard extends Component {
         let labels = [];
         for(let i=0; i<=this.state.daysRange; i++){
             labels.push(moment.utc(day).add(i,'days').format("MMM Do").toString());
-            console.log();
         }
         this.setState({
             ...this.state,
@@ -110,44 +106,46 @@ class Dashboard extends Component {
         // var stillUtc = moment.utc(lastDay).toDate();
         // var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
         let newData = [];
-        let flag = 0;
         let daysRange = this.state.daysRange;
-
+        
         for(let i=0; i<this.state.childrens.length;  i++) {
+            console.log(i); 
             let tempDay = moment.utc(day);
-            let tempData = [];
             let countEasy = new Array(daysRange);
             let countMedium = new Array(daysRange);
             let countHard = new Array(daysRange);
-
+            let flag = 0;
+            
             let child = this.state.childrens[i].id; // Gets the child id.
-                for(let j=0; j<=daysRange;  j++, tempDay=moment.utc(day).add(j,'days')) {
-                    // datesLabel.push(moment(day).format("MMMM DD"));
-                    // day=moment(day).add(1,'days').format("MMMM D");
-                    let index = j;
-                    GetMessagesStatistics(child, moment.utc(tempDay).startOf('day'), moment.utc(tempDay).add(1,'days').startOf('day')).then(res => {  // When respond package is with status 200
-                        let result = res.data;
-                        countEasy[index] = (parseInt(result.easyCount)); // easy count.
-                        countMedium[index] = (parseInt(result.mediumCount)); // medium count.
-                        countHard[index] = (parseInt(result.heavyCount)); // heavy count.
-                        flag++;
-                        if(this.state.draw == false && flag >= daysRange){
-                            setTimeout(() => {
-                                this.setState({
-                                    ...this.state,
-                                    draw: true
-                                });
-                            },105);
+            for(let j=0; j<=daysRange;  j++, tempDay=moment.utc(day).add(j,'days')) {
+                // datesLabel.push(moment(day).format("MMMM DD"));
+                // day=moment(day).add(1,'days').format("MMMM D");
+                let index = j;
+                GetMessagesStatistics(child, moment.utc(tempDay).startOf('day'), moment.utc(tempDay).add(1,'days').startOf('day')).then(res => {  // When respond package is with status 200
+                    let result = res.data;
+                    countEasy[index] = (parseInt(result.easyCount)); // easy count.
+                    countMedium[index] = (parseInt(result.mediumCount)); // medium count.
+                    countHard[index] = (parseInt(result.heavyCount)); // heavy count.
+                    flag++;
+                    if(flag > daysRange){
+                        console.log("flag=" + flag + " j=" + j);
+                        let tempData = [];
+                        tempData.push(countEasy);
+                        tempData.push(countMedium);
+                        tempData.push(countHard);
+                        newData.push(tempData);
+                        this.createStatisticsDataset(tempData);
+                        if(this.state.draw == false && i == 0){
+                            this.setState({
+                                ...this.state,
+                                draw: true
+                            });
                         }
-                    }).catch(error => { // When respond package is with error status - 400 ...
-                        console.log(error.data);
-                    });
-                };
-                tempData.push(countEasy);
-                tempData.push(countMedium);
-                tempData.push(countHard);
-                newData.push(tempData);
-                this.createStatisticsDataset(tempData);
+                    }
+                }).catch(error => { // When respond package is with error status - 400 ...
+                    console.log(error.data);
+                });
+            };
         }
     }
 
@@ -184,7 +182,7 @@ class Dashboard extends Component {
         };
         let oldData = this.state.abusiveChartData;
         oldData.push(newData);
-        
+        console.log(newData);
         this.setState({
             ...this.state,
             abusiveChartData: oldData
@@ -199,7 +197,7 @@ class Dashboard extends Component {
             ...this.state,
             messagesHeads: messagesHeads
         })
-        console.log(messagesHeads);
+        console.log(this.state.messagesHeads);
     }
 
     addPageToArray(messagesHeads, page) {
@@ -228,11 +226,12 @@ class Dashboard extends Component {
 
     // Builds the picked tab(using the children information).
     buildTab() { // TODO: need to style it as part of the page(another panel).
-        console.log("hi");
+        console.log("hi"); 
+
         return (
             <div>
                 <Row >
-                    <Col xs={9} md={7} xl={10}>   
+                    <Col xs={8} md={8} xl={8}>   
                             Graph of abusive conversations
                     </Col>
                     {/* TODO: need to implement the buttons logic */}
@@ -249,7 +248,7 @@ class Dashboard extends Component {
                     </Col> */}
                 </Row>
                 <Row >
-                    <Col xs={9} md={7} xl={7}>   
+                    <Col xs={8}>   
                         <Line
                             id="line"
                             ref="line"
@@ -291,8 +290,11 @@ class Dashboard extends Component {
                             }}
                         />
                     </Col>
-                    <Col xs={6} md={4}>
+                    <Col xs={4}>
                         Offensive conversations
+                        {this.state.messagesHeads.map((message) => 
+                            <Box message={"FUCK"} level={"+3"} color={"red"}/>
+                        )}
                     </Col>
                 </Row>
                 <Row>
@@ -302,13 +304,13 @@ class Dashboard extends Component {
         );
     }
 
-    render() {    // TODO: fix this - style it   
+    render() {    // TODO: fix this - style it  
         return  (   this.state.childrens.length == 0 ? "No Childrens in app" :             
                 <div>
                     <h1> INSIDE DASHBOARD ;)</h1>
                     <ul className="tabs-nav nav navbar-nav navbar-left">
                     </ul>
-                    <Tabs defaultActiveKey={this.state.tab} id="Dashboard_tabs" onSelect={this.handleSelect}  animation={false}>
+                    <Tabs defaultActiveKey={this.state.tab} id="Dashboard_tabs" onSelect={this.handleSelect} mountOnEnter={true} unmountOnExit={true} animation={false}>
                         { this.state.childrens.map((child,index) => 
                             <Tab key={index} title={child.name} eventKey={index} mountOnEnter={true} unmountOnExit={true}>
                                 {this.state.draw && this.buildTab()}
