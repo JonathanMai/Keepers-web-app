@@ -30,7 +30,6 @@ export const GetAllChildren = () => {
 }
 
 export const GetMessagesStatistics = (id, startTime, endTime) => {
-
     return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
             auth: auth
@@ -39,7 +38,6 @@ export const GetMessagesStatistics = (id, startTime, endTime) => {
 }
 
 export const GetMessagesHeads = (id, startTime, endTime, page) => {
-
     return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
         headers: {
             auth: auth
