@@ -13,13 +13,16 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tab: 0, // Holds the current tab index the user viewing.
             date: [1523674486890, 1524672883410],
             daysRange: 0,
-            draw: false,
+            draw: [false, false],
             childrens: [], // Holds all the childrens(objects).
             dateLabels: [],
-            abusiveChartData: [],
+            dataSet: [],
+            childrensData: [],
+            getData: [],
+            //goes into childs Data
+            abusiveChartData: [], 
             usageTimeChartData: [],
             messagesHeads: []
         }
@@ -28,7 +31,14 @@ class Dashboard extends Component {
         this.bindFunctions();
         console.log(moment().format("Z"));
         // this.createUsageTimeDataset = this.createUsageTimeDataset.bind(this);
-        this.getAllChildren(); // Checks how many childrens there are in the account.
+        // this.getAllChildren(); // Checks how many childrens there are in the account.
+        console.log(this.state);
+    }
+
+    // Before render, gets all the data needed and shows it.
+    componentWillMount() {
+        this.getAllChildren(); // Gets all children data.
+
     }
 
     bindFunctions() {
@@ -64,19 +74,20 @@ class Dashboard extends Component {
         GetAllChildren().then(res => {  // When respond package is with status 200
             var children = [];
             res.data.map(obj => {children.push(obj)});
+            let size = children.length;
             this.setState({
                     ...this.state,
-                    childrens: children
+                    childrens: children,
+                    childrensData: new Array(size),
+                    getData: new Array(size),
+                    daysRange: this.state.date.length > 1 ? moment.utc(this.state.date[1]).startOf('day').diff(moment.utc(this.state.date[0]).startOf('day'), 'days') : 1
             });
-            this.setState({
-                ...this.state,
-                daysRange: this.state.date.length > 1 ? moment.utc(this.state.date[1]).startOf('day').diff(moment.utc(this.state.date[0]).startOf('day'), 'days') : 1
-            });
+
             this.getDatesLabels();
-            this.getChildMessagesStatistics();
+            this.getAllChildsData();
             // this.getChildUsageTime();
             // setTimeout(
-            this.getMessagesHeads();
+            // this.getMessagesHeads();
             // GetMessages(this.state.childrens[0].id, moment.utc(this.state.date[0]).startOf('day'), moment.utc(this.state.date[1]).add(1,'days').startOf('day'), 0).then(res => {  // When respond package is with status 200
             //     console.log(res);
             // });
@@ -99,58 +110,86 @@ class Dashboard extends Component {
         });
     }
 
+    getAllChildsData() {
+        for(let i=0; i<this.state.childrens.length;  i++) {
+            if(this.dataIsSet(i) === false) {
+                this.getChildData(i);
+            }
+        }
+    }
+
+    dataIsSet(index) {
+        let tempGetData = this.state.getData;
+        // Sets the get data array to true in the right spot - so it wont be called again.
+        if(tempGetData[index] === true){
+            return true;
+        }
+        tempGetData[index] = true;
+        this.setState({
+            ...this.state,
+            getData: tempGetData
+        });
+        return false;
+    }
+
+    getChildData(index) {
+        this.getChildMessagesStatistics(index);
+    }
+
     // Gets the child statistics and sets data using it.
-    getChildMessagesStatistics() {
+    getChildMessagesStatistics(index) {
         let day = moment.utc(this.state.date[0]); // Creates a moment object from the first day.
-        let lastDay = moment.utc(this.state.date[1]);
+        // let lastDay = moment.utc(this.state.date[1]);
         // var stillUtc = moment.utc(lastDay).toDate();
         // var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
         let newData = [];
         let daysRange = this.state.daysRange;
         
-        for(let i=0; i<this.state.childrens.length;  i++) {
-            console.log(i); 
-            let tempDay = moment.utc(day);
-            let countEasy = new Array(daysRange);
-            let countMedium = new Array(daysRange);
-            let countHard = new Array(daysRange);
-            let flag = 0;
-            
-            let child = this.state.childrens[i].id; // Gets the child id.
-            for(let j=0; j<=daysRange;  j++, tempDay=moment.utc(day).add(j,'days')) {
-                // datesLabel.push(moment(day).format("MMMM DD"));
-                // day=moment(day).add(1,'days').format("MMMM D");
-                let index = j;
-                GetMessagesStatistics(child, moment.utc(tempDay).startOf('day'), moment.utc(tempDay).add(1,'days').startOf('day')).then(res => {  // When respond package is with status 200
-                    let result = res.data;
-                    countEasy[index] = (parseInt(result.easyCount)); // easy count.
-                    countMedium[index] = (parseInt(result.mediumCount)); // medium count.
-                    countHard[index] = (parseInt(result.heavyCount)); // heavy count.
-                    flag++;
-                    if(flag > daysRange){
-                        console.log("flag=" + flag + " j=" + j);
-                        let tempData = [];
-                        tempData.push(countEasy);
-                        tempData.push(countMedium);
-                        tempData.push(countHard);
-                        newData.push(tempData);
-                        this.createStatisticsDataset(tempData);
-                        if(this.state.draw == false && i == 0){
-                            this.setState({
-                                ...this.state,
-                                draw: true
-                            });
-                        }
-                    }
-                }).catch(error => { // When respond package is with error status - 400 ...
-                    console.log(error.data);
-                });
-            };
-        }
+        // for(let i=0; i<this.state.childrens.length;  i++) {
+            // console.log(i); 
+        let tempDay = moment.utc(day);
+        let countEasy = new Array(daysRange);
+        let countMedium = new Array(daysRange);
+        let countHard = new Array(daysRange);
+        let flag = 0;
+        console.log(this.state.tab);
+        let child = this.state.childrens[index].id; // Gets the child id.
+        for(let i=0; i<=daysRange;  i++, tempDay=moment.utc(day).add(i,'days')) {
+            // datesLabel.push(moment(day).format("MMMM DD"));
+            // day=moment(day).add(1,'days').format("MMMM D");
+            GetMessagesStatistics(child, moment.utc(tempDay).startOf('day'), moment.utc(tempDay).add(1,'days').startOf('day')).then(res => {  // When respond package is with status 200
+                let result = res.data;
+                countEasy[i] = (parseInt(result.easyCount)); // easy count.
+                countMedium[i] = (parseInt(result.mediumCount)); // medium count.
+                countHard[i] = (parseInt(result.heavyCount)); // heavy count.
+                flag++;
+                if(flag > daysRange){
+                    console.log("flag=" + flag + " j=" + i);
+                    let tempData = [];
+                    tempData.push(countEasy);
+                    tempData.push(countMedium);
+                    tempData.push(countHard);
+                    newData.push(tempData);
+                    this.createStatisticsDataset(index, tempData);
+                    // if(this.state.draw[0] == false){
+                    //     let tempDraw = this.state.draw;
+                    //     tempDraw[0] = true;
+                    //     this.setState({
+                    //         ...this.state,
+                    //         draw: tempDraw
+                    //     });
+                    //     console.log(this.state.draw);
+                    // }
+                }
+            }).catch(error => { // When respond package is with error status - 400 ...
+                console.log(error.data);
+            });
+        };
+        // }
     }
 
 
-    createStatisticsDataset(data){
+    createStatisticsDataset(index, data){
         let newData = {
             labels: this.state.dateLabels,
             datasets:[
@@ -180,24 +219,39 @@ class Dashboard extends Component {
                 }
             ],
         };
-        let oldData = this.state.abusiveChartData;
-        oldData.push(newData);
-        console.log(newData);
+        let oldData = this.state.childrensData;
+        oldData[index] = Object.assign({abusiveChartData: newData}, this.state.childrensData[index]);
+        // let dataSet = this.state.dataSet;
         this.setState({
             ...this.state,
-            abusiveChartData: oldData
+            childrensData: oldData
         });
+
+        // dataSet[this.state.tab] = true;
+        // console.log(this.state.childrens.messagesHeads);
+        // let oldData = this.state.abusiveChartData;
+
+        // this.setState({
+        //     ...this.state,
+        //     abusiveChartData: oldData
+        // });
     }
 
     getMessagesHeads() {
         let messagesHeads = [];
         // for(let page=0; page<5 && messagesExists==true; page++) {
         this.addPageToArray(messagesHeads, 0);
+        let tempDraw = this.state.draw;
+        tempDraw[1] = true;
         this.setState({
             ...this.state,
+        });
+        this.setState({
+            ...this.state,
+            draw: tempDraw,
             messagesHeads: messagesHeads
         })
-        console.log(this.state.messagesHeads);
+        console.log(this.state.draw);
     }
 
     addPageToArray(messagesHeads, page) {
@@ -211,23 +265,29 @@ class Dashboard extends Component {
         });
     }
 
+
+
     // Gets and sets the child usage time.
     getChildUsageTime() {
 
     }
-    // Handles the selcted tab that was pushed. 0527250985
+    // Handles the selcted tab that was pushed. 
     handleSelect(key) {
-
-        this.setState({
-            ...this.state,
-            tab: key
-        });
+        // this.setState({
+        //     ...this.state,
+        //     tab: key
+        // });
+        console.log("abusive chart data: ", this.state.childrens[key].abusiveChartData)
+        if(this.state.childrensData[key].abusiveChartData === undefined && this.dataIsSet(key) === false) {
+            this.getChildData(key);
+            console.log("HERE");
+        }
+        
+        console.log(this.state.childrens);
     }
 
     // Builds the picked tab(using the children information).
-    buildTab() { // TODO: need to style it as part of the page(another panel).
-        console.log("hi"); 
-
+    buildTab(index) { // TODO: need to style it as part of the page(another panel).
         return (
             <div>
                 <Row >
@@ -252,7 +312,7 @@ class Dashboard extends Component {
                         <Line
                             id="line"
                             ref="line"
-                            data={this.state.abusiveChartData[this.state.tab]}
+                            data={this.state.childrensData[index].abusiveChartData}
                             heigh={60}
                             backgroundColor={"transperant"}
                             options={{
@@ -310,10 +370,12 @@ class Dashboard extends Component {
                     <h1> INSIDE DASHBOARD ;)</h1>
                     <ul className="tabs-nav nav navbar-nav navbar-left">
                     </ul>
-                    <Tabs defaultActiveKey={this.state.tab} id="Dashboard_tabs" onSelect={this.handleSelect} mountOnEnter={true} unmountOnExit={true} animation={false}>
+                    <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleSelect} animation={false}>
                         { this.state.childrens.map((child,index) => 
-                            <Tab key={index} title={child.name} eventKey={index} mountOnEnter={true} unmountOnExit={true}>
-                                {this.state.draw && this.buildTab()}
+                            <Tab key={index} title={child.name} eventKey={index} >
+                                {this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.buildTab(index)}
+                                {console.log(index)}
+                                {/* {console.log("hi")} */}
                             </Tab>)
                         } 
                     </Tabs>
