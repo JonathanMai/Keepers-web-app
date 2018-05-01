@@ -13,7 +13,7 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: [1523674486890, 1524672883410],
+            date: [1524472883410, 1525166748869],
             daysRange: 0,
             draw: [false, false],
             childrens: [], // Holds all the childrens(objects).
@@ -38,7 +38,6 @@ class Dashboard extends Component {
     // Before render, gets all the data needed and shows it.
     componentWillMount() {
         this.getAllChildren(); // Gets all children data.
-
     }
 
     bindFunctions() {
@@ -134,6 +133,7 @@ class Dashboard extends Component {
 
     getChildData(index) {
         this.getChildMessagesStatistics(index);
+        this.getMessagesHeads(index);
     }
 
     // Gets the child statistics and sets data using it.
@@ -219,12 +219,12 @@ class Dashboard extends Component {
                 }
             ],
         };
-        let oldData = this.state.childrensData;
-        oldData[index] = Object.assign({abusiveChartData: newData}, this.state.childrensData[index]);
+        let childrensData = this.state.childrensData;
+        childrensData[index] = Object.assign({abusiveChartData: newData}, this.state.childrensData[index]);
         // let dataSet = this.state.dataSet;
         this.setState({
             ...this.state,
-            childrensData: oldData
+            childrensData: childrensData
         });
 
         // dataSet[this.state.tab] = true;
@@ -237,35 +237,38 @@ class Dashboard extends Component {
         // });
     }
 
-    getMessagesHeads() {
+    getMessagesHeads(index) {
         let messagesHeads = [];
         // for(let page=0; page<5 && messagesExists==true; page++) {
-        this.addPageToArray(messagesHeads, 0);
+        this.addPageToArray(index, messagesHeads, 0);
         let tempDraw = this.state.draw;
+        let childrensData = this.state.childrensData;
+        childrensData[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
         tempDraw[1] = true;
         this.setState({
             ...this.state,
+            childrensData: childrensData
         });
-        this.setState({
-            ...this.state,
-            draw: tempDraw,
-            messagesHeads: messagesHeads
-        })
-        console.log(this.state.draw);
+        // this.setState({
+        //     ...this.state,
+        //     draw: tempDraw,
+        //     messagesHeads: messagesHeads
+        // })
+        // console.log(this.state.draw);
     }
 
-    addPageToArray(messagesHeads, page) {
-        GetMessagesHeads(this.state.childrens[0].id, moment.utc(this.state.date[0]).startOf('day'), moment.utc(this.state.date[1]).add(1,'days').startOf('day'), page).then(res => {  // When respond package is with status 200
+    addPageToArray(index, messagesHeads, page) {
+        
+        GetMessagesHeads(this.state.childrens[index].id, moment.utc(this.state.date[0]).startOf('day'), moment.utc(this.state.date[1]).endOf('day'), page).then(res => {  // When respond package is with status 200
             if(res.data.length > 0) {
-                messagesHeads.push(res.data);
+                res.data.map(message => messagesHeads.push(message));
+                // console.log(res.data)
                 this.addPageToArray(messagesHeads, page+1);
             }
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.data);
         });
     }
-
-
 
     // Gets and sets the child usage time.
     getChildUsageTime() {
@@ -277,13 +280,12 @@ class Dashboard extends Component {
         //     ...this.state,
         //     tab: key
         // });
-        console.log("abusive chart data: ", this.state.childrens[key].abusiveChartData)
-        if(this.state.childrensData[key].abusiveChartData === undefined && this.dataIsSet(key) === false) {
+        // console.log("abusive chart data: ", this.state.childrens[key].abusiveChartData)
+        if(this.dataIsSet(key) === false) {
             this.getChildData(key);
-            console.log("HERE");
         }
         
-        console.log(this.state.childrens);
+        console.log(this.state.childrensData[0].messagesHeads);
     }
 
     // Builds the picked tab(using the children information).
@@ -327,8 +329,7 @@ class Dashboard extends Component {
                                  },
                                 maintaninAspectRatio: false,
                                 animation: {
-                                    duration: 1000,
-                                    easing: 'linear'
+                                    duration: 0
                                 },
                                 scales: {
                                     yAxes: [{
@@ -352,8 +353,9 @@ class Dashboard extends Component {
                     </Col>
                     <Col xs={4}>
                         Offensive conversations
-                        {this.state.messagesHeads.map((message) => 
-                            <Box message={"FUCK"} level={"+3"} color={"red"}/>
+                        {this.state.childrensData[index].messagesHeads.length > 0 && this.state.childrensData[index].messagesHeads.map((message) => 
+                            <Box message={message.quote} level={message.strength}/>
+                            // console.log(message)
                         )}
                     </Col>
                 </Row>
@@ -373,9 +375,7 @@ class Dashboard extends Component {
                     <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleSelect} animation={false}>
                         { this.state.childrens.map((child,index) => 
                             <Tab key={index} title={child.name} eventKey={index} >
-                                {this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.buildTab(index)}
-                                {console.log(index)}
-                                {/* {console.log("hi")} */}
+                                {this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.state.childrensData[index].messagesHeads !== undefined && this.buildTab(index)}
                             </Tab>)
                         } 
                     </Tabs>
