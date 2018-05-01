@@ -11,20 +11,48 @@ const Data = function(props) {
 }
 
 class Box extends Component {
+
     render() {
         return (
-        <div level={this.props.level} className={this.getClassName()} onClick={this.clickHandleEvent}>
+        <div level={this.getLevel()} className={this.getClassName()} onClick={this.clickHandleEvent}>
             <Data message={this.props.message}/>
         </div>
     )}
 
+    getLevel() {
+        switch(this.props.level){
+            case "heavy":
+                return "+3";
+            case "medium":
+                return "+2";
+            default:
+                return "+1";
+        }
+    }
+    // assignData() {
+    //     switch(this.props.level){
+    //         case "easy":
+    //             this.level = "+1";
+    //             this.className = "box box_yellow";
+    //             break;
+    //         case "medium":
+    //             this.level = "+2";
+    //             this.className = "box box_orange";
+    //             break;
+    //         case "heavy":
+    //             this.level = "+3";
+    //             this.className = "box box_red";
+    //             break;
+    //     }
+    // }
     getClassName() {
-        if(this.props.level === "+3") {
-            return "box box_red";
-        } else if(this.props.level === "+2") {
-            return "box box_orange";
-        } else {
-            return "box box_green";
+        switch(this.props.level){
+            case "heavy":
+                return "box box_red";
+            case "medium":
+                return "box box_orange";
+            default:
+                return "box box_yellow";
         }
     }
 
