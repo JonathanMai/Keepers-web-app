@@ -20,39 +20,25 @@ class Box extends Component {
     )}
 
     getLevel() {
+        console.log(this.props)
         switch(this.props.level){
-            case "heavy":
-                return "+3";
+            case "easy":
+                return "+1";
             case "medium":
                 return "+2";
-            default:
-                return "+1";
+            case "heavy":
+                return "+3";
         }
     }
-    // assignData() {
-    //     switch(this.props.level){
-    //         case "easy":
-    //             this.level = "+1";
-    //             this.className = "box box_yellow";
-    //             break;
-    //         case "medium":
-    //             this.level = "+2";
-    //             this.className = "box box_orange";
-    //             break;
-    //         case "heavy":
-    //             this.level = "+3";
-    //             this.className = "box box_red";
-    //             break;
-    //     }
-    // }
+    
     getClassName() {
         switch(this.props.level){
-            case "heavy":
-                return "box box_red";
+            case "easy":
+                return "box box_yellow";
             case "medium":
                 return "box box_orange";
-            default:
-                return "box box_yellow";
+            case "heavy":
+                return "box box_red";
         }
     }
 
