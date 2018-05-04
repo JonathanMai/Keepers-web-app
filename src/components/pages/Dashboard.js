@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Row, Col } from 'react-bootstrap';
+import { Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
 import { Line, Bar } from 'react-chartjs-2';
-import { GetById, GetProfileByID, GetAllChildren, GetMessagesStatistics, GetMessagesHeads, GetBatteryLevel } from "../../serviceAPI";
-import AbusiveConversationsChart from '../Charts/AbusiveConversationsChart';
-import UsageTimeChart from '../Charts/UsageTimeChart';
+import { GetById, GetProfileByID, GetAllChildren, GetMessagesStatistics, GetMessagesHeads, GetBatteryLevel, GetEntireMessage } from "../../serviceAPI";
+import AbusiveConversationsChart from '../charts/AbusiveConversationsChart';
+import UsageTimeChart from '../charts/UsageTimeChart';
 import Box from '../Box';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -29,7 +29,7 @@ class Dashboard extends Component {
         
         // Binds all the functions.
         this.bindFunctions();
-        console.log(moment().format("Z"));
+        console.log(parseInt(moment().format("Z")));
         // this.createUsageTimeDataset = this.createUsageTimeDataset.bind(this);
         // this.getAllChildren(); // Checks how many childrens there are in the account.
         console.log(this.state);
@@ -43,6 +43,7 @@ class Dashboard extends Component {
     bindFunctions() {
         this.handleSelect = this.handleSelect.bind(this);
         this.buildTab = this.buildTab.bind(this);
+        this.getEntireMessage = this.getEntireMessage.bind(this);
         // this.getAllChildren = this.getAllChildren.bind(this);
         // this.getDatesLabels = this.getDatesLabels.bind(this);
         // this.getChildMessagesStatistics = this.getChildMessagesStatistics.bind(this);
@@ -239,7 +240,6 @@ class Dashboard extends Component {
 
     getMessagesHeads(index) {
         let messagesHeads = [];
-        // for(let page=0; page<5 && messagesExists==true; page++) {
         this.addPageToArray(index, messagesHeads, 0);
         let tempDraw = this.state.draw;
         let childrensData = this.state.childrensData;
@@ -288,80 +288,99 @@ class Dashboard extends Component {
         console.log(this.state.childrensData[0].messagesHeads);
     }
 
+    getEntireMessage(childId, msgId) {
+        // console.log("hi", index, "crazy");
+        GetEntireMessage(childId, msgId).then(res => {  // When respond package is with status 200
+            console.log(res);
+        }).catch(error => { // When respond package is with error status - 400 ...
+            console.log(error.response);
+        });;
+    }
+
     // Builds the picked tab(using the children information).
-    buildTab(index) { // TODO: need to style it as part of the page(another panel).
+    buildTab(index) { // TODO: need to style it as part of the page(another panel).        
         return (
             <div>
-                <Row >
-                    <Col xs={8} md={8} xl={8}>   
-                            Graph of abusive conversations
-                    </Col>
-                    {/* TODO: need to implement the buttons logic */}
-                    {/* <Col xs={6} md={4}>
-                        <Button>
-                                Day
-                        </Button>
-                        <Button>
-                                Week
-                        </Button>
-                        <Button>
-                                Month
-                        </Button>
-                    </Col> */}
-                </Row>
-                <Row >
-                    <Col xs={8}>   
-                        <Line
-                            id="line"
-                            ref="line"
-                            data={this.state.childrensData[index].abusiveChartData}
-                            heigh={60}
-                            backgroundColor={"transperant"}
-                            options={{
-                                legend: {
-                                    display: false
-                                 },
-                                 tooltips: {
-                                    enabled: true,
-                                    mode: 'label',
-                                    intersect: false,
-                                    displayColors: false,
-                                 },
-                                maintaninAspectRatio: false,
-                                animation: {
-                                    duration: 0
-                                },
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero: true,
-                                            stepSize: 1
+                <Grid>
+                    <Row>
+                        <Col xs={8} md={8} xl={8}>   
+                                Graph of abusive conversations
+                        </Col>
+                        {/* TODO: need to implement the buttons logic */}
+                        {/* <Col xs={6} md={4}>
+                            <Button>
+                                    Day
+                            </Button>
+                            <Button>
+                                    Week
+                            </Button>
+                            <Button>
+                                    Month
+                            </Button>
+                        </Col> */}
+                    </Row>
+                    <Row>
+                        <Col xs={8}>   
+                            {/* <Line
+                                id="line"
+                                ref="line"
+                                data={this.state.childrensData[index].abusiveChartData}
+                                heigh={60}
+                                backgroundColor={"transperant"}
+                                options={{
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltips: {
+                                        enabled: true,
+                                        mode: 'label',
+                                        intersect: false,
+                                        displayColors: false,
+                                    },
+                                    maintaninAspectRatio: false,
+                                    animation: {
+                                        duration: 0
+                                    },
+                                    hover: {
+                                         animationDuration: 1000
+                                    },
+                                    elements: {
+                                        line: {
+                                            tension: 0.5, // disables bezier curves
                                         }
-                                    }]
-                                }
-                            }}
-                            redraw
-                        />
-                        Usage time
-                        <Bar
-                            data={this.state.usageTimeChartData}
-                            height={60}
-                            options={{
-                                maintaninAspectRatio: false
-                            }}
-                        />
-                    </Col>
-                    <Col xs={4}>
-                        Offensive conversations
-                        {this.state.childrensData[index].messagesHeads.length > 0 && this.state.childrensData[index].messagesHeads.map((message) => 
-                            <Box message={message.quote} level={message.strength}/>
-                            // console.log(message)
-                        )}
-                    </Col>
-                </Row>
-                <Row>
-                    GPS
-                </Row>
+                                    },
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                stepSize: 1
+                                            }
+                                        }]
+                                    }
+                                }}
+                                redraw
+                            /> */}
+                            <AbusiveConversationsChart/>
+                            Usage time
+                            <Bar
+                                data={this.state.usageTimeChartData}
+                                height={60}
+                                options={{
+                                    maintaninAspectRatio: false
+                                }}
+                            />
+                        </Col>
+                        <Col xs={4}>
+                            Offensive conversations
+                            {this.state.childrensData[index].messagesHeads.length > 0 && this.state.childrensData[index].messagesHeads.map((message) => 
+                                <Box id={[this.state.childrens[index].id, message.id]} onClick={this.getEntireMessage} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
+                            )}
+                        </Col>
+                    </Row>
+                    <Row>
+                        GPS
+                    </Row>
+                </Grid>
             </div>
         );
     }
@@ -369,7 +388,6 @@ class Dashboard extends Component {
     render() {    // TODO: fix this - style it  
         return  (   this.state.childrens.length == 0 ? "No Childrens in app" :             
                 <div>
-                    <h1> INSIDE DASHBOARD ;)</h1>
                     <ul className="tabs-nav nav navbar-nav navbar-left">
                     </ul>
                     <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleSelect} animation={false}>

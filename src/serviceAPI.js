@@ -45,6 +45,14 @@ export const GetMessagesHeads = (id, startTime, endTime, page) => {
     });
 }
 
+export const GetEntireMessage = (id, msgId) => {
+    return axios.get(url + "conversation/" + id + "/" + msgId + "/entire",{
+        headers: {
+            auth: auth
+        }
+    });
+}
+
 export const GetBatteryLevel = (id, startTime, endTime) => {
     console.log(startTime);
     console.log(endTime);

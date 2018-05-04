@@ -5,7 +5,7 @@ const Data = function(props) {
     return (
         <div>
             <div className="curse">{props.message}</div>
-            <p className="under_curse"> Tom Willsom, Facebook, Apr 29 </p>
+            <p className="under_curse">{props.metaData}</p>
             <span className="go_to">  &gt;   </span>
         </div>)
 }
@@ -14,8 +14,8 @@ class Box extends Component {
 
     render() {
         return (
-        <div level={this.getLevel()} className={this.getClassName()} onClick={this.clickHandleEvent}>
-            <Data message={this.props.message}/>
+        <div level={this.getLevel()} className={this.getClassName()} onClick={this.clickHandleEvent.bind(this)}>
+            <Data message={this.props.message} metaData={this.props.metaData}/>
         </div>
     )}
 
@@ -30,7 +30,7 @@ class Box extends Component {
                 return "+3";
         }
     }
-    
+
     getClassName() {
         switch(this.props.level){
             case "easy":
@@ -43,7 +43,8 @@ class Box extends Component {
     }
 
     clickHandleEvent() {
-        alert("aaaaaaaa")
+        // console.log(this.props);
+        this.props.onClick(this.props.id[0], this.props.id[1]);
     }
 }
 
