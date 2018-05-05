@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/box.css';
+import moment from 'moment';
 
 const Data = function(props) {
     return (
@@ -11,17 +12,16 @@ const Data = function(props) {
 }
 
 class Box extends Component {
-
     render() {
         return (
-        <div level={this.getLevel()} className={this.getClassName()} onClick={this.clickHandleEvent.bind(this)}>
-            <Data message={this.props.message} metaData={this.props.metaData}/>
+        <div level={this.getStrength()} className={this.getClassName()} onClick={this.props.onClick !== undefined ? this.clickHandleEvent.bind(this) : undefined}>
+            <Data message={this.props.message.quote} metaData={this.getMetaData()}/>
         </div>
     )}
 
-    getLevel() {
+    getStrength() {
         console.log(this.props)
-        switch(this.props.level){
+        switch(this.props.message.strength){
             case "easy":
                 return "+1";
             case "medium":
@@ -32,7 +32,7 @@ class Box extends Component {
     }
 
     getClassName() {
-        switch(this.props.level){
+        switch(this.props.message.strength){
             case "easy":
                 return "box box_yellow";
             case "medium":
@@ -42,9 +42,15 @@ class Box extends Component {
         }
     }
 
+    getMetaData() {
+        return this.props.message.chat_title + ", " 
+            + this.props.message.app_name + ", " 
+            + moment(this.props.message.time).format("MMM D");
+    }
+
     clickHandleEvent() {
         // console.log(this.props);
-        this.props.onClick(this.props.id[0], this.props.id[1]);
+        this.props.onClick(this.props.childId, this.props.message);
     }
 }
 
