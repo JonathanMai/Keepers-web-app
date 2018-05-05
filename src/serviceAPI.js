@@ -38,6 +38,7 @@ export const GetMessagesStatistics = (id, startTime, endTime) => {
 }
 
 export const GetMessagesHeads = (id, startTime, endTime, page) => {
+    // console.log("id:",id,", start time:", startTime, ", end time:",endTime,", page:", page)
     return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
         headers: {
             auth: auth
