@@ -4,6 +4,7 @@ import { Line, Bar } from 'react-chartjs-2';
 import { GetById, GetProfileByID, GetAllChildren, GetMessagesStatistics, GetMessagesHeads, GetBatteryLevel, GetEntireMessage } from "../../serviceAPI";
 import AbusiveConversationsChart from '../charts/AbusiveConversationsChart';
 import UsageTimeChart from '../charts/UsageTimeChart';
+import MsgsPanel from '../MsgsPanel';
 import Box from '../Box';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -24,15 +25,16 @@ class Dashboard extends Component {
             //goes into childs Data
             abusiveChartData: [], 
             usageTimeChartData: [],
-            messagesHeads: []
+            messagesHeads: [],
+            showEntireMessage: false
         }
         
         // Binds all the functions.
         this.bindFunctions();
-        console.log(parseInt(moment().format("Z")));
+        // console.log(parseInt(moment().format("Z")));
         // this.createUsageTimeDataset = this.createUsageTimeDataset.bind(this);
         // this.getAllChildren(); // Checks how many childrens there are in the account.
-        console.log(this.state);
+        // console.log(this.state);
     }
 
     // Before render, gets all the data needed and shows it.
@@ -41,9 +43,9 @@ class Dashboard extends Component {
     }
 
     bindFunctions() {
-        this.handleSelect = this.handleSelect.bind(this);
+        this.handleTabSelect = this.handleTabSelect.bind(this);
         this.buildTab = this.buildTab.bind(this);
-        this.getEntireMessage = this.getEntireMessage.bind(this);
+        this.handleMessageSelect = this.handleMessageSelect.bind(this);
         // this.getAllChildren = this.getAllChildren.bind(this);
         // this.getDatesLabels = this.getDatesLabels.bind(this);
         // this.getChildMessagesStatistics = this.getChildMessagesStatistics.bind(this);
@@ -139,33 +141,37 @@ class Dashboard extends Component {
 
     // Gets the child statistics and sets data using it.
     getChildMessagesStatistics(index) {
-        let day = moment.utc(this.state.date[0]); // Creates a moment object from the first day.
+        let day = moment(this.state.date[0]); // Creates a moment object from the first day.
         // let lastDay = moment.utc(this.state.date[1]);
         // var stillUtc = moment.utc(lastDay).toDate();
         // var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
         let newData = [];
         let daysRange = this.state.daysRange;
+        // console.log(moment.utc(this.state.date[0]).startOf('day').valueOf(),"and", moment(this.state.date[0]).startOf('day').valueOf());
+
         
         // for(let i=0; i<this.state.childrens.length;  i++) {
             // console.log(i); 
-        let tempDay = moment.utc(day);
+        let tempDay = moment(day);
         let countEasy = new Array(daysRange);
         let countMedium = new Array(daysRange);
         let countHard = new Array(daysRange);
         let flag = 0;
-        console.log(this.state.tab);
         let child = this.state.childrens[index].id; // Gets the child id.
-        for(let i=0; i<=daysRange;  i++, tempDay=moment.utc(day).add(i,'days')) {
+        for(let i=0; i<=daysRange;  i++, tempDay=moment(day).add(i,'days')) {
             // datesLabel.push(moment(day).format("MMMM DD"));
             // day=moment(day).add(1,'days').format("MMMM D");
-            GetMessagesStatistics(child, moment.utc(tempDay).startOf('day'), moment.utc(tempDay).add(1,'days').startOf('day')).then(res => {  // When respond package is with status 200
+            // if(i ===2 | i === 3) {
+            //     console.log(child, moment(tempDay).startOf('day').valueOf(),"and", moment(tempDay).endOf('day').valueOf())
+            //     console.log(child, moment.utc(tempDay).startOf('day').valueOf(),"and", moment.utc(tempDay).add(1,'days').startOf('day').valueOf())
+            // }
+            GetMessagesStatistics(child, moment(tempDay).startOf('day').valueOf(), moment(tempDay).endOf('day').valueOf()).then(res => {  // When respond package is with status 200
                 let result = res.data;
                 countEasy[i] = (parseInt(result.easyCount)); // easy count.
                 countMedium[i] = (parseInt(result.mediumCount)); // medium count.
                 countHard[i] = (parseInt(result.heavyCount)); // heavy count.
                 flag++;
                 if(flag > daysRange){
-                    console.log("flag=" + flag + " j=" + i);
                     let tempData = [];
                     tempData.push(countEasy);
                     tempData.push(countMedium);
@@ -241,14 +247,14 @@ class Dashboard extends Component {
     getMessagesHeads(index) {
         let messagesHeads = [];
         this.addPageToArray(index, messagesHeads, 0);
-        let tempDraw = this.state.draw;
-        let childrensData = this.state.childrensData;
-        childrensData[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
-        tempDraw[1] = true;
-        this.setState({
-            ...this.state,
-            childrensData: childrensData
-        });
+        // let tempDraw = this.state.draw;
+        // let childrensData = this.state.childrensData;
+        // childrensData[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
+        // tempDraw[1] = true;
+        // this.setState({
+        //     ...this.state,
+        //     childrensData: childrensData
+        // });
         // this.setState({
         //     ...this.state,
         //     draw: tempDraw,
@@ -262,11 +268,21 @@ class Dashboard extends Component {
         GetMessagesHeads(this.state.childrens[index].id, moment.utc(this.state.date[0]).startOf('day'), moment.utc(this.state.date[1]).endOf('day'), page).then(res => {  // When respond package is with status 200
             if(res.data.length > 0) {
                 res.data.map(message => messagesHeads.push(message));
-                // console.log(res.data)
-                this.addPageToArray(messagesHeads, page+1);
+                this.addPageToArray(index, messagesHeads, page+1);
+                // console.log(this.state.childrensData[index])
+            }
+            else {
+                let tempDraw = this.state.draw;
+                let childrensData = this.state.childrensData;
+                childrensData[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
+                tempDraw[1] = true;
+                this.setState({
+                    ...this.state,
+                    childrensData: childrensData
+                });
             }
         }).catch(error => { // When respond package is with error status - 400 ...
-            console.log(error.data);
+            console.log(error);
         });
     }
 
@@ -275,36 +291,63 @@ class Dashboard extends Component {
 
     }
     // Handles the selcted tab that was pushed. 
-    handleSelect(key) {
+    handleTabSelect(key) {
         // this.setState({
         //     ...this.state,
         //     tab: key
         // });
         // console.log("abusive chart data: ", this.state.childrens[key].abusiveChartData)
+        // this.setState({
+        //     ...this.state,
+        //     showEntireMessage: false
+        // });
         if(this.dataIsSet(key) === false) {
             this.getChildData(key);
         }
         
-        console.log(this.state.childrensData[0].messagesHeads);
+        // console.log(this.state.childrensData[0].messagesHeads);
     }
 
-    getEntireMessage(childId, msgId) {
+    handleMessageSelect(childIndex, msgId) {
         // console.log("hi", index, "crazy");
-        GetEntireMessage(childId, msgId).then(res => {  // When respond package is with status 200
-            console.log(res);
+        GetEntireMessage(this.state.childrens[childIndex].id, msgId).then(res => {  // When respond package is with status 200
+            // console.log(res);
+            // console.log(childIndex);
+            this.setState({
+                ...this.state,
+                showEntireMessage: true
+            });
+            this.buildChatPanel(childIndex, msgId);
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.response);
         });;
     }
 
+    buildChatPanel(childIndex) {
+        let chatPanel;
+        if(!this.state.showEntireMessage && this.state.childrensData[childIndex].messagesHeads.length > 0) {
+            chatPanel = this.state.childrensData[childIndex].messagesHeads.map((message) => 
+            <Box childId={this.state.childrens[childIndex].id} msgId={message.id} childIndex={childIndex} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
+            );
+            // <Box childId={this.state.childrens[index].id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
+
+        }
+        else if(this.state.showEntireMessage && childIndex !== undefined) {
+            chatPanel = childIndex + " YEAHH";
+        }
+        return chatPanel;
+
+    }
+
     // Builds the picked tab(using the children information).
-    buildTab(index) { // TODO: need to style it as part of the page(another panel).        
+    buildTab(childIndex) { // TODO: need to style it as part of the page(another panel).        
+        console.log("build tab");
         return (
             <div>
-                <Grid>
+                <Grid >
                     <Row>
                         <Col xs={8} md={8} xl={8}>   
-                                Graph of abusive conversations
+                            Graph of abusive conversations
                         </Col>
                         {/* TODO: need to implement the buttons logic */}
                         {/* <Col xs={6} md={4}>
@@ -321,23 +364,32 @@ class Dashboard extends Component {
                     </Row>
                     <Row>
                         <Col xs={8}>   
-                            {/* <Line
+                            <Line
                                 id="line"
                                 ref="line"
-                                data={this.state.childrensData[index].abusiveChartData}
-                                heigh={60}
+                                data={this.state.childrensData[childIndex].abusiveChartData}
+                                // height={80}
                                 backgroundColor={"transperant"}
                                 options={{
+                                    layout: {
+                                        padding: {
+                                            left: 0,
+                                            right: 0,
+                                            top: 20,
+                                            bottom: 0
+                                        }
+                                    },
                                     legend: {
                                         display: false
                                     },
                                     tooltips: {
                                         enabled: true,
-                                        mode: 'label',
+                                        mode: 'index',
                                         intersect: false,
                                         displayColors: false,
+                                        bodySpacing: 3
                                     },
-                                    maintaninAspectRatio: false,
+                                    // maintaninAspectRatio: false,
                                     animation: {
                                         duration: 0
                                     },
@@ -346,7 +398,14 @@ class Dashboard extends Component {
                                     },
                                     elements: {
                                         line: {
-                                            tension: 0.5, // disables bezier curves
+                                            tension: 0.3, // disables bezier curves
+                                            borderJoinStyle: 'miter',
+                                            borderWidth: 2,
+                                            borderJoinStyle: 'round',
+                                            fill: true,
+                                            capBezierPoints: true
+                                            // borderCapStyle: 'square'
+                                            // capBezierPoints: true
                                         }
                                     },
                                     scales: {
@@ -359,8 +418,8 @@ class Dashboard extends Component {
                                     }
                                 }}
                                 redraw
-                            /> */}
-                            <AbusiveConversationsChart/>
+                            />
+                            {/* <AbusiveConversationsChart /> */}
                             Usage time
                             <Bar
                                 data={this.state.usageTimeChartData}
@@ -372,9 +431,12 @@ class Dashboard extends Component {
                         </Col>
                         <Col xs={4}>
                             Offensive conversations
-                            {this.state.childrensData[index].messagesHeads.length > 0 && this.state.childrensData[index].messagesHeads.map((message) => 
-                                <Box id={[this.state.childrens[index].id, message.id]} onClick={this.getEntireMessage} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
-                            )}
+                            {/* <div id="chat_panel">
+                                {this.buildChatPanel(kidIndex)}
+                            </div> */}
+                            {/* {console.log("data",this.state.childrensData[childIndex])} */}
+                            {this.state.childrensData !== undefined && this.state.childrensData[childIndex].messagesHeads.length > 0 &&
+                                <MsgsPanel child={this.state.childrens[childIndex]} childsData={this.state.childrensData[childIndex].messagesHeads} />}
                         </Col>
                     </Row>
                     <Row>
@@ -385,19 +447,19 @@ class Dashboard extends Component {
         );
     }
 
-    render() {    // TODO: fix this - style it  
+    render() {
         return  (   this.state.childrens.length == 0 ? "No Childrens in app" :             
-                <div>
-                    <ul className="tabs-nav nav navbar-nav navbar-left">
-                    </ul>
-                    <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleSelect} animation={false}>
-                        { this.state.childrens.map((child,index) => 
-                            <Tab key={index} title={child.name} eventKey={index} >
-                                {this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.state.childrensData[index].messagesHeads !== undefined && this.buildTab(index)}
-                            </Tab>)
-                        } 
-                    </Tabs>
-                </div>)
+            <div>
+                <ul className="tabs-nav nav navbar-nav navbar-left">
+                </ul>
+                <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={false}>
+                    { this.state.childrens.map((child,index) => 
+                        <Tab key={index} title={child.name} eventKey={index} >
+                            {this.state.childrensData !== undefined && this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.state.childrensData[index].messagesHeads !== undefined && this.buildTab(index)}
+                        </Tab>)
+                    }
+                </Tabs>
+            </div>)
     }
 }
 
