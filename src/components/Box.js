@@ -20,7 +20,6 @@ class Box extends Component {
     )}
 
     getStrength() {
-        console.log(this.props)
         switch(this.props.message.strength){
             case "easy":
                 return "+1";

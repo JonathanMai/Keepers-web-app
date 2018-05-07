@@ -16,6 +16,7 @@ class MsgsPanel extends Component {
         this.getMessagesHeads();
         this.buildMsgPanel = this.buildMsgPanel.bind(this);
         this.handleMessageSelect = this.handleMessageSelect.bind(this);
+        console.log("HERE?")
     }
 
     getMessagesHeads() {
@@ -38,7 +39,6 @@ class MsgsPanel extends Component {
     }
         
     addPageToArray(messagesHeads, page) {
-        console.log(this.props);
         GetMessagesHeads(this.props.childrens[this.props.childIndex].id, moment.utc(this.props.dates[0]).startOf('day'), moment.utc(this.props.dates[1]).endOf('day'), page).then(res => {  // When respond package is with status 200
             if(res.data.length > 0) {
                 res.data.map(message => messagesHeads.push(message));

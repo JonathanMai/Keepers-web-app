@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
+// import { ResponsiveLine, Line } from 'nivo';
 // import { Bar, Line, Pie } from 'react-chartjs-2';
-import { ResponsiveLine, Line } from 'nivo';
 // import { connect } from 'react-redux';
 // import moment from 'moment';
 // import { GetMessagesStatistics } from '../../serviceAPI';
@@ -263,25 +263,28 @@ import { ResponsiveLine, Line } from 'nivo';
 
 // export default connect(mapStateToProps)(AbusiveConversationsChart);
 
+import React, { Component } from 'react';
+import { ResponsiveLine, Line } from 'nivo';
+
 var AbusiveConversationsChart = (props) => {
   console.log(props);
   let line = 
     <Line height={400} width={600}
-      data={[
+    data={[
         {
-          "id": "heavy",
-          "data": props.data[2]
+          "id": "easy",
+          "data": props.data[0]
         },
         {
           "id": "medium",
           "data": props.data[1]
         },
         {
-          "id": "easy",
-          "data": props.data[0]
+          "id": "heavy",
+          "data": props.data[2]
         }
       ]}
-      colors={["rgb(255,0,0)", "rgb(255,128,0)", "rgb(255,255,0)"]}
+      colors={["rgb(255,255,0)", "rgb(255,128,0)", "rgb(255,0,0)"]}
       margin={{
           "top": 50,
           "right": 110,
