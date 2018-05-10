@@ -13,21 +13,50 @@ class BarChartPanel extends Component {
         // console.log(this.props.data);
         
         this.state = {
-            dateLabels: []
+            dataAssigned: false,
+            data: [],
+            keys: []
         }
         // var colors = {}
-        // this.getUsageStatistics();
+        this.getUsageStatistics();
         // this.buildChart = this.buildChart.bind(this);
     }
 
     getUsageStatistics() {
         let child = this.props.childrens[this.props.childIndex].id; // Gets the child id.
-        console.log(child)
-        // GetUsageStatistics(child).then(res => {  // When respond package is with status 200
-        //     console.log(res.data);
-        // }).catch(error => { // When respond package is with error status - 400 ...
-        //     console.log(error.data);
-        // });
+        GetUsageStatistics(child).then(res => {  // When respond package is with status 200
+            this.buildChartData(res.data);
+        }).catch(error => { // When respond package is with error status - 400 ...
+            console.log(error.data);
+        });
+    }
+
+    // Creates the data.
+    buildChartData(data) {
+        let tempData = [];
+        let keys = [];
+        data.map((usageData) => {
+            console.log(usageData);
+            let difference = moment.utc(usageData.endTime).diff(moment.utc(usageData.startTime), 'minutes');
+            let appName = usageData.appName;
+            tempData.push({appName: appName, count: difference})
+            // newData.push({appName: appName, [appName]: difference});
+        }) ;
+        // let newData = [];
+        const newData = [].concat(tempData)
+        .sort((a, b) => a.count === b.count ? a.appName > b.appName  : a.count < b.count)
+        .map((item, i) => {
+                keys.push(item.appName);
+                // <div key={i}> {item.matchID} {item.timeM}{item.description}</div>
+                return({appName: item.appName, [item.appName]: item.count})}
+            );
+            console.log(keys)
+        this.setState({
+            ...this.state,
+            data: newData,
+            keys: keys,
+            dataAssigned: true
+        });
     }
     // componentWillMount() {
     //   // this.getLabels();
@@ -120,7 +149,7 @@ class BarChartPanel extends Component {
     // }
 
     render() {
-        return "BOT"
+        return (this.state.dataAssigned && <UsageTimeChart data={this.state.data} keys={this.state.keys}/>);
         // return (this.state.data !== undefined && <UsageTimeChart data={this.state.data} />);
     }
 }
