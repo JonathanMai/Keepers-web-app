@@ -1,0 +1,11 @@
+.title {
+    border: 1px solid #80808057;
+    font-weight: bold;
+    text-align: center;
+}
+
+.main {
+    border: 1px solid #80808057;
+    height: 328px;
+    overflow-y: scroll;
+}

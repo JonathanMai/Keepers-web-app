@@ -5,6 +5,7 @@ import {Fade} from 'react-bootstrap';
 import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import Chat from '../pages/Chat'
 
 class MsgsPanel extends Component {
 
@@ -101,9 +102,8 @@ class MsgsPanel extends Component {
                     {this.buildMessageBox(this.state.childId,this.state.message)} 
 
                     {/* <Box childId={this.props.child.id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/> */}
-                    <button type="button" className="close" aria-label="Close" onClick={this.handleSelect.bind(this)}>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+
+                    <Chat close={this.handleSelect.bind(this)}/>
                 </div>
           {/* </Fade> */}
         }
