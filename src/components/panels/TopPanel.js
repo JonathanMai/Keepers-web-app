@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import MsgsPanel from './MsgsPanel';
 import LineChartPanel from './LineChartPanel';
+import "../../styles/topPanel.css";
 
 // TODO: in top panel there supposed to be date state that will change the data for all sub components.
 class TopPanel extends Component {
@@ -15,14 +16,17 @@ class TopPanel extends Component {
     }
     render(){
         return <div>
-            <Row>
-                <Col xs={8}> 
+            <Col xs={8}>
+                <Row style={{height: 25 + 'vh'}}> 
                     {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
-                </Col>
-                <Col xs={4}> 
-                    {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
-                </Col>
-            </Row>
+                </Row>
+                <Row>
+                    <div className="border" />
+                </Row>
+            </Col>
+            <Col xs={4}> 
+                {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
+            </Col>
             </div>
     }
 }

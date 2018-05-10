@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../styles/messagesPanel.css'
 import Box from '../Box';
 import {Fade} from 'react-bootstrap';
 import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';

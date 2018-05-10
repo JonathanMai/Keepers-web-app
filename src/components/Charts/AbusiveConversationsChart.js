@@ -269,7 +269,8 @@ import { ResponsiveLine, Line } from 'nivo';
 var AbusiveConversationsChart = (props) => {
   console.log(props);
   let line = 
-    <Line height={400} width={600}
+    // <Line height={400} width={600}
+    <ResponsiveLine
     data={[
         {
           "id": "easy",
@@ -286,10 +287,10 @@ var AbusiveConversationsChart = (props) => {
       ]}
       colors={["rgb(255,255,0)", "rgb(255,128,0)", "rgb(255,0,0)"]}
       margin={{
-          "top": 50,
-          "right": 110,
-          "bottom": 50,
-          "left": 60
+          "top": 10,
+          "right": 10,
+          "bottom": 30,
+          "left": 30
       }}
       minY="0"
       curve="monotoneX"

@@ -503,20 +503,19 @@ class Dashboard extends Component {
     render() {
         return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
             <div>
+                <Row>
+                    {/* add settings and on */}
+                </Row>
                 <Grid>
-                    <Row>
-
-                    </Row>
-                    <Row>
                         <ul className="tabs-nav nav navbar-nav navbar-left">
                         </ul>
                         <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={false}>
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index} >
                                     <Grid fluid={true}>
-                                        
-                                        <TopPanel childIndex={index} />
-                                        
+                                        <Row style={{height: 45+'%'}}>
+                                            <TopPanel childIndex={index} />
+                                        </Row>
                                         <Row>
                                             <BottomPanel childIndex={index} />
                                         </Row>
@@ -526,7 +525,6 @@ class Dashboard extends Component {
                                 </Tab>)
                             }
                         </Tabs>
-                    </Row>
                 </Grid>
             </div>
         );
