@@ -39,14 +39,13 @@ export const GetMessagesStatistics = (id, startTime, endTime) => {
 
 //TODO: ADD start and end times.
 export const GetUsageStatistics = (id, startTime, endTime) =>{
-    return axios.post(url + "appUsageTime/queryAllUsages/",{
-        headers: {
-            auth: auth
-        },
-        body: {
-            childId: id
-        }
-    }); 
+    let body = {childId: id};
+    let headers = {headers: {
+        'content-type': "application/json",
+        auth: auth
+    }};
+
+    return axios.post(url + "appUsageTime/queryAllUsages", body, headers); 
 }
 
 export const GetMessagesHeads = (id, startTime, endTime, page) => {
