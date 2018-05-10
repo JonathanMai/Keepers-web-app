@@ -37,6 +37,18 @@ export const GetMessagesStatistics = (id, startTime, endTime) => {
     });
 }
 
+//TODO: ADD start and end times.
+export const GetUsageStatistics = (id, startTime, endTime) =>{
+    return axios.post(url + "appUsageTime/queryAllUsages/",{
+        headers: {
+            auth: auth
+        },
+        body: {
+            childId: id
+        }
+    }); 
+}
+
 export const GetMessagesHeads = (id, startTime, endTime, page) => {
     // console.log("id:",id,", start time:", startTime, ", end time:",endTime,", page:", page)
     return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
