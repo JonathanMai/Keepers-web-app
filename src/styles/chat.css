@@ -1,11 +1,16 @@
 .title {
-    border: 1px solid #80808057;
+    border-top: 1px solid #80808057;
+    border-left: 1px solid #80808057;
+    border-right: 1px solid #80808057;
+    border-bottom: 1px solid #FFFFFF;
     font-weight: bold;
     text-align: center;
 }
 
 .main {
-    border: 1px solid #80808057;
-    height: 328px;
+    border-left: 1px solid #80808057;
+    border-right: 1px solid #80808057;
+    border-top: 1px solid #FFFFFF; 
+    height: 408px;
     overflow-y: scroll;
 }
