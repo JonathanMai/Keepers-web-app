@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../../styles/messagesPanel.css'
 import Box from '../Box';
 import {Fade} from 'react-bootstrap';
 import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';
@@ -17,7 +16,6 @@ class MsgsPanel extends Component {
         this.getMessagesHeads();
         this.buildMsgPanel = this.buildMsgPanel.bind(this);
         this.handleMessageSelect = this.handleMessageSelect.bind(this);
-        console.log("HERE?")
     }
 
     getMessagesHeads() {
