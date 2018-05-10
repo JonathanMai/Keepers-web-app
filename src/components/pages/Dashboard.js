@@ -513,12 +513,8 @@ class Dashboard extends Component {
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index} >
                                     <Grid fluid={true}>
-                                        <Row style={{height: 45+'%'}}>
-                                            <TopPanel childIndex={index} />
-                                        </Row>
-                                        <Row>
-                                            <BottomPanel childIndex={index} />
-                                        </Row>
+                                        <TopPanel childIndex={index} />
+                                        <BottomPanel childIndex={index} />
                                     </Grid>
                                     {/* {this.state.childrensData !== undefined && this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.state.childrensData[index].messagesHeads !== undefined && this.buildTab(index)} */}
                                     {/* {this.props.childrens[index].id} */}

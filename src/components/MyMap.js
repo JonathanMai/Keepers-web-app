@@ -1,25 +1,32 @@
-import React, { Component } from 'react'
-import GoogleMapReact from 'google-map-react'
-const AnyReactComponent = ({ text }) => <div>{ text }</div>;
+import React, { Component } from 'react';
+import GoogleMapReact from 'google-map-react';
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
 class MyMap extends Component {
   static defaultProps = {
-    center: { lat: 40.7446790, lng: -73.9485420 },
+    center: {
+      lat: 59.95,
+      lng: 30.33
+    },
     zoom: 11
-  }
-render() {
+  };
+
+  render() {
     return (
-      <div className='google-map'>
+      // Important! Always set the container height explicitly
         <GoogleMapReact
-          defaultCenter={ this.props.center }
-          defaultZoom={ this.props.zoom }>
+          bootstrapURLKeys={{ key: "AIzaSyDxyu4XFYitntVnXBSTRK0N3OCV2cj1HoY" }}
+          defaultCenter={this.props.center}
+          defaultZoom={this.props.zoom}
+        >
           <AnyReactComponent
-            lat={ 40.7473310 }
-            lng={ -73.8517440 }
-            text={ 'Wheres Waldo?' }
+            lat={59.955413}
+            lng={30.337844}
+            text={'Kreyser Avrora'}
           />
         </GoogleMapReact>
-      </div>
-    )
+    );
   }
 }
 
