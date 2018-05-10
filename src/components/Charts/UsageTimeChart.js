@@ -61,7 +61,7 @@ var UsageTimeChart = (props) => {
     props.data.map(key => {
         let appName = key.appName;
         console.log(appName);
-        assignColors.push(colors[key.appName]);
+        assignColors.push(colors[key.appName] !== undefined ? colors[key.appName] :  "rgb(" + Math.random()*255 + ", " + Math.random()*255 + ", " + Math.random()*255 + ")");
     });
     console.log(assignColors);
     let chart = 
@@ -80,26 +80,26 @@ var UsageTimeChart = (props) => {
             // colors={[85,184,242]}
             colors={assignColors}
             colorBy="id"
-            // defs={[
-            //     {
-            //         "id": "dots",
-            //         "type": "patternDots",
-            //         "background": "inherit",
-            //         "color": "#38bcb2",
-            //         "size": 4,
-            //         "padding": 1,
-            //         "stagger": true
-            //     },
-            //     {
-            //         "id": "lines",
-            //         "type": "patternLines",
-            //         "background": "inherit",
-            //         "color": "#eed312",
-            //         "rotation": -45,
-            //         "lineWidth": 6,
-            //         "spacing": 10
-            //     }
-            // ]}
+            defs={[
+                {
+                    "id": "dots",
+                    "type": "patternDots",
+                    "background": "inherit",
+                    "color": "#38bcb2",
+                    "size": 4,
+                    "padding": 1,
+                    "stagger": true
+                },
+                {
+                    "id": "lines",
+                    "type": "patternLines",
+                    "background": "inherit",
+                    "color": "#eed312",
+                    "rotation": -45,
+                    "lineWidth": 6,
+                    "spacing": 10
+                }
+            ]}
             fill={[
                 {
                     "match": {
@@ -115,42 +115,43 @@ var UsageTimeChart = (props) => {
                 }
             ]}
             borderColor="inherit:darker(1.6)"
-            axisBottom={{
-                "orient": "bottom",
-                "tickSize": 5,
-                "tickPadding": 5,
-                "tickRotation": 0,
-                "legend": "country",
-                "legendPosition": "center",
-                "legendOffset": 36
-            }}
-            axisLeft={{
-                "orient": "left",
-                "tickSize": 5,
-                "tickPadding": 5,
-                "tickRotation": 0,
-                "legend": "food",
-                "legendPosition": "center",
-                "legendOffset": -40
-            }}
+            // axisBottom={{
+            //     "orient": "bottom",
+            //     "tickSize": 5,
+            //     "tickPadding": 5,
+            //     "tickRotation": 0,
+            //     "legend": "country",
+            //     "legendPosition": "center",
+            //     "legendOffset": 36
+            // }}
+            // axisLeft={{
+            //     "orient": "left",
+            //     "tickSize": 5,
+            //     "tickPadding": 5,
+            //     "tickRotation": 0,
+            //     "legend": "food",
+            //     "legendPosition": "center",
+            //     "legendOffset": -40
+            // }}
             labelSkipWidth={12}
             labelSkipHeight={12}
             labelTextColor="inherit:darker(1.6)"
             animate={true}
             motionStiffness={90}
             motionDamping={15}
-            legends={[
-                {
-                    "dataFrom": "keys",
-                    "anchor": "bottom-right",
-                    "direction": "column",
-                    "translateX": 120,
-                    "itemWidth": 100,
-                    "itemHeight": 20,
-                    "itemsSpacing": 2,
-                    "symbolSize": 20
-                }
-            ]}
+            isInteractive={false}
+            // legends={[
+            //     {
+            //         "dataFrom": "keys",
+            //         "anchor": "bottom-right",
+            //         "direction": "column",
+            //         "translateX": 120,
+            //         "itemWidth": 100,
+            //         "itemHeight": 20,
+            //         "itemsSpacing": 2,
+            //         "symbolSize": 20
+            //     }
+            // ]}
         />);
     return chart;
 }
