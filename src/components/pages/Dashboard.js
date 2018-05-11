@@ -509,9 +509,9 @@ class Dashboard extends Component {
                 <Grid>
                         <ul className="tabs-nav nav navbar-nav navbar-left">
                         </ul>
-                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={false}>
+                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={true}>
                             { this.props.childrens.map((child,index) => 
-                                <Tab key={index} title={child.name} eventKey={index} >
+                                <Tab key={index} title={child.name} eventKey={index}  >
                                     <Grid fluid={true}>
                                         <TopPanel childIndex={index} />
                                         <BottomPanel childIndex={index} />
