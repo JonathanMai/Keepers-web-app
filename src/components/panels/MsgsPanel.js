@@ -5,6 +5,7 @@ import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Chat from '../pages/Chat'
+import '../../styles/messagesPanel.css'
 
 class MsgsPanel extends Component {
 

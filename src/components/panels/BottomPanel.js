@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import MyMap from '../MyMap';
 import "../../styles/topPanel.css";
+import "../../styles/box.css";
+
 
 
 class BottomPanel extends Component {
     render(){
         return(
-            <Row>
-                <Col xs={8} style={{height: 45 + 'vh'}}>
+            <Row className="border" style={{height: 38 + 'vh', padding: 7, marginTop: 8}}>
+                <Col xs={8} style={{padding: 0}}>
                     <MyMap />
                 </Col>   
-                <Col xs={4}>
-                    <div className="border"></div>
+                <Col xs={4} style={{ padding: 0}}>
+                    <div className="border" style={{height: '-webkit-fill-available'}}></div>
                 </Col>
             </Row>
         );

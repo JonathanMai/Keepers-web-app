@@ -17,19 +17,20 @@ class TopPanel extends Component {
         console.log(this.props.range)
     }
     render(){
-        return <div>
-            <Col xs={8}>
-                <Row style={{height: 25 + 'vh'}}> 
-                    {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
-                </Row>
-                <Row style={{height: 25 + 'vh'}}>
-                    {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
-                </Row>
-            </Col>
-            <Col xs={4}> 
-                {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
-            </Col>
-            </div>
+        return(
+            <Row>
+                <Col xs={8}>
+                    <Row style={{height: 25 + 'vh'}}> 
+                        {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
+                    </Row>
+                    <Row style={{height: 25 + 'vh'}}>
+                        {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
+                    </Row>
+                </Col>
+                <Col xs={4}> 
+                    {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
+                </Col>
+            </Row>);
     }
 }
 
