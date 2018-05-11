@@ -43,10 +43,11 @@ class Chat extends Component {
                     <ul className="chat-message-list">
                         {this.props.chatMessages.messages.map((message, index) => {
                             console.log("MESSAGES R",message);
-                            <ChatBubble key={"message_"+index}/>
-                        // message={message.text}
-                        // side={"message-" + message.is_outgoing ? "right" : "left"}
-                            
+                           return <ChatBubble 
+                           message={message.text}
+                           side={"message-" + (message.is_outgoing ? "right" : "left")}
+                           strength={message.strength}
+                            />
                         })}
                     </ul>
                     {/* {console.log("before create")}
@@ -73,19 +74,23 @@ class Chat extends Component {
     }   
 }
 
+var strengthColors = {easy: "rgb(255,255,0)", medium: "rgb(255,128,0)", heavy: "rgb(255,0,0)"}
 const ChatBubble = function(props){
     console.log(props);
-    // let bubble = (
-    //     <li className={props.side}>
-    //         <span className="message-text">{props.message}</span>
-    //     </li>
-    // );
-    <li className="message-right">
-    <span className="message-text">Lalalaal</span>
-</li>
-    return(    <li className="message-right">
-    <span className="message-text">Lalalaal</span>
-</li> );
+    let color = strengthColors[props.strength];
+    //TODO: color border in red if the message is offensive
+    let bubble = (
+        <li className={props.side} backgroundColor={color}> 
+            <span className="message-text">{props.message}</span>
+        </li>
+    );
+    return bubble;
+//     <li className="message-right">
+//     <span className="message-text">Lalalaal</span>
+// </li>
+//     return(    <li className="message-right">
+//     <span className="message-text">Lalalaal</span>
+// </li> );
 }
 
 {/*const ChatBox = () => {
