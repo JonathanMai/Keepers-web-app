@@ -509,18 +509,18 @@ class Dashboard extends Component {
                 <Grid>
                         <ul className="tabs-nav nav navbar-nav navbar-left">
                         </ul>
-                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={false}>
+                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={true}>
                             { this.props.childrens.map((child,index) => 
-                                <Tab key={index} title={child.name} eventKey={index} >
-                                    <Grid fluid={true}>
+                                <Tab key={index} title={child.name} eventKey={index}  >
+                                    <Grid fluid={true} >
                                         <TopPanel childIndex={index} />
-                                        <BottomPanel childIndex={index} />
                                     </Grid>
                                     {/* {this.state.childrensData !== undefined && this.state.childrensData[index] !== undefined && this.state.childrensData[index].abusiveChartData !== undefined && this.state.childrensData[index].messagesHeads !== undefined && this.buildTab(index)} */}
                                     {/* {this.props.childrens[index].id} */}
                                 </Tab>)
                             }
                         </Tabs>
+                        <BottomPanel />
                 </Grid>
             </div>
         );
