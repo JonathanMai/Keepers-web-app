@@ -74,6 +74,7 @@ class MsgsPanel extends Component {
                 showEntireMessage: true,
                 childId: childId,
                 message: message,
+                chat: res.data,
                 renderFade: false
             });
             
@@ -96,13 +97,13 @@ class MsgsPanel extends Component {
             // <Box childId={this.state.childrens[index].id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
         else if(this.state.showEntireMessage) {// Todo: fade in
             // messagePanel =  <Fade in={this.state.renderFade} unmountOnExit={true}> 
+            console.log(this.state.message.is_group_chat);
             messagePanel = 
                 <div>
                     {this.buildMessageBox(this.state.childId,this.state.message)} 
 
                     {/* <Box childId={this.props.child.id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/> */}
-
-                    <Chat close={this.handleSelect.bind(this)}/>
+                    <Chat chatMessages={this.state.chat} chatTitle={this.state.message.is_group_chat ? "Group chat" : this.state.message.chat_title} close={this.handleSelect.bind(this)}/>
                 </div>
           {/* </Fade> */}
         }
