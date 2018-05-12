@@ -76,14 +76,16 @@ class Chat extends Component {
     }   
 }
 
-var strengthColors = {easy: "rgb(255,255,0)", medium: "rgb(255,128,0)", heavy: "rgb(255,0,0)"}
+var strengthColors = {easy: "easy_message", medium: "medium_message", heavy: "heavy_message"}
+
 const ChatBubble = function(props){
     console.log('this is props', props);
     let color = strengthColors[props.strength];
     //TODO: color border in red if the message is offensive
     let bubble = (
-        <li className={props.side} backgroundColor={color}> 
-            <span className="message-text">{props.message}</span>
+        <li className={props.side}  backgroundColor={color}> 
+            <span className={color + " message-text"}>{
+                props.message}</span>
         </li>
     );
     return bubble;
