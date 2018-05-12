@@ -26,7 +26,7 @@ class TopPanel extends Component {
                         {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
                     </Row>
                 </Col>
-                <Col xs={4} style={{'padding-right': 0 + 'px'}}> 
+                <Col xs={4} style={{'paddingRight': 0 + 'px'}}> 
                     {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
                 </Col>
             </Row>);

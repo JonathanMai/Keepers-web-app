@@ -13,7 +13,7 @@ const dashboardInfo = (state = initialState, action) => {
                 childrens: action.value
             };
         case "SET_DATES":
-        console.log(moment.utc(action.value[1]).startOf('day').diff(moment.utc(action.value[0]).startOf('day'), 'days') )
+        // console.log(moment.utc(action.value[1]).startOf('day').diff(moment.utc(action.value[0]).startOf('day'), 'days') )
 
             return {
                 ...state,

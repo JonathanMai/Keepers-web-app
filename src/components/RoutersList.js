@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import App from './App';
-import LoginPage from './pages/LoginPage';
-import RestartPasswordPage from './pages/RestartPasswordPage';
+// import LoginPage from './pages/LoginPage';
+// import RestartPasswordPage from './pages/RestartPasswordPage';
 import Dashboard from './pages/Dashboard';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 

@@ -60,10 +60,10 @@ var UsageTimeChart = (props) => {
     // console.log(props.datafacebook);
     props.data.map(key => {
         let appName = key.appName;
-        console.log(appName);
+        // console.log(appName);
         assignColors.push(colors[key.appName] !== undefined ? colors[key.appName] :  "rgb(" + Math.random()*255 + ", " + Math.random()*255 + ", " + Math.random()*255 + ")");
     });
-    console.log(assignColors);
+    // console.log(assignColors);
     let chart = 
         (<ResponsiveBar
             data={props.data}

@@ -264,7 +264,7 @@
 // export default connect(mapStateToProps)(AbusiveConversationsChart);
 
 import React from 'react';
-import { ResponsiveLine, Line } from 'nivo';
+import { ResponsiveLine } from 'nivo';
 
 var AbusiveConversationsChart = (props) => {
   let line = 

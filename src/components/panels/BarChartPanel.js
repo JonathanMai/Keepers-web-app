@@ -36,10 +36,11 @@ class BarChartPanel extends Component {
         let tempData = [];
         let keys = [];
         data.map((usageData) => {
-            console.log(usageData);
+            // console.log(usageData);
             let difference = moment.utc(usageData.endTime).diff(moment.utc(usageData.startTime), 'minutes');
             let appName = usageData.appName;
             tempData.push({appName: appName, count: difference})
+            return;
             // newData.push({appName: appName, [appName]: difference});
         }) ;
         // let newData = [];

@@ -40,7 +40,8 @@ class Chat extends Component {
                     <ul className="chat-message-list">
                         {this.props.chatMessages.messages.map((message, index) => {
                             if(message.text !== "") {
-                                return <ChatBubble 
+                                return <ChatBubble
+                                    key={index} 
                                     message={message.text}
                                     side={"message-" + (message.is_outgoing ? "right" : "left")}
                                     strength={message.strength}
@@ -78,7 +79,7 @@ const ChatBubble = function(props){
     let color = strengthColors[props.strength];
     //TODO: color border in red if the message is offensive
     let bubble = (
-        <li className={props.side}  backgroundColor={color}> 
+        <li className={props.side}> 
             <span className={color + " message-text"}>
                 <div dangerouslySetInnerHTML={{ __html: props.message}} />
             </span>
