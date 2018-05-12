@@ -32,7 +32,7 @@
     border-left: 1px solid #80808057;
     border-right: 1px solid #80808057;
     border-top: 1px solid #FFFFFF; 
-    height: 300px;
+    height: 36vh;
     overflow-y: scroll;
     padding: 0px 20px 20px 20px;
 }
@@ -65,12 +65,12 @@
 }
 
 .message-right {
-    margin: 20px 0px 0px 0px;
+    margin: 10px 0px 0px 0px;
     text-align: right;
 }
     
 .message-right .message-text {
-    margin: 10px 0px 10px 0px;
+    display: -webkit-inline-box;
     position: relative;
     font-family: "OpenSans-Regular";
     max-width: 74%;
@@ -121,4 +121,29 @@
     bottom: 1px;
     right: -9px;
 }
+
+.heavy_message.message-text:before {
+    border-bottom-color:rgb(255, 0, 0);
+}
+
+.heavy_message {
+    border: rgb(255, 0, 0) solid 1.5px !important;
+}
+
+.medium_message.message-text:before {
+    border-bottom-color:rgb(255,128,0);
+}
+
+.medium_message {
+    border: rgb(255,128,0) solid 1.5px !important;
+}
+
+.easy_message.message-text:before {
+    border-bottom-color:rgb(255,255,0);
+}
+
+.easy_message {
+    border: rgb(255,255,0) solid 1.5px !important;
+}
+
 
