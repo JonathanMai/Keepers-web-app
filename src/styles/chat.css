@@ -47,11 +47,12 @@
     display: inline;
     text-align: left;
     color: white;
+    display: flex;
 }
     
 .message-left .message-text {
-    margin: 10px 0px 10px 0px;
-    font-weight: bold;  
+    margin: 10px 0px 0px 0px;
+    font-weight: 500;  
     position: relative;
     font-family: "OpenSans-Regular";
     max-width: 74%;

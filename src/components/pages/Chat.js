@@ -84,8 +84,9 @@ const ChatBubble = function(props){
     //TODO: color border in red if the message is offensive
     let bubble = (
         <li className={props.side}  backgroundColor={color}> 
-            <span className={color + " message-text"}>{
-                props.message}</span>
+            <span className={color + " message-text"}>
+                <div dangerouslySetInnerHTML={{ __html: props.message}} />
+            </span>
         </li>
     );
     return bubble;
