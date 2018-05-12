@@ -1,17 +1,17 @@
 @font-face {
     font-family: "OpenSans-Regular";
     src: url("../fonts/OpenSans-Regular.ttf");
-  }
-  /* Question & Answers */
-  @font-face {
+}
+
+@font-face {
     font-family: "almoni-dl-aaa-regular";
     src: url("../fonts/almoni-dl-aaa-bold.otf");
-  }
-  /* Yes No Answers */
-  @font-face {
+}
+
+@font-face {
     font-family: "OpenSans-Bold";
     src: url("../fonts/OpenSans-Bold.ttf");
-  }
+}
 
 .title {
     border-top: 1px solid #80808057;
