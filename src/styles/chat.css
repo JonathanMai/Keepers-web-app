@@ -50,11 +50,12 @@
 }
     
 .message-left .message-text {
+    margin: 10px 0px 10px 0px;
     font-weight: bold;  
     position: relative;
     font-family: "OpenSans-Regular";
     max-width: 74%;
-    display: inline-block;
+    display: block;
     background:rgba(241, 241, 241, 0.7);
     color: rgba(0, 0, 0, 0.74);
     padding: 5px 15px 5px 10px;
@@ -64,15 +65,16 @@
 }
 
 .message-right {
+    margin: 20px 0px 0px 0px;
     text-align: right;
 }
     
 .message-right .message-text {
+    margin: 10px 0px 10px 0px;
     position: relative;
     font-family: "OpenSans-Regular";
     max-width: 74%;
     line-height: 1.5em;
-    display: inline-block;
     background: rgb(26, 165,182);
     padding: 5px 15px 5px 10px;
     color: rgba(255, 255, 255, 0.918);
@@ -119,3 +121,4 @@
     bottom: 1px;
     right: -9px;
 }
+

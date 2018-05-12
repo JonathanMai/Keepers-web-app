@@ -43,11 +43,13 @@ class Chat extends Component {
                     <ul className="chat-message-list">
                         {this.props.chatMessages.messages.map((message, index) => {
                             console.log("MESSAGES R",message);
-                           return <ChatBubble 
-                           message={message.text}
-                           side={"message-" + (message.is_outgoing ? "right" : "left")}
-                           strength={message.strength}
-                            />
+                            if(message.text !== "") {
+                                return <ChatBubble 
+                                    message={message.text}
+                                    side={"message-" + (message.is_outgoing ? "right" : "left")}
+                                    strength={message.strength}
+                            />;
+                            }
                         })}
                     </ul>
                     {/* {console.log("before create")}
@@ -76,7 +78,7 @@ class Chat extends Component {
 
 var strengthColors = {easy: "rgb(255,255,0)", medium: "rgb(255,128,0)", heavy: "rgb(255,0,0)"}
 const ChatBubble = function(props){
-    console.log(props);
+    console.log('this is props', props);
     let color = strengthColors[props.strength];
     //TODO: color border in red if the message is offensive
     let bubble = (
