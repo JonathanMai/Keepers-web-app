@@ -32,7 +32,6 @@ class LineChartPanel extends Component {
           ...this.state,
           dateLabels: labels
         });
-        console.log(labels);
     }
 
     updateChart () {
@@ -83,7 +82,6 @@ class LineChartPanel extends Component {
                       ...this.state,
                       data: tempData
                   });
-                  console.log(this.state.chartData);
                     // if(this.state.draw[0] == false){
                     //     let tempDraw = this.state.draw;
                     //     tempDraw[0] = true;
