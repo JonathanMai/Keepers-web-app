@@ -15,7 +15,7 @@ class Box extends Component {
     render() {
         return (
         <div level={this.getStrength()} className={this.getClassName()} onClick={this.props.onClick !== undefined ? this.clickHandleEvent.bind(this) : undefined}>
-            <Data message={this.parseMessage()} metaData={this.getMetaData()}/>
+            <Data message={this.getQuote()} metaData={this.getMetaData()}/>
         </div>
     )}
 
@@ -41,11 +41,8 @@ class Box extends Component {
         }
     }
 
-    parseMessage() {
-        let message = this.props.message.quote;
-        message = message.replace("<b>", "");
-        message = message.replace("</b>", "");
-        return message;
+    getQuote() {
+        return <div dangerouslySetInnerHTML={{ __html: "\"" + this.props.message.quote + "\""}} />;
     }
 
     getMetaData() {
