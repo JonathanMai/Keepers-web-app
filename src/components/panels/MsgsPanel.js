@@ -124,7 +124,6 @@ class MsgsPanel extends Component {
 
     render(){
         return (this.state.data !== undefined && <div id="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
-        // return <div>hiii </div>
     }
 }
 

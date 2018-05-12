@@ -471,7 +471,7 @@ import { connect } from 'react-redux';
 import { Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
 import TopPanel from '../panels/TopPanel';
 import BottomPanel from '../panels/BottomPanel';
-import '../../styles/dashboard.css';
+import Dates from '../panels/Dates';
 
 class Dashboard extends Component {
     componentWillMount() {
@@ -505,16 +505,14 @@ class Dashboard extends Component {
         return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
             <div>
                 <Grid>
-                <Row>
-                    <div className="choose_dates">Dates</div>
-                    <hr className="line_hr"/>
-                </Row>
-                <Row>
-                        <ul className="tabs-nav nav navbar-nav navbar-left">
+                                            <ul className="tabs-nav nav navbar-nav navbar-left">
                         </ul>
                         <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={true}>
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index}  >
+                                    <Row>
+                                        <Dates />
+                                    </Row>
                                     <Grid fluid={true} >
                                         <TopPanel childIndex={index} />
                                     </Grid>
@@ -524,7 +522,6 @@ class Dashboard extends Component {
                             }
                         </Tabs>
                         <BottomPanel />
-                </Row>
                 </Grid>
             </div>
         );
