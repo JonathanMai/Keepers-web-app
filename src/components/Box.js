@@ -15,7 +15,7 @@ class Box extends Component {
     render() {
         return (
         <div level={this.getStrength()} className={this.getClassName()} onClick={this.props.onClick !== undefined ? this.clickHandleEvent.bind(this) : undefined}>
-            <Data message={this.props.message.quote} metaData={this.getMetaData()}/>
+            <Data message={this.parseMessage()} metaData={this.getMetaData()}/>
         </div>
     )}
 
@@ -39,6 +39,13 @@ class Box extends Component {
             case "heavy":
                 return "box box_red";
         }
+    }
+
+    parseMessage() {
+        let message = this.props.message.quote;
+        message = message.replace("<b>", "");
+        message = message.replace("</b>", "");
+        return message;
     }
 
     getMetaData() {
