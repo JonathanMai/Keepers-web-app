@@ -47,7 +47,6 @@ class MsgsPanel extends Component {
                 // console.log(this.state.childrensData[index])
             }
             else {
-                console.log(messagesHeads);
                 // let tempDraw = this.state.draw;
                 // let data = this.state.data;
                 // data[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
@@ -74,12 +73,10 @@ class MsgsPanel extends Component {
                 showEntireMessage: true,
                 childId: childId,
                 message: message,
-                chat: res.data,
-                renderFade: false
+                chat: res.data
             });
             
             this.buildMsgPanel(childId, message);
-            console.log(childId, message)
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error);
         });
@@ -95,35 +92,30 @@ class MsgsPanel extends Component {
         );}
 
             // <Box childId={this.state.childrens[index].id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
-        else if(this.state.showEntireMessage) {// Todo: fade in
-            // messagePanel =  <Fade in={this.state.renderFade} unmountOnExit={true}> 
-            console.log(this.state.message.is_group_chat);
-            messagePanel = 
+        else if(this.state.showEntireMessage) {
+            messagePanel = (
                 <div>
                     {this.buildMessageBox(this.state.childId,this.state.message)} 
-
-                    {/* <Box childId={this.props.child.id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/> */}
                     <Chat chatMessages={this.state.chat} chatTitle={this.state.message.is_group_chat ? "Group chat" : this.state.message.chat_title} close={this.handleSelect.bind(this)}/>
                 </div>
-          {/* </Fade> */}
+            );
         }
         return messagePanel;
     }
 
-    componentDidMount() {
-        setTimeout(() => { this.setState({...this.state, renderFade: true}); }, 3000);
-    }
+    // componentDidMount() {
+    //     setTimeout(() => { this.setState({...this.state, renderFade: true}); }, 3000);
+    // }
 
     handleSelect() {
         this.setState({
             ...this.state,
             showEntireMessage: false,
             childId: 0,
-            message: 0,
-            renderFade: false
+            message: 0
         });
-        console.log(this.state)
     }
+
     buildMessageBox(childId, message){
         return <Box childId={childId} onClick={this.state.showEntireMessage === false ? this.handleMessageSelect : undefined} message={message}/>
     }

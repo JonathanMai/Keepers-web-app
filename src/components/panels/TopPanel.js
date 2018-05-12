@@ -14,7 +14,6 @@ class TopPanel extends Component {
     constructor(props) {
         super(props);
         this.props.setDate([1524472883410, 1525166748869]);
-        console.log(this.props.range)
     }
     render(){
         return(

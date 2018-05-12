@@ -14,20 +14,17 @@ class Chat extends Component {
         let chat =
             (<ul className="chat-message-list">
                 {this.props.chatMessages.messages.map((message) => {
-                    console.log("MESSAGES R",message);
                     <ChatBubble 
                         // message={message.text}
                         // side={"message-" + message.is_outgoing ? "right" : "left"}
                     />
                 })}
             </ul>);
-        console.log(chat);
         return (chat);
         // return chat;
     }
 
     render() {
-        console.log(this.props)
         this.removeScrollFromPanel();
         return(
             <div>
@@ -42,7 +39,6 @@ class Chat extends Component {
                     {/* <ChatBubble /> */}
                     <ul className="chat-message-list">
                         {this.props.chatMessages.messages.map((message, index) => {
-                            console.log("MESSAGES R",message);
                             if(message.text !== "") {
                                 return <ChatBubble 
                                     message={message.text}
@@ -79,7 +75,6 @@ class Chat extends Component {
 var strengthColors = {easy: "easy_message", medium: "medium_message", heavy: "heavy_message"}
 
 const ChatBubble = function(props){
-    console.log('this is props', props);
     let color = strengthColors[props.strength];
     //TODO: color border in red if the message is offensive
     let bubble = (
