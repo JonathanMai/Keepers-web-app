@@ -69,7 +69,7 @@
     padding: 5px 15px 5px 10px;
     border-radius: 10px;
     line-height: 1.5em;
-    border: rgba(172, 172, 172) solid 1.6px;
+    border: rgba(172, 172, 172) solid 1px;
 }
 
 .message-left .message-text:before {
@@ -116,7 +116,7 @@
     border-radius: 10px;
     line-height: 1.5em;
     /* text-align: left; */
-    border: rgba(172, 172, 172) solid 1.6px;
+    border: rgba(172, 172, 172) solid 1px;
 }
 
 .message-text:before, .message-text:after{
