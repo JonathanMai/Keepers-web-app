@@ -1,8 +1,8 @@
 import moment from 'moment';
 const initialState = {
     childrens: [],
-    dates: [],
-    datesRange: 0
+    dates: [moment().subtract(1,'w').startOf('day'), moment().endOf('day')],
+    datesRange: 7
 };
 
 const dashboardInfo = (state = initialState, action) => {
@@ -13,12 +13,12 @@ const dashboardInfo = (state = initialState, action) => {
                 childrens: action.value
             };
         case "SET_DATES":
-        // console.log(moment.utc(action.value[1]).startOf('day').diff(moment.utc(action.value[0]).startOf('day'), 'days') )
-
+            console.log(action.value);
+            let difference = moment.utc(action.value[1]).startOf('day').diff(moment.utc(action.value[0]).startOf('day'), 'days');
             return {
                 ...state,
                 dates: action.value,
-                datesRange: (action.value.length > 1) ? moment.utc(action.value[1]).startOf('day').diff(moment.utc(action.value[0]).startOf('day'), 'days') : 1
+                datesRange: difference
             };
         default: 
             return state;
