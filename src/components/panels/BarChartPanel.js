@@ -5,7 +5,7 @@ import moment from 'moment';
 import { GetUsageStatistics } from '../../serviceAPI';
 import UsageTimeChart from '../charts/UsageTimeChart';
 
-class BarChartPanel extends Component {
+class BarChart extends Component {
 
     
     constructor(props) {
@@ -18,13 +18,17 @@ class BarChartPanel extends Component {
             keys: []
         }
         // var colors = {}
-        this.getUsageStatistics();
+        this.getUsageStatistics(this.props);
         // this.buildChart = this.buildChart.bind(this);
     }
 
-    getUsageStatistics() {
-        let child = this.props.childrens[this.props.childIndex].id; // Gets the child id.
-        GetUsageStatistics(child).then(res => {  // When respond package is with status 200
+    componentWillReceiveProps(props) {
+        this.getUsageStatistics(this.props);
+    }
+
+    getUsageStatistics(props) {
+        // let child = props.childId; // Gets the child id.
+        GetUsageStatistics(props.childId).then(res => {  // When respond package is with status 200
             this.buildChartData(res.data);
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.data);
@@ -65,6 +69,11 @@ class BarChartPanel extends Component {
     }
 }
 
+function BarChartPanel(props) {
+    // console.log(props);
+    return <BarChart childId={props.childrens[props.childIndex].id} dates={props.dates} range={props.range} />
+}
+
 const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
@@ -72,5 +81,5 @@ const mapStateToProps = (state) => {
         range: state.dashboardInfo.datesRange
     };
   };
-  
-  export default connect(mapStateToProps)(BarChartPanel);
+
+export default connect(mapStateToProps)(BarChartPanel);

@@ -5,21 +5,25 @@ import moment from 'moment';
 import AbusiveConversationsChart from '../charts/AbusiveConversationsChart'
 import { GetMessagesStatistics } from '../../serviceAPI';
 
-class LineChartPanel extends Component {
+export class LineChart extends Component {
     
     constructor(props) {
         super(props);
-        // console.log(this.props.data);
-
         this.state = {
             dateLabels: []
         }
-        this.getChildMessagesStatistics();
         // this.buildChart = this.buildChart.bind(this);
+        this.getChildMessagesStatistics(this.props);
     }
-
-    componentWillMount() {
-      // this.getLabels();
+    
+    componentWillReceiveProps(props){
+        // console.log()
+        this.getChildMessagesStatistics(props);
+        
+    }
+    componentDidCatch() {
+        // this.getLabels();
+    //   this.getChildMessagesStatistics();
     }
 
     getLabels() {
@@ -39,14 +43,14 @@ class LineChartPanel extends Component {
     }
 
     //     // Gets the child statistics and sets data using it.
-    getChildMessagesStatistics() {
-      let day = moment(this.props.dates[0]); // Creates a moment object from the first day.
+    getChildMessagesStatistics(props) {
+      let day = moment(props.dates[0]); // Creates a moment object from the first day.
       // let lastDay = moment.utc(this.state.date[1]);
       // var stillUtc = moment.utc(lastDay).toDate();
       // var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
       let newData = [];
       
-      let daysRange = this.props.range;
+      let daysRange = props.range;
       // console.log(moment.utc(this.state.date[0]).startOf('day').valueOf(),"and", moment(this.state.date[0]).startOf('day').valueOf());
 
       
@@ -57,7 +61,7 @@ class LineChartPanel extends Component {
         let countMedium = new Array(daysRange);
         let countHard = new Array(daysRange);
         let flag = 0;
-        let child = this.props.childrens[this.props.childIndex].id; // Gets the child id.
+        // let child = props.children.id; // Gets the child id.
         for(let i=0; i<=daysRange;  i++, tempDay=moment(day).add(i,'days')) {
             // datesLabel.push(moment(day).format("MMMM DD"));
             // day=moment(day).add(1,'days').format("MMMM D");
@@ -65,7 +69,7 @@ class LineChartPanel extends Component {
             //     console.log(child, moment(tempDay).startOf('day').valueOf(),"and", moment(tempDay).endOf('day').valueOf())
             //     console.log(child, moment.utc(tempDay).startOf('day').valueOf(),"and", moment.utc(tempDay).add(1,'days').startOf('day').valueOf())
             // }
-            GetMessagesStatistics(child, moment(tempDay).startOf('day').valueOf(), moment(tempDay).endOf('day').valueOf()).then(res => {  // When respond package is with status 200
+            GetMessagesStatistics(props.childId, moment(tempDay).startOf('day').valueOf(), moment(tempDay).endOf('day').valueOf()).then(res => {  // When respond package is with status 200
                 let result = res.data;
                 let label =  moment(day).add(i,'days').format("MMM Do").toString();
                 countEasy[i] = this.createStatisticObject(label, parseInt(result.easyCount)); // easy count.
@@ -107,8 +111,16 @@ class LineChartPanel extends Component {
     }
 
     render() {
+        // this.getChildMessagesStatistics();
         return (this.state.data !== undefined && <AbusiveConversationsChart data={this.state.data} />);
     }
+}
+
+
+
+function LineChartPanel(props) {
+    // console.log(props);
+    return <LineChart childId={props.childrens[props.childIndex].id} dates={props.dates} range={props.range} />
 }
 
 const mapStateToProps = (state) => {
@@ -118,5 +130,5 @@ const mapStateToProps = (state) => {
         range: state.dashboardInfo.datesRange
     };
   };
-  
-  export default connect(mapStateToProps)(LineChartPanel);
+
+export default connect(mapStateToProps)(LineChartPanel);

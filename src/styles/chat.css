@@ -73,6 +73,7 @@
 }
 
 .message-left .message-text:before {
+    display: block;
 	border: 12px solid transparent;
 	border-bottom-color: rgb(172, 172, 172);
 	bottom: 1px;
@@ -127,6 +128,7 @@
 }
 
 .message-right .message-text:before {
+    display: block;
     border: 10px solid transparent;
     border-bottom-color: rgb(172, 172, 172);
     bottom: 1px;
