@@ -8,7 +8,9 @@ import "../../styles/box.css";
 
 
 class BottomPanel extends Component {
+
     render(){
+        console.log(this.props);
         return(
             <Row className="border" style={{height: 38 + 'vh', padding: 7, marginTop: 8}}>
                 <Col xs={8} style={{padding: 0}}>
@@ -24,7 +26,8 @@ class BottomPanel extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens
+        childrens: state.dashboardInfo.childrens,
+        currKid: state.dashboardInfo.currTab
     };
 };
 

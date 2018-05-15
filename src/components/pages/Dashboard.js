@@ -7,6 +7,17 @@ import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 
 class Dashboard extends Component {
+    constructor(props){
+        super(props);
+        var current = 0;
+    }
+
+    handleTabSelect(key) {
+        // console.log(key);
+        this.props.setCurrTab(key);
+        // console.log(this.props.setCurrTab);
+    }
+
     componentWillMount() {
         GetAllChildren().then(res => {  // When respond package is with status 200
             var childrens = [];
@@ -40,7 +51,7 @@ class Dashboard extends Component {
                 <Grid fluid={true}>
                                             <ul className="tabs-nav nav navbar-nav navbar-left">
                         </ul>
-                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect} animation={true}>
+                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect.bind(this)} animation={true}>
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index}  >
                                     <Row>
@@ -53,8 +64,8 @@ class Dashboard extends Component {
                                     {/* {this.props.childrens[index].id} */}
                                 </Tab>)
                             }
+                            <BottomPanel  />
                         </Tabs>
-                        <BottomPanel />
                 </Grid>
             </div>
         );
@@ -68,10 +79,17 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+    // if(dispatch.)
     return {
-        setChildrens: (val) => {
+        setChildrens: (val) => {    
             dispatch({
                 type: "SET_CHILDRENS",
+                value: val
+            });
+        },
+        setCurrTab: (val) => {
+            dispatch({
+                type: "SET_TAB",
                 value: val
             });
         }

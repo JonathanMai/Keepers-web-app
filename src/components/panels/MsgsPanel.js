@@ -40,14 +40,12 @@ class Msgs extends Component {
                 let flag = 0;
                 res.data.forEach(element => {
                     flag++;
-                    console.log(element);
                     messagesHeads.push(element);
                 });
                 this.addPageToArray(messagesHeads, page+1, props);
                 // console.log(this.state.childrensData[index])
             }
             else {
-                console.log(messagesHeads);
                 // let tempDraw = this.state.draw;
                 // let data = this.state.data;
                 // data[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
@@ -83,7 +81,6 @@ class Msgs extends Component {
     }
 
     buildMsgPanel() {
-        console.log(this.props);
         let messagePanel;
         if(!this.state.showEntireMessage && this.state.data.length > 0) {
             messagePanel = this.state.data.map((message, index) =>
