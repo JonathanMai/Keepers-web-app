@@ -11,23 +11,47 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 class Dates extends Component {
     constructor(props) {
         super(props);
-        // this.props.setDate();
+
+        this.handleDaySelect = this.handleDaySelect.bind(this);
+        this.handleWeekSelect = this.handleWeekSelect.bind(this);
+        this.handleMonthSelect = this.handleMonthSelect.bind(this);
+
+    }
+
+    handleDaySelect() {
+        // console.log(this.props)
+        this.props.setDate([moment().startOf('day'), moment().startOf('day')]);
+    }
+
+    handleWeekSelect() {
+        this.props.setDate([moment().subtract(1,'week').startOf('day'), moment().startOf('day')]);
+    }
+
+    handleMonthSelect() {
+        this.props.setDate([moment().subtract(1,'month').startOf('day'), moment().startOf('day')]);
+    }
+
+    datepicker(ev, picker) {
+        if(ev.type === 'apply') {
+            this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
+        }
         console.log(this.props);
     }
+
     render() {
         let maxSpans = {
-            "days": 30
+            "months": 1
         }
         return (
             <div>
                 <div className="choose_dates">
                     <span className="date_title">&#128065; Graph of abusive conversation </span>
                     <span className="dates">
-                        <span className="day"> Day </span>
+                        <span className="day" onClick={this.handleDaySelect}> Day </span>
                         <span>|</span>
-                        <span className="week"> Week </span>
+                        <span className="week" onClick={this.handleWeekSelect}> Week </span>
                         <span>|</span>
-                        <span className="month"> Month </span>
+                        <span className="month" onClick={this.handleMonthSelect}> Month </span>
                         <DateRangePicker
                             dateLimit={maxSpans}
                             startDate={this.props.dates[0]}
@@ -50,13 +74,6 @@ class Dates extends Component {
         );
     }
 
-    datepicker(ev, picker) {
-        console.log(ev)
-        if(ev.type === 'apply') {
-            this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
-        }
-        console.log(this.props);
-    }
 }
 
 
