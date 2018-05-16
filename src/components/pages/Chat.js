@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
 import '../../styles/chat.css';
+import moment from 'moment';
 
 class Chat extends Component {
 
     constructor(props) {
         super(props);
-        var appName=this.props.chatMessages.app_name;
-        // this.createChatBubbles = this.createChatBubbles.bind(this);
     }    
 
     createChatBubbles() {
-        // console.log(this.props.chatMessages);
+        let appName = this.props.chatMessages.app_name;
+        // let metaData = 
         let chat =
-            (<ul className="chat-message-list">
-                {this.props.chatMessages.messages.map((message) => {
-                    <ChatBubble 
-                        // message={message.text}
-                        // side={"message-" + message.is_outgoing ? "right" : "left"}
-                    />
+        (<ul className="chat-message-list">
+                {this.props.chatMessages.messages.map((message, index) => {
+                    if(message.text !== "") {
+                        return (<ChatBubble
+                            key={index} 
+                            sentBy={message.name}
+                            message={message.text}
+                            metaData={appName + ", " +(moment(message.time).format("HH:mm A"))}
+                            side={(message.is_outgoing ? "right" : "left")}
+                            strength={message.strength}
+                        />);
+                    }
                 })}
             </ul>);
         return (chat);
-        // return chat;
     }
 
     render() {
@@ -36,21 +41,7 @@ class Chat extends Component {
                     </div>
                 </div>
                 <div className="main">
-                    {/* <ChatBubble /> */}
-                    <ul className="chat-message-list">
-                        {this.props.chatMessages.messages.map((message, index) => {
-                            if(message.text !== "") {
-                                return <ChatBubble
-                                    key={index} 
-                                    message={message.text}
-                                    side={"message-" + (message.is_outgoing ? "right" : "left")}
-                                    strength={message.strength}
-                            />;
-                            }
-                        })}
-                    </ul>
-                    {/* {console.log("before create")}
-                    {this.createChatBubbles()} */}
+                    {this.createChatBubbles()}
                 </div>
             </div>
         );
@@ -73,15 +64,17 @@ class Chat extends Component {
     }   
 }
 
-var strengthColors = {easy: "easy_message", medium: "medium_message", heavy: "heavy_message"}
+var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "heavy_message"}
 
 const ChatBubble = function(props){
-    let color = strengthColors[props.strength];
+    let strength = strengthClass[props.strength];
     //TODO: color border in red if the message is offensive
     let bubble = (
-        <li className={props.side}> 
-            <span className={color + " message-text"}>
+        <li className={"message-" + props.side}> 
+            <span className={(strength !== undefined ? strength : "") + " message-text"}>
+                <div className={"sender-" + props.side}>{props.sentBy}</div>
                 <div dangerouslySetInnerHTML={{ __html: props.message}} />
+                <p className="msg-metadata">{props.metaData}</p>
             </span>
         </li>
     );

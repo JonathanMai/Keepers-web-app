@@ -13,7 +13,7 @@ class TopPanel extends Component {
         //Gets all the labels.
     constructor(props) {
         super(props);
-        this.props.setDate([1524472883410, 1525166748869]);
+        // this.props.setDate([1524472883410, 1525166748869]);
     }
     render(){
         return(
@@ -26,7 +26,7 @@ class TopPanel extends Component {
                         {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
                     </Row>
                 </Col>
-                <Col xs={4} style={{'paddingRight': 0 + 'px'}}> 
+                <Col xs={4} style={{'paddingRight': 0 + 'px', height: 50 + 'vh'}}> 
                     {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
                 </Col>
             </Row>);
@@ -40,15 +40,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setDate: (val) => {
-            dispatch({
-                type: "SET_DATES",
-                value: val
-            });
-        }
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopPanel);
+export default connect(mapStateToProps)(TopPanel);
