@@ -19,10 +19,10 @@ class TopPanel extends Component {
         return(
             <Row>
                 <Col xs={8}>
-                    <Row style={{height: 25 + 'vh'}}> 
+                    <Row style={{height: 22 + 'vh'}}> 
                         {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
                     </Row>
-                    <Row style={{height: 25 + 'vh'}}>
+                    <Row style={{height: 22 + 'vh'}}>
                         {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
                     </Row>
                 </Col>

@@ -29,7 +29,7 @@ class Chat extends Component {
         return(
             <div>
                 <div className="title">
-                    <div> {this.props.chatTitle}
+                    <div> <div className="title_text">{this.props.chatTitle}</div>
                         <button type="button" className="close" aria-label="Close" onClick={this.closeBtnHandler.bind(this)}>
                             <span aria-hidden="true">&times;</span>
                         </button>
