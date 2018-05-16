@@ -20,22 +20,26 @@ class Dates extends Component {
 
     handleDaySelect() {
         // console.log(this.props)
-        this.props.setDate([moment().startOf('day'), moment().startOf('day')]);
+        this.props.setDate([moment().subtract(1,'days'), moment()]);
     }
 
     handleWeekSelect() {
-        this.props.setDate([moment().subtract(1,'week').startOf('day'), moment().startOf('day')]);
+        this.props.setDate([moment().subtract(1,'week').startOf('day'), moment()]);
     }
 
     handleMonthSelect() {
-        this.props.setDate([moment().subtract(1,'month').startOf('day'), moment().startOf('day')]);
+        this.props.setDate([moment().subtract(1,'month').startOf('day'), moment()]);
     }
 
-    datepicker(ev, picker) {
+    datepicker(ev, picker) { // TODO: fix two days pick logic.
         if(ev.type === 'apply') {
-            this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
+            // console.log
+            // console.log(picker.startDate.startOf('day'), this.props.dates[0])
+            // console.log(!picker.startDate.isSame(this.props.dates[0], 'date') || !picker.endDate.startOf('day').isSame(this.props.dates[1]), 'date'))
+            if(!picker.startDate.isSame(this.props.dates[0], 'date') || !picker.endDate.isSame(this.props.dates[1], 'date')){
+                this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
+            }
         }
-        console.log(this.props);
     }
 
     render() {
