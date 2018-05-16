@@ -2,6 +2,7 @@ import React from 'react';
 import { ResponsiveLine } from 'nivo';
 
 var AbusiveConversationsChart = (props) => {
+  console.log(props);
   let line = 
     <ResponsiveLine
     data={[
@@ -29,6 +30,7 @@ var AbusiveConversationsChart = (props) => {
       curve="monotoneX"
       axisBottom={{
           "orient": "bottom",
+          "tickValues": props.tickValues,
           "tickSize": 0,
           "tickPadding": 8,
           "tickRotation": 0,
@@ -50,17 +52,7 @@ var AbusiveConversationsChart = (props) => {
       animate={true}
       motionStiffness={90}
       motionDamping={15}
-      legends={[
-          {
-              "anchor": "bottom-right",
-              "direction": "column",
-              "translateX": 100,
-              "itemWidth": 80,
-              "itemHeight": 20,
-              "symbolSize": 12,
-              "symbolShape": "circle"
-          }
-      ]}
+
     />
   return line;
 }

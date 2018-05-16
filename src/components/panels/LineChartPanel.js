@@ -6,11 +6,12 @@ import AbusiveConversationsChart from '../charts/AbusiveConversationsChart'
 import { GetMessagesStatistics } from '../../serviceAPI';
 
 export class LineChart extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
-            dateLabels: []
+            dateLabels: [],
+            tickValues: []
         }
         // this.buildChart = this.buildChart.bind(this);
         this.getChildMessagesStatistics(this.props);
@@ -26,57 +27,100 @@ export class LineChart extends Component {
     //   this.getChildMessagesStatistics();
     }
 
-    getLabels() {
-      let day = moment.utc(this.props.dates[0]); // Creates a moment object from the first day.
-      let labels = [];
-      for(let i=0; i<=this.props.range; i++){
-          labels.push(moment.utc(day).add(i,'days').format("MMM Do").toString());
-        }
-        this.setState({
-          ...this.state,
-          dateLabels: labels
-        });
-    }
+    //     getLabels() {
+    //     let day = moment.utc(this.props.dates[0]); // Creates a moment object from the first day.
+    //     let labels = [];
+    //     let tickVals = [];
+    //     if(this.props.range <= 1) {
+    //         for(let i=0; i<=24; i++) {
+    //             let format = 'HH:MM';
+    //             if(i == 0 || i == 24)
+    //                 format = 'MMM Do';
+    //             labels.push(moment.utc(day).add(i,'hours').format(format).toString());
+    //             if(i%3 === 0) {
+    //                 tickVals.push(labels[i]);
+    //             }
+    //         }
+    //     }
+    //     else {
+    //         for(let i=0; i<=this.props.range; i++) {
+    //             labels.push(moment.utc(day).add(i,'days').format("MMM Do").toString());
+    //             if(this.props.range > 7) {
+    //                 if(i%3 === 0) {
+    //                     tickVals.push(labels[i]);
+    //                 }
+    //             } 
+    //             else {
+    //                 tickVals.push(labels[i]);
+    //             }
+    //         }            
+    //     }
 
-    updateChart () {
-        this.chartData.update();
-    }
+    //     this.setState({
+    //       ...this.state,
+    //       dateLabels: labels,
+    //       tickValues: tickVals
+    //     });
 
-    //     // Gets the child statistics and sets data using it.
+
+    // }
+
+    // Gets the child statistics and sets data using it.
     getChildMessagesStatistics(props) {
-      let day = moment(props.dates[0]); // Creates a moment object from the first day.
-      // let lastDay = moment.utc(this.state.date[1]);
-      // var stillUtc = moment.utc(lastDay).toDate();
-      // var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
-      let newData = [];
-      
-      let daysRange = props.range;
-      // console.log(moment.utc(this.state.date[0]).startOf('day').valueOf(),"and", moment(this.state.date[0]).startOf('day').valueOf());
-
-      
-      // for(let i=0; i<this.state.childrens.length;  i++) {
-        // console.log(i); 
+        let day = moment(props.dates[0]); // Creates a moment object from the first day.
+        let newData = [];
+        let range = props.range > 1 ? props.range : 24;
+        let addBy = props.range > 1 ? 'day' : 'hours';
         let tempDay = moment(day);
-        let countEasy = new Array(daysRange);
-        let countMedium = new Array(daysRange);
-        let countHard = new Array(daysRange);
+        let tickVals = new Array((range > 7) ? range/3 : range);
+        let countEasy = new Array(range);
+        let countMedium = new Array(range);
+        let countHard = new Array(range);
         let flag = 0;
-        // let child = props.children.id; // Gets the child id.
-        for(let i=0; i<=daysRange;  i++, tempDay=moment(day).add(i,'days')) {
+        // console.log((range > 7 || range <= 1)? "YEAHH" : "NOOOOOOO");
+        for(let i=0; i<=range;  i++, tempDay=moment(day).add(i,addBy)) {
             // datesLabel.push(moment(day).format("MMMM DD"));
             // day=moment(day).add(1,'days').format("MMMM D");
             // if(i ===2 | i === 3) {
             //     console.log(child, moment(tempDay).startOf('day').valueOf(),"and", moment(tempDay).endOf('day').valueOf())
             //     console.log(child, moment.utc(tempDay).startOf('day').valueOf(),"and", moment.utc(tempDay).add(1,'days').startOf('day').valueOf())
             // }
-            GetMessagesStatistics(props.childId, moment(tempDay).startOf('day').valueOf(), moment(tempDay).endOf('day').valueOf()).then(res => {  // When respond package is with status 200
+            let startTime;
+            let endTime;
+            if( props.range <= 1) {
+                startTime = moment(tempDay);
+                endTime = moment(tempDay).add(1, 'hours');
+            } 
+            else {
+                startTime = moment(tempDay).startOf('day');
+                endTime =  moment(tempDay).endOf('day');
+            }
+            // console.log(tempDay);
+            let label =  "";
+            if(props.range <= 1 )
+                if(i === 0 || i === range)
+                    label += moment(tempDay).format("MMM Do Ha").toString();
+                else
+                    label += moment(tempDay).format("Ha").toString();
+            else
+                label += moment(tempDay).format("MMM Do").toString();
+            
+            if(range > 7 && (i%3 === 0 || i===range)) {
+                // if(i === range && range%8 !== 0)
+                    tickVals[i/3] = label;
+            }
+            else if(range <= 7)
+                tickVals[i] = label;
+            //  (range <= 1 && i !== ) ? moment(tempDay).add(i, 'hours').valueOf() :.valueOf();
+            // (range <= 1) ? moment(tempDay).add(i+1, 'hours').valueOf() :.valueOf();
+            GetMessagesStatistics(props.childId, startTime, endTime).then(res => {  // When respond package is with status 200
                 let result = res.data;
-                let label =  moment(day).add(i,'days').format("MMM Do").toString();
+
                 countEasy[i] = this.createStatisticObject(label, parseInt(result.easyCount)); // easy count.
                 countMedium[i] = this.createStatisticObject(label, parseInt(result.mediumCount)); // medium count.
                 countHard[i] = this.createStatisticObject(label, parseInt(result.heavyCount)); // heavy count.
                 flag++;
-                if(flag > daysRange){
+                if(flag > range){
                     let tempData = [];
                     tempData.push(countEasy);
                     tempData.push(countMedium);
@@ -84,7 +128,8 @@ export class LineChart extends Component {
                     // this.createStatisticsDataset(tempData);
                     this.setState({
                       ...this.state,
-                      data: tempData
+                      data: tempData,
+                      tickValues: tickVals
                   });
                     // if(this.state.draw[0] == false){
                     //     let tempDraw = this.state.draw;
@@ -112,7 +157,7 @@ export class LineChart extends Component {
 
     render() {
         // this.getChildMessagesStatistics();
-        return (this.state.data !== undefined && <AbusiveConversationsChart data={this.state.data} />);
+        return (this.state.data !== undefined && <AbusiveConversationsChart data={this.state.data} tickValues={this.state.tickValues} />);
     }
 }
 
