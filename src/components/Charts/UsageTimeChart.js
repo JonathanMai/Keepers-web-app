@@ -115,24 +115,16 @@ var UsageTimeChart = (props) => {
                 }
             ]}
             borderColor="inherit:darker(1.6)"
-            // axisBottom={{
-            //     "orient": "bottom",
-            //     "tickSize": 5,
-            //     "tickPadding": 5,
-            //     "tickRotation": 0,
-            //     "legend": "country",
-            //     "legendPosition": "center",
-            //     "legendOffset": 36
-            // }}
-            // axisLeft={{
-            //     "orient": "left",
-            //     "tickSize": 5,
-            //     "tickPadding": 5,
-            //     "tickRotation": 0,
-            //     "legend": "food",
-            //     "legendPosition": "center",
-            //     "legendOffset": -40
-            // }}
+            axisBottom={{
+                "orient": "bottom",
+                "tickSize": 0,
+                "tickPadding": 5
+            }}
+            axisLeft={{
+                "orient": "left",
+                "tickSize": 0,
+                "tickPadding": 5
+            }}
             labelSkipWidth={12}
             labelSkipHeight={12}
             labelTextColor="inherit:darker(1.6)"
@@ -140,6 +132,12 @@ var UsageTimeChart = (props) => {
             motionStiffness={90}
             motionDamping={15}
             isInteractive={false}
+            margin={{
+                "top": 10,
+                "right": 40,
+                "bottom": 25,
+                "left": 40
+            }}
             // legends={[
             //     {
             //         "dataFrom": "keys",

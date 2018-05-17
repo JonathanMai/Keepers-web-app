@@ -20,27 +20,26 @@ var AbusiveConversationsChart = (props) => {
         }
       ]}
       colors={["rgb(255,255,0)", "rgb(255,128,0)", "rgb(255,0,0)"]}
+
       margin={{
-          "top": 10,
-          "right": 10,
-          "bottom": 30,
-          "left": 30
-      }}
+        "top": 13,
+        "right": 40,
+        "bottom": 20,
+        "left": 40
+    }}
       minY="0"
       curve="monotoneX"
       axisBottom={{
           "orient": "bottom",
           "tickValues": props.tickValues,
           "tickSize": 0,
-          "tickPadding": 8,
-          "tickRotation": 0,
+          "tickPadding": 5
 
       }}
       axisLeft={{
           "orient": "left",
           "tickSize": 0,
-          "tickPadding": 8,
-          "tickRotation": 0,
+          "tickPadding": 8
       }}
       dotSize={10}
       dotColor="inherit:darker(0.3)"
@@ -48,10 +47,14 @@ var AbusiveConversationsChart = (props) => {
       dotBorderColor="#ffffff"
       enableDotLabel={true}
       dotLabel="y"
-      dotLabelYOffset={-12}
+      dotLabelYOffset={-5}
       animate={true}
       motionStiffness={90}
       motionDamping={15}
+
+      // tooltipFormat={
+      //   // "DAMN"
+      // }
 
     />
   return line;
