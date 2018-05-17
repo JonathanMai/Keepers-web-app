@@ -35,7 +35,7 @@ class Msgs extends Component {
     }
         
     addPageToArray(messagesHeads, page, props) {
-        GetMessagesHeads(this.state.childId, moment(props.dates[0]).startOf('day'), moment(props.dates[1]).endOf('day'), page).then(res => {  // When respond package is with status 200
+        GetMessagesHeads(this.state.childId, moment(props.startDate).startOf('day'), moment(props.endDate).endOf('day'), page).then(res => {  // When respond package is with status 200
             if(res.data.length > 0) {
                 let flag = 0;
                 res.data.forEach(element => {
@@ -124,13 +124,14 @@ class Msgs extends Component {
 
 function MsgsPanel(props) {
     // console.log(props);
-    return <Msgs childId={props.childrens[props.childIndex].id} dates={props.dates} range={props.range} />
+    return <Msgs childId={props.childrens[props.childIndex].id} startDate={props.startDate} endDate={props.endDate} range={props.range} />
 }
 
 const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
-        dates: state.dashboardInfo.dates,
+        startDate: state.dashboardInfo.startDate,
+        endDate: state.dashboardInfo.endDate,
         range: state.dashboardInfo.datesRange
     };
   };

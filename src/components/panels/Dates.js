@@ -20,7 +20,7 @@ class Dates extends Component {
 
     handleDaySelect() {
         // console.log(this.props)
-        this.props.setDate([moment().subtract(1,'days'), moment()]);
+        this.props.setDate([moment().subtract(1,'days'), moment().subtract(1,'days')]);
     }
 
     handleWeekSelect() {
@@ -34,9 +34,9 @@ class Dates extends Component {
     datepicker(ev, picker) { // TODO: fix two days pick logic.
         if(ev.type === 'apply') {
             // console.log
-            // console.log(picker.startDate.startOf('day'), this.props.dates[0])
+            console.log(picker.startDate, picker.endDate)
             // console.log(!picker.startDate.isSame(this.props.dates[0], 'date') || !picker.endDate.startOf('day').isSame(this.props.dates[1]), 'date'))
-            if(!picker.startDate.isSame(this.props.dates[0], 'date') || !picker.endDate.isSame(this.props.dates[1], 'date')){
+            if(!picker.startDate.isSame(this.props.startDate, 'date') || !picker.endDate.isSame(this.props.endDate, 'date')){
                 this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
             }
         }
@@ -56,10 +56,11 @@ class Dates extends Component {
                         <span className="week" onClick={this.handleWeekSelect}> Week </span>
                         <span>|</span>
                         <span className="month" onClick={this.handleMonthSelect}> Month </span>
+                        
                         <DateRangePicker
                             dateLimit={maxSpans}
-                            startDate={this.props.dates[0]}
-                            endDate={this.props.dates[1]}
+                            startDate={this.props.startDate}
+                            endDate={this.props.endDate}
                             opens={'left'}
                             // showDropdowns={true}
                             maxDate={moment()}
@@ -83,7 +84,8 @@ class Dates extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        dates: state.dashboardInfo.dates,
+        startDate: state.dashboardInfo.startDate,
+        endDate: state.dashboardInfo.endDate,
         range: state.dashboardInfo.datesRange
     };
 };

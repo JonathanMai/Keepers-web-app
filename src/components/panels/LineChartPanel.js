@@ -67,12 +67,14 @@ export class LineChart extends Component {
 
     // Gets the child statistics and sets data using it.
     getChildMessagesStatistics(props) {
-        let day = moment(props.dates[0]); // Creates a moment object from the first day.
+        // console.log(props.dates[0],props.dates[1],props.dates[0].isSame(props.dates[1]));
+        let day = moment(props.startDate); // Creates a moment object from the first day.
+        console.log(props);
         let newData = [];
-        let range = props.range > 1 ? props.range : 24;
-        let addBy = props.range > 1 ? 'day' : 'hours';
-        let tempDay = moment(day);
-        let tickVals = new Array((range > 7) ? range/3 : range);
+        let range = props.isOneDay ? 24 : props.range;
+        let addBy = props.isOneDay ? 'hours' : 'day';
+        let tempDay =  moment(day);
+        let tickVals = new Array((range > 7) ? range/5 | 0 : range);
         let countEasy = new Array(range);
         let countMedium = new Array(range);
         let countHard = new Array(range);
@@ -87,7 +89,7 @@ export class LineChart extends Component {
             // }
             let startTime;
             let endTime;
-            if( props.range <= 1) {
+            if(props.isOneDay) {
                 startTime = moment(tempDay);
                 endTime = moment(tempDay).add(1, 'hours');
             } 
@@ -97,7 +99,7 @@ export class LineChart extends Component {
             }
             // console.log(tempDay);
             let label =  "";
-            if(props.range <= 1 )
+            if(props.isOneDay)
                 if(i === 0 || i === range)
                     label += moment(tempDay).format("MMM Do Ha").toString();
                 else
@@ -105,9 +107,9 @@ export class LineChart extends Component {
             else
                 label += moment(tempDay).format("MMM Do").toString();
             
-            if(range > 7 && (i%3 === 0 || i===range)) {
+            if(range > 7 && (i%5 === 0 || i===range)) {
                 // if(i === range && range%8 !== 0)
-                    tickVals[i/3] = label;
+                    tickVals[i/5 | 0] = label;
             }
             else if(range <= 7)
                 tickVals[i] = label;
@@ -165,14 +167,15 @@ export class LineChart extends Component {
 
 function LineChartPanel(props) {
     // console.log(props);
-    return <LineChart childId={props.childrens[props.childIndex].id} dates={props.dates} range={props.range} />
+    return <LineChart childId={props.childrens[props.childIndex].id} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} />
 }
 
 const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
-        dates: state.dashboardInfo.dates,
-        range: state.dashboardInfo.datesRange
+        startDate: state.dashboardInfo.startDate,
+        range: state.dashboardInfo.datesRange,
+        isOneDay: state.dashboardInfo.isOneDay
     };
   };
 

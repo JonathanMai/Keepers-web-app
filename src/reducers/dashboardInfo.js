@@ -2,8 +2,10 @@ import moment from 'moment';
 const initialState = {
     childrens: [],
     currTab: 0,
-    dates: [moment().subtract(1,'w').startOf('day'), moment().startOf('day')],
-    datesRange: 7
+    startDate: moment().subtract(1,'w').startOf('day'),
+    endDate: moment().startOf('day'),
+    datesRange: 7,
+    isOneDay: false
 };
 
 const dashboardInfo = (state = initialState, action) => {
@@ -21,12 +23,16 @@ const dashboardInfo = (state = initialState, action) => {
         case "SET_DATES":
             console.log(action.value);
             let difference = moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days');
+            // if(!action.value[0].isSame(action.value[1]) && difference === 1)
+            //     difference += 1;
             console.log(moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days'));
 
             return {
                 ...state,
-                dates: action.value,
-                datesRange: difference
+                startDate: action.value[0],
+                endDate: action.value[1],
+                datesRange: difference,
+                isOneDay: action.value[0].isSame(action.value[1])
             };
         default: 
             return state;

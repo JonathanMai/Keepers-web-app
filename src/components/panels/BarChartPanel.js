@@ -71,13 +71,13 @@ class BarChart extends Component {
 
 function BarChartPanel(props) {
     // console.log(props);
-    return <BarChart childId={props.childrens[props.childIndex].id} dates={props.dates} range={props.range} />
+    return <BarChart childId={props.childrens[props.childIndex].id} startDate={props.startDate} range={props.range} />
 }
 
 const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
-        dates: state.dashboardInfo.dates,
+        startDate: state.dashboardInfo.startDate,
         range: state.dashboardInfo.datesRange
     };
   };
