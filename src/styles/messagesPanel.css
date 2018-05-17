@@ -1,6 +1,7 @@
 #messagePanel {
     overflow-y: scroll;
-    height: 44vh;
+    height: 100%;
+    padding: 0px;
 }
 
 /* width */
