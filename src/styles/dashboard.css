@@ -1,0 +1,21 @@
+.active {
+    margin-top: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.nav {
+    border-bottom: 0px;
+}
+
+/* li{
+    padding-bottom: 20px;
+} */
+
+.nav-tabs>li.active>a {
+    padding-bottom: 8px;    
+}
+
+.nav-tabs>li>a{ 
+    padding-bottom: 19px; 
+}

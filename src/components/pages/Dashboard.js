@@ -5,7 +5,9 @@ import { Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
 import TopPanel from '../panels/TopPanel';
 import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
+import '../../styles/dashboard.css';
 import '../../styles/card.css';
+
 
 class Dashboard extends Component {
     constructor(props){
@@ -32,13 +34,13 @@ class Dashboard extends Component {
     render() {
         return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
             <div>
-                <Grid fluid={false} style={{marginBottom: 20 + 'px' }}>
-                        <ul className="tabs-nav nav navbar-nav navbar-left">
+                <Grid fluid={false}>
+                        <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
-                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" onSelect={this.handleTabSelect.bind(this)} animation={true}>
+                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} >
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index} className="card">
-                                    <Row>
+                                    <Row padding={'0px 10px 0px 10px'}>
                                         <Dates />
                                     </Row>
                                     <Grid fluid={true} >
