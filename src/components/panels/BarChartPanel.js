@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Bar, Line, Pie } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { GetUsageStatistics } from '../../serviceAPI';
