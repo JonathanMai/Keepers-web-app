@@ -2,7 +2,6 @@ import React from 'react';
 import { ResponsiveLine } from 'nivo';
 
 var AbusiveConversationsChart = (props) => {
-  console.log(props);
   let line = 
     <ResponsiveLine
     data={[

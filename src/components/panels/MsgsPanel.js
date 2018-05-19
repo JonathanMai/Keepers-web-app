@@ -4,6 +4,7 @@ import Box from '../Box';
 import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import jQuery from 'jquery';
 import Chat from '../pages/Chat';
 import '../../styles/messagesPanel.css';
 
@@ -13,7 +14,8 @@ class Msgs extends Component {
         super(props);
         this.state = {
             showEntireMessage: false,
-            data: [],
+            data: {},
+            useData: [],
             childId: this.props.childId
         }
         this.getMessagesHeads(this.props);
@@ -24,36 +26,119 @@ class Msgs extends Component {
     componentWillReceiveProps(props) {
         this.setState({
             ...this.state,
-            data: []
+            useData: []
         });
         this.getMessagesHeads(props);
     }
 
     getMessagesHeads(props) {
         let messagesHeads = [];
-        this.addPageToArray(messagesHeads, 0, props);
+        let newData = this.state.data;
+        let startDate = -1;
+        let endDate = -1;
+        let stam = {}
+        // console.log(stam, )
+        if(jQuery.isEmptyObject(newData)) {
+            this.addPageToArray(messagesHeads, 0, props, newData, props.startDate, props.endDate);
+        }
+        else {
+            console.log(props);
+            for(let i = props.range; i > 0; i--) {
+                let flag = 0;
+                let key = moment(props.startDate).add(i, 'days').format("YY-MM-DD");
+                if(newData[key] === undefined) {
+                    this.addPageToArray(messagesHeads, 0, props, newData, moment(props.startDate).add(i-1, 'days'), moment(props.startDate).add(i, 'days'), flag);
+                }
+                else {
+                    if(newData[key] !== -1) {
+                        // newData[key].map((message) => { 
+                        //     messagesHeads.push(message)
+                        // });
+                        Object.keys(newData[key]).forEach((subKey) => {
+                            console.log(newData[key][subKey])
+                            messagesHeads.push(newData[key][subKey]);
+                        });
+                    }
+                }
+            }
+            console.log(messagesHeads)
+            this.setState({
+                ...this.state,
+                useData: messagesHeads
+            });
+        }
+        // else {
+        //     for(let i = props.range; i >= 0; i--)
+        //     {
+        //         let key = moment(props.startDate).add(i, 'days').format("YY-MM-DD");
+        //         if(newData[key] === undefined) {
+        //             if(startDate === -1) {
+        //                 startDate = i;
+        //                 endDate = i;
+        //             }
+        //             else {
+        //                 endDate = i;
+        //             }
+        //         }
+                // else {
+                    // newData[key].forEach(element => 
+            //             messagesHeads.push(element)
+            //         );
+                // }
+            // }
+            // this.addPageToArray(messagesHeads, 0, props, newData, moment(props.startDate).add(startDate, 'days'), moment(props.startDate).add(endDate, 'days'));
+        // }
+            // else {
+            // console.log(props);
+            // for(let i = props.range; i >= 0; i++) {
+            //     let key = moment(props.startDate).add(i, 'days').format("YY-MM-DD");
+            //     if(newData[key] === undefined) {
+            //         // this.addPageToArray(messagesHeads, 0, props, newData, moment(props.startDate).add(i-1, 'days'), moment(props.startDate).add(i, 'days'));
+            //     }
+            //     else {
+            //         newData[key].forEach(element => 
+            //             messagesHeads.push(element)
+            //         );
+            //     }
+            // }
+        // }
     }
         
-    addPageToArray(messagesHeads, page, props) {
-        GetMessagesHeads(this.state.childId, moment(props.startDate).startOf('day'), moment(props.endDate).endOf('day'), page).then(res => {  // When respond package is with status 200
+    addPageToArray(messagesHeads, page, props, newData, from, to) {
+        console.log(this.state.childId, moment(from),"API");
+        GetMessagesHeads(this.state.childId, from, to.endOf('day'), page).then(res => {  // When respond package is with status 200
+            // console.log(res.data);
             if(res.data.length > 0) {
-                let flag = 0;
-                res.data.forEach(element => {
-                    flag++;
+                res.data.forEach(element => { // {18-05-18: [{},{},{}] }
+                    console.log(newData);
+                    let key = moment(element.time).format("YY-MM-DD");
+                    
+                    if(newData[key] === undefined)
+                        newData[key] = {};
+                    // else if(newData[key]) {
+                        
+                    // }
+                    else if(newData[key][element.id] === undefined)
+                        newData[key][element.id] = element;
                     messagesHeads.push(element);
                 });
-                this.addPageToArray(messagesHeads, page+1, props);
-                // console.log(this.state.childrensData[index])
+                // console.log(newData);
+
+                this.addPageToArray(messagesHeads, page+1, props, newData, from, to);
             }
             else {
-                // let tempDraw = this.state.draw;
-                // let data = this.state.data;
-                // data[index] = Object.assign({messagesHeads: messagesHeads}, this.state.childrensData[index]);
-                // tempDraw[1] = true;
+                console.log(to);
+                for(let i = 0; i <= props.range; i++) {
+                    let key = moment(from).add(i, 'days').format("YY-MM-DD");
+                    // console.log(key)
+                    if(newData[key] === undefined)  newData[key] = -1;
+                }
                 this.setState({
                     ...this.state,
-                    data: messagesHeads
+                    data: newData,
+                    useData: messagesHeads
                 });
+                console.log(newData);
             }
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error);
@@ -82,8 +167,8 @@ class Msgs extends Component {
 
     buildMsgPanel() {
         let messagePanel;
-        if(!this.state.showEntireMessage && this.state.data.length > 0) {
-            messagePanel = this.state.data.map((message, index) =>
+        if(!this.state.showEntireMessage && this.state.useData.length > 0) {
+            messagePanel = this.state.useData.map((message, index) =>
                 // console.log(this.props.childId));
                     this.buildMessageBox(this.state.childId, message, index)
             );}
@@ -118,7 +203,7 @@ class Msgs extends Component {
     }
 
     render(){
-        return (this.state.data !== undefined && <div id="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
+        return (this.state.useData !== undefined && <div id="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
     }
 }
 

@@ -69,7 +69,6 @@ export class LineChart extends Component {
             }
             // If data wasnt called before - fetch data from server.
             else {
-                console.log("IN API");
                 // insertToData = true;
                 let startTime;
                 let endTime;
@@ -83,6 +82,7 @@ export class LineChart extends Component {
                 }
                 // console.log(tempDay);
                 let label =  "";
+                console.log(props.isOneDay)
                 if(props.isOneDay) {
                     if(i === 0 || i === range)
                         label += moment(tempDay).format("MMM Do Ha").toString();
