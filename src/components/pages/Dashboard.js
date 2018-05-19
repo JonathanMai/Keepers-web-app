@@ -7,6 +7,8 @@ import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
 import '../../styles/card.css';
+import logoChat from '../../assets/Home-icon.png'; 
+import logoShare from '../../assets/Share-icon.png'; 
 
 
 class Dashboard extends Component {
@@ -50,7 +52,22 @@ class Dashboard extends Component {
                             }
                             <BottomPanel  />
                         </Tabs>
+                        {/* <iframe src="https://chat-bot-55ed9.firebaseapp.com/"> */}
+                            {/* <p>Your browser does not support iframes.</p> */}
+                        {/* </iframe> */}
                 </Grid>
+                <div className="footer">
+                    <div className="inner_footer">
+                        <div className="logo">
+                            <img className="img_chat" src={logoChat} />
+                        </div>
+                        <span className="text1"> Our Consultants </span>
+                        <div className="logo logo2">
+                            <img className="img_share" src={logoShare} />
+                        </div>
+                        <span className="text1"> Share Keepers </span>
+                    </div>
+                </div>
             </div>
         );
     }
