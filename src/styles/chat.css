@@ -81,19 +81,20 @@
 
 .message-left .message-text:before {
     display: block;
-	border: 12px solid transparent;
+	border: 10px solid transparent;
 	border-bottom-color: rgb(172, 172, 172);
-	bottom: 1px;
-	left: -11px;
-	z-index: -2;
+	bottom: 4px;
+    left: -11px;
+    transform: rotate(18deg);
 }
 
 .message-left  .message-text:after {  
 	border: 8px solid transparent;
     border-bottom-color: rgb(222, 245, 248);
-	bottom: 2px; 
+	bottom: 5px; 
 	left: -8px;
-	z-index: 0;
+    z-index: 0;
+    transform: rotate(18deg);
 }
 
 .sender-right {
@@ -140,7 +141,6 @@
     border-bottom-color: rgb(172, 172, 172);
     bottom: 1px;
     right: -11px;
-    z-index: -2;
 }
 
 .message-right .message-text:after {

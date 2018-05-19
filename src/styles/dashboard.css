@@ -17,5 +17,10 @@
 }
 
 .nav-tabs>li>a{ 
-    padding-bottom: 19px; 
+    padding-bottom: 8px; 
+}
+
+.nav-tabs>li>a:hover{ 
+    background: rgb(37, 185, 204);
+    color:white; 
 }

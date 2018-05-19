@@ -7,6 +7,8 @@ import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
 import '../../styles/card.css';
+import Footer from '../panels/Footer';
+import Banner from '../panels/Banner';
 
 
 class Dashboard extends Component {
@@ -34,7 +36,8 @@ class Dashboard extends Component {
     render() {
         return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
             <div>
-                <Grid fluid={false}>
+                <Banner />
+                <Grid fluid={true}>
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
                         <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} >
@@ -51,6 +54,7 @@ class Dashboard extends Component {
                             <BottomPanel  />
                         </Tabs>
                 </Grid>
+                <Footer />
             </div>
         );
     }
