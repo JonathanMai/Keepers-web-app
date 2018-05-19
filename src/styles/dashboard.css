@@ -77,3 +77,15 @@
     padding-left: 30px;
     top: -10px;
 }
+
+.chat_screen {
+    display: none;
+    position: absolute;
+    bottom: 55px;
+    right: 0px;
+}
+
+.chat_frame {
+    width: 400px;
+    height: 70vh;
+}

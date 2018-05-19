@@ -15,6 +15,9 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         var current = 0;
+        this.state = {
+            chat_is_shown: false
+        };
     }
 
     handleTabSelect(key) {
@@ -52,13 +55,11 @@ class Dashboard extends Component {
                             }
                             <BottomPanel  />
                         </Tabs>
-                        {/* <iframe src="https://chat-bot-55ed9.firebaseapp.com/"> */}
-                            {/* <p>Your browser does not support iframes.</p> */}
-                        {/* </iframe> */}
+                        
                 </Grid>
                 <div className="footer">
                     <div className="inner_footer">
-                        <div className="logo">
+                        <div className="logo" onClick={this.open_close_consultant.bind(this)}>
                             <img className="img_chat" src={logoChat} />
                         </div>
                         <span className="text1"> Our Consultants </span>
@@ -68,8 +69,27 @@ class Dashboard extends Component {
                         <span className="text1"> Share Keepers </span>
                     </div>
                 </div>
+                <div className="chat_screen">
+                    <iframe className="chat_frame" src="https://chat-bot-55ed9.firebaseapp.com/">
+                        <p>Your browser does not support iframes.</p>
+                    </iframe>
+                </div>
             </div>
         );
+    }
+
+    open_close_consultant() {
+        var screen = document.getElementsByClassName("chat_screen")[0];
+        if(this.state.chat_is_shown) {
+            screen.style = "display: none;"
+        } else {
+            screen.style = "display: initial;"
+        }
+        this.setState({
+            chat_is_shown: !this.state.chat_is_shown
+        });
+
+
     }
 }
 
