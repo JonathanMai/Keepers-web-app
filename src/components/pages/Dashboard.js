@@ -7,17 +7,14 @@ import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
 import '../../styles/card.css';
-import logoChat from '../../assets/Home-icon.png'; 
-import logoShare from '../../assets/Share-icon.png'; 
+import Footer from '../panels/Footer';
+import Banner from '../panels/Banner';
 
 
 class Dashboard extends Component {
     constructor(props){
         super(props);
         var current = 0;
-        this.state = {
-            chat_is_shown: false
-        };
     }
 
     handleTabSelect(key) {
@@ -39,7 +36,8 @@ class Dashboard extends Component {
     render() {
         return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
             <div>
-                <Grid fluid={false}>
+                <Banner />
+                <Grid fluid={true}>
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
                         <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} >
@@ -55,41 +53,10 @@ class Dashboard extends Component {
                             }
                             <BottomPanel  />
                         </Tabs>
-                        
                 </Grid>
-                <div className="footer">
-                    <div className="inner_footer">
-                        <div className="logo" onClick={this.open_close_consultant.bind(this)}>
-                            <img className="img_chat" src={logoChat} />
-                        </div>
-                        <span className="text1"> Our Consultants </span>
-                        <div className="logo logo2">
-                            <img className="img_share" src={logoShare} />
-                        </div>
-                        <span className="text1"> Share Keepers </span>
-                    </div>
-                </div>
-                <div className="chat_screen">
-                    <iframe className="chat_frame" src="https://chat-bot-55ed9.firebaseapp.com/">
-                        <p>Your browser does not support iframes.</p>
-                    </iframe>
-                </div>
+                <Footer />
             </div>
         );
-    }
-
-    open_close_consultant() {
-        var screen = document.getElementsByClassName("chat_screen")[0];
-        if(this.state.chat_is_shown) {
-            screen.style = "display: none;"
-        } else {
-            screen.style = "display: initial;"
-        }
-        this.setState({
-            chat_is_shown: !this.state.chat_is_shown
-        });
-
-
     }
 }
 

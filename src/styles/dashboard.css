@@ -17,75 +17,10 @@
 }
 
 .nav-tabs>li>a{ 
-    padding-bottom: 19px; 
+    padding-bottom: 8px; 
 }
 
-.footer {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    background-color: rgba(37, 185, 204, 0.45);
-    padding: 20px;
-    padding-top: 0px;
-    margin-top: 10px;
-}
-
-.logo {
-    display: inline-block;
-    background-color: rgb(37, 185, 204);
-    border: 2px solid white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-left: 3vw;
-}
-
-.logo2 {
-    margin-left: 20vw;
-}
-
-.img_chat {
-    width: 33px;
-    height: 33px;
-    margin: 2px;
-    padding: 5px;
-}
-
-.img_share {
-    width: 70px;
-    height: 70px;
-    margin: -17px;
-    padding: 5px;
-}
-
-.logo:hover {
-    border-color:rgb(66,129,137);
-    cursor: pointer;
-}
-
-.text1 {
-    color: white;
-    font-family: "OpenSans-Regular";
-    font-size: 17px;
-    vertical-align: text-top;
-    font-weight: bold;
-}
-
-.inner_footer {
-    position: relative;
-    padding-left: 30px;
-    top: -10px;
-}
-
-.chat_screen {
-    display: none;
-    position: absolute;
-    bottom: 55px;
-    right: 0px;
-}
-
-.chat_frame {
-    width: 400px;
-    height: 70vh;
+.nav-tabs>li>a:hover{ 
+    background: rgb(37, 185, 204);
+    color:white; 
 }
