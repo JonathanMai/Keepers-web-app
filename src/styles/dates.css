@@ -26,8 +26,13 @@
     float: right;
 }
 
-.day:hover, .week:hover, .month:hover, .day:active {
-    color: red;
+.date_button {
+    position: relative;
+    top: 0px;
+}
+
+.date_button:hover {
+    color: rgb(37, 185, 204);
     cursor: pointer;
 }
 
@@ -46,4 +51,23 @@ span {
 
 .choose_date_input:hover{
     cursor: pointer;
+}
+
+.date_active {
+    color:rgb(37, 185, 204);
+    animation-name: date_anim;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;         /* When the spec is finished */
+}
+
+@keyframes date_anim {
+    from {
+        top: 0px;
+        font-size: 15px;
+    }
+    to {
+        top: -7px;
+        font-size: 10px;
+        margin: 20px;
+    }
 }

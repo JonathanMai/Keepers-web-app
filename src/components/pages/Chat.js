@@ -10,7 +10,6 @@ class Chat extends Component {
 
     createChatBubbles() {
         let appName = this.props.chatMessages.app_name;
-        // let metaData = 
         let chat =
         (<ul className="chat-message-list">
                 {this.props.chatMessages.messages.map((message, index) => {
@@ -74,7 +73,6 @@ var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "hea
 
 const ChatBubble = function(props){
     let strength = strengthClass[props.strength];
-    //TODO: color border in red if the message is offensive
     let bubble = (
         <li className={"message-" + props.side}> 
             <div className={(strength !== undefined ? strength : "") + " message-text"}>
@@ -85,62 +83,6 @@ const ChatBubble = function(props){
         </li>
     );
     return bubble;
-//     <li className="message-right">
-//     <span className="message-text">Lalalaal</span>
-// </li>
-//     return(    <li className="message-right">
-//     <span className="message-text">Lalalaal</span>
-// </li> );
 }
-
-{/*const ChatBox = () => {
-    return (
-        <ul className="chat-message-list">
-
-        <li className="message-left">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-     <li className="message-left">
-    <   span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-left">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-left">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-left">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-left">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-left">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    <li className="message-right">
-        <span className="message-text">Lalalaal</span>
-    </li>
-    </ul>);
-
-} */}
 
 export default Chat;

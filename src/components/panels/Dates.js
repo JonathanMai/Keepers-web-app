@@ -19,16 +19,24 @@ class Dates extends Component {
     }
 
     handleDaySelect() {
-        // console.log(this.props)
         this.props.setDate([moment().subtract(1,'days'), moment().subtract(1,'days')]);
+        this.refs.day.className = "date_active";
+        this.refs.week.className = "date_button";
+        this.refs.month.className = "date_button";
     }
 
     handleWeekSelect() {
         this.props.setDate([moment().subtract(1,'week').startOf('day'), moment()]);
+        this.refs.day.className = "date_button";
+        this.refs.week.className = "date_active";
+        this.refs.month.className = "date_button";
     }
 
     handleMonthSelect() {
         this.props.setDate([moment().subtract(1,'month').startOf('day'), moment()]);
+        this.refs.day.className = "date_button";
+        this.refs.week.className = "date_button";
+        this.refs.month.className = "date_active";
     }
 
     datepicker(ev, picker) { // TODO: fix two days pick logic.
@@ -51,11 +59,11 @@ class Dates extends Component {
                 <div className="choose_dates">
                     <span className="date_title">&#128065; Graph of abusive conversation </span>
                     <span className="dates">
-                        <span className="day" onClick={this.handleDaySelect}> Day </span>
+                        <span ref="day" className="date_button" onClick={this.handleDaySelect}> Day </span>
                         <span>|</span>
-                        <span className="week" onClick={this.handleWeekSelect}> Week </span>
+                        <span ref="week" className="date_button" onClick={this.handleWeekSelect}> Week </span>
                         <span>|</span>
-                        <span className="month" onClick={this.handleMonthSelect}> Month </span>
+                        <span ref="month" className="date_button" onClick={this.handleMonthSelect}> Month </span>
                         
                         <DateRangePicker
                             dateLimit={maxSpans}
