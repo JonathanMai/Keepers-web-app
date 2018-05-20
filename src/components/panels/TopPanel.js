@@ -17,7 +17,7 @@ class TopPanel extends Component {
     }
     render(){
         return(
-            <Row style={{height: 40 + 'vh'}}>
+            <Row style={{height: 43 + 'vh'}}>
                 <Col xs={8} md={9} style={{padding: 0, height: 'inherit'}}>
                     <Row style={{height: '47%'}}> 
                         {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
