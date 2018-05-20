@@ -77,11 +77,11 @@ const ChatBubble = function(props){
     //TODO: color border in red if the message is offensive
     let bubble = (
         <li className={"message-" + props.side}> 
-            <span className={(strength !== undefined ? strength : "") + " message-text"}>
+            <div className={(strength !== undefined ? strength : "") + " message-text"}>
                 <div className={"sender-" + props.side}>{props.sentBy}</div>
-                <div dangerouslySetInnerHTML={{ __html: props.message}} />
+                <div className="msg_context" dangerouslySetInnerHTML={{ __html: props.message}} />
                 <p className="msg-metadata">{props.metaData}</p>
-            </span>
+            </div>
         </li>
     );
     return bubble;

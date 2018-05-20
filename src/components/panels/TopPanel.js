@@ -18,7 +18,7 @@ class TopPanel extends Component {
     render(){
         return(
             <Row style={{height: 40 + 'vh'}}>
-                <Col xs={8} md={9} style={{padding: 0, height: 'inherit'}}>
+                <Col xs={7} md={6} lg={9} style={{padding: 0, height: 'inherit'}}>
                     <Row style={{height: '47%'}}> 
                         {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
                     </Row>
@@ -26,7 +26,7 @@ class TopPanel extends Component {
                         {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
                     </Row>
                 </Col>
-                <Col xs={4} md={3} style={{'paddingRight': 0 + 'px', height: 'inherit'}}> 
+                <Col xs={5} md={6} lg={3} style={{'paddingRight': 0 + 'px', height: 'inherit'}}> 
                     {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
                 </Col>
             </Row>);

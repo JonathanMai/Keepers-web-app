@@ -14,9 +14,6 @@ class App extends Component {
           <Link to={"/login"}>To login page</Link>.
         </p> */}
         <Redirect to="/keepers-dashboard"/>
-        <iframe src="index.js">
-                    <p>Your browser does not support iframes.</p>
-                </iframe>
       </div>
     );
   }
