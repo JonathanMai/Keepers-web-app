@@ -37,7 +37,7 @@ class Dashboard extends Component {
         return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
             <div>
                 <Banner />
-                <Grid fluid={true}>
+                <Grid fluid={true} className="grid">
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
                         <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} >

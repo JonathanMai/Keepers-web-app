@@ -24,3 +24,8 @@
     background: rgb(37, 185, 204);
     color:white; 
 }
+
+.grid {
+    margin-left: 40px;
+    margin-right: 40px;
+}

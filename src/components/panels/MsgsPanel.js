@@ -178,7 +178,7 @@ class Msgs extends Component {
                 messagePanel = (
                     <div>
                         {this.buildMessageBox(this.state.childId,this.state.message)} 
-                        <Chat chatMessages={this.state.chat} chatTitle={this.state.message.is_group_chat ? "Group chat" : this.state.message.chat_title} close={this.handleSelect.bind(this)}/>
+                        <Chat chatMessages={this.state.chat} childIndex={this.props.childIndex} chatTitle={this.state.message.is_group_chat ? "Group chat" : this.state.message.chat_title} close={this.handleSelect.bind(this)}/>
                     </div>
                 );
             }
@@ -203,7 +203,7 @@ class Msgs extends Component {
     }
 
     render(){
-        return (this.state.useData !== undefined && <div id="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
+        return (this.state.useData !== undefined && <div className="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
     }
 }
 

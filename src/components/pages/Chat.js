@@ -30,6 +30,7 @@ class Chat extends Component {
     }
 
     render() {
+        console.log("curr", this.props);
         this.removeScrollFromPanel();
         return(
             <div>
@@ -48,14 +49,19 @@ class Chat extends Component {
     }
 
     removeScrollFromPanel() {   // remove scroll from panel
-        var panel = document.getElementById("messagePanel");
-        panel.scrollTop = 0;    // get the scroll up
-        panel.style = "overflow-y: hidden";
+        var panel = document.getElementsByClassName("messagePanel");
+        for (var i = 0; i < panel.length; i++) { // todo::need to find the right index of the tab instead for loop
+            panel[i].scrollTop = 0;
+            panel[i].style = "overflow-y: hidden";
+        }
     }
 
     getScrollToPanel() {      // put the scroll to the panel
-        var panel = document.getElementById("messagePanel");
-        panel.style = "overflow-y: scroll";
+        var panel = document.getElementsByClassName("messagePanel");
+        for (var i = 0; i < panel.length; i++) { // todo::need to find the right index of the tab instead for loop
+            panel[i].scrollTop = 0;
+            panel[i].style = "overflow-y: scroll";
+        }
     }
 
     closeBtnHandler() {
