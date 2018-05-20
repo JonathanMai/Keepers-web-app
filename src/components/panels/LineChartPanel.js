@@ -69,6 +69,8 @@ export class LineChart extends Component {
             }
             // If data wasnt called before - fetch data from server.
             else {
+                console.log("API");
+
                 // insertToData = true;
                 let startTime;
                 let endTime;
@@ -100,7 +102,8 @@ export class LineChart extends Component {
                     countEasy[i] = this.createStatisticObject(label, parseInt(result.easyCount)); // easy count.
                     countMedium[i] = this.createStatisticObject(label, parseInt(result.mediumCount)); // medium count.
                     countHard[i] = this.createStatisticObject(label, parseInt(result.heavyCount)); // heavy count.
-                    newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHard[i]];
+                    if(!props.isOneDay)
+                        newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHard[i]];
                     flag++;
                     if(flag > range)
                         this.insertNewData(newData, [countEasy, countMedium, countHard], tickVals, props.isOneDay);

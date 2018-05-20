@@ -21,7 +21,8 @@
 .dates {
     /* display: inline-flex; */
     font-size: 15px;
-    font-family: "OpenSans-Regular";
+    /* text-align: center; */
+    /* font-family: "OpenSans-Regular"; */
     float: right;
 }
 
@@ -38,6 +39,7 @@ span {
 
 .choose_date_input{
     display: inline;
+    text-align: center;
     padding-left: 10px;
     padding-right: 9px;
 }

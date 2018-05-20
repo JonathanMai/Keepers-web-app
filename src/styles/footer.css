@@ -5,9 +5,7 @@
     left: 0px;
     right: 0px;
     background-color: rgba(37, 185, 204, 0.45);
-    padding: 20px;
     padding-top: 0px;
-    margin-top: 10px;
 }
 
 .logo {
@@ -21,14 +19,14 @@
 }
 
 .logo2 {
-    margin-left: 20vw;
+    margin-left: 13vw;
 }
 
 .img_chat {
     width: 33px;
     height: 33px;
     margin: 2px;
-    padding: 5px;
+    padding: 5px 6px 5px 5px;
 }
 
 .img_share {
@@ -60,7 +58,6 @@
 .chat_screen {
     display: none;
     position: absolute;
-    bottom: 55px;
     right: 0px;
 }
 

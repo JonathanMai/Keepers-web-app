@@ -13,11 +13,15 @@
 } */
 
 .nav-tabs>li.active>a {
-    padding-bottom: 8px;    
+    padding-bottom: 6px; 
+    margin-top: 1px;   
 }
 
 .nav-tabs>li>a{ 
-    padding-bottom: 8px; 
+    padding-bottom: 0px; 
+    padding-top: 0px;
+    margin-top: 8px;
+    background: rgb(235, 234, 234);
 }
 
 .nav-tabs>li>a:hover{ 
