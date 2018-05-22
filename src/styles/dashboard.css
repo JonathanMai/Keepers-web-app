@@ -27,6 +27,8 @@
 .nav-tabs>li>a:hover{ 
     background: rgb(37, 185, 204);
     color:white; 
+    border-color: rgb(37, 185, 204);
+
 }
 
 .grid {

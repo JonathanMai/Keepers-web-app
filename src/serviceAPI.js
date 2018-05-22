@@ -1,4 +1,5 @@
 import axios from 'axios';
+import JQuery from 'jquery';
 
 const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/";
 const auth = "0600b4de-3642-49cf-994a-8fc7dfaaf65d";
@@ -6,11 +7,12 @@ const parentId = 51;
 const phoneNumber = "9720527078570";
 
 export const GetById = () => {
-    return axios.get(url + "parents/getById/" + parentId,{
-        headers: {
-            auth: auth
-        }
-    });
+
+    // return axios.get(url + "parents/getById/" + parentId,{
+    //     headers: {
+    //         auth: auth
+    //     }
+    // });
 }
 
 export const GetProfileByID = () => {
@@ -24,7 +26,9 @@ export const GetProfileByID = () => {
 export const GetAllChildren = () => {
     return axios.get(url + "parents/getAllChildrenForParent/" + parentId,{
         headers: {
-            auth: auth
+            'content-type': "text/plain",
+            auth: auth,
+            crossDomain: true
         }
     });
 }

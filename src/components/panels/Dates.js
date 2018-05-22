@@ -76,7 +76,10 @@ class Dates extends Component {
                             autoUpdateInput={true}
                             onEvent={this.datepicker.bind(this)}
                         >
-                            <input  className="choose_date_input" readOnly placeholder="Want to choose a date? &#9660;" />
+                        <div className="relative">
+                            <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" />
+                            <span className="arrow_down"> &#9660; </span>
+                        </div>
                         </DateRangePicker>
                         
 

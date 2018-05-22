@@ -45,7 +45,7 @@ span {
 .choose_date_input{
     display: inline;
     text-align: center;
-    padding-left: 10px;
+    margin-left: 10px;
     padding-right: 9px;
 }
 
@@ -70,4 +70,15 @@ span {
         font-size: 10px;
         margin: 20px;
     }
+}
+
+.arrow_down {
+    position: absolute;
+    right: 0px;
+    margin-top: 2px;
+    color: gray;
+}
+
+.relative {
+    position: relative;
 }
