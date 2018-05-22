@@ -18,7 +18,7 @@ class Chat extends Component {
                             key={index} 
                             sentBy={message.name}
                             message={message.text}
-                            metaData={appName + ", " +(moment(message.time).format("HH:mm A"))}
+                            metaData={(moment(message.time).format("HH:mm A"))}
                             side={(message.is_outgoing ? "right" : "left")}
                             strength={message.strength}
                         />);
@@ -76,9 +76,9 @@ const ChatBubble = function(props){
     let bubble = (
         <li className={"message-" + props.side}> 
             <div className={(strength !== undefined ? strength : "") + " message-text"}>
-                <div className={"sender-" + props.side}>{props.sentBy}</div>
+                <div className={"sender-" + props.side}>{props.sentBy} <p className="msg-metadata">{props.metaData}</p></div>
                 <div className="msg_context" dangerouslySetInnerHTML={{ __html: props.message}} />
-                <p className="msg-metadata">{props.metaData}</p>
+                
             </div>
         </li>
     );

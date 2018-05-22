@@ -12,6 +12,9 @@ class Dates extends Component {
     constructor(props) {
         super(props);
 
+        this.state ={
+            text: ""
+        }
         this.handleDaySelect = this.handleDaySelect.bind(this);
         this.handleWeekSelect = this.handleWeekSelect.bind(this);
         this.handleMonthSelect = this.handleMonthSelect.bind(this);
@@ -23,6 +26,9 @@ class Dates extends Component {
         this.refs.day.className = "date_active";
         this.refs.week.className = "date_button";
         this.refs.month.className = "date_button";
+        this.setState({
+            text: ""
+        });
     }
 
     handleWeekSelect() {
@@ -30,6 +36,9 @@ class Dates extends Component {
         this.refs.day.className = "date_button";
         this.refs.week.className = "date_active";
         this.refs.month.className = "date_button";
+        this.setState({
+            text: ""
+        });
     }
 
     handleMonthSelect() {
@@ -37,6 +46,9 @@ class Dates extends Component {
         this.refs.day.className = "date_button";
         this.refs.week.className = "date_button";
         this.refs.month.className = "date_active";
+        this.setState({
+            text: ""
+        });
     }
 
     datepicker(ev, picker) { // TODO: fix two days pick logic.
@@ -45,6 +57,10 @@ class Dates extends Component {
             console.log(picker.startDate, picker.endDate)
             // console.log(!picker.startDate.isSame(this.props.dates[0], 'date') || !picker.endDate.startOf('day').isSame(this.props.dates[1]), 'date'))
             if(!picker.startDate.isSame(this.props.startDate, 'date') || !picker.endDate.isSame(this.props.endDate, 'date')){
+                let text = picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY");
+                this.setState({
+                    text: text
+                });
                 this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
             }
         }
@@ -76,10 +92,10 @@ class Dates extends Component {
                             autoUpdateInput={true}
                             onEvent={this.datepicker.bind(this)}
                         >
-                        <div className="relative">
-                            <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" />
-                            <span className="arrow_down"> &#9660; </span>
-                        </div>
+                            <div className="relative">
+                                <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" value={this.state.text}/>
+                                <span className="arrow_down"> &#9660; </span>
+                            </div>
                         </DateRangePicker>
                         
 

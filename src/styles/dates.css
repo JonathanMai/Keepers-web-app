@@ -28,7 +28,7 @@
 
 .date_button {
     position: relative;
-    top: 0px;
+    /* top: 0px; */
 }
 
 .date_button:hover {
@@ -44,9 +44,11 @@ span {
 
 .choose_date_input{
     display: inline;
-    text-align: center;
+    text-align: left;
     margin-left: 10px;
-    padding-right: 9px;
+    padding-right: 23px;
+    padding-left: 8px;
+    min-width: 236px;
 }
 
 .choose_date_input:hover{
@@ -56,7 +58,7 @@ span {
 .date_active {
     color:rgb(37, 185, 204);
     animation-name: date_anim;
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;         /* When the spec is finished */
 }
 
@@ -68,7 +70,9 @@ span {
     to {
         top: -7px;
         font-size: 10px;
-        margin: 20px;
+        /* margin: 20px;
+        pointer-events: none;
+        outline: none; */
     }
 }
 
@@ -77,6 +81,7 @@ span {
     right: 0px;
     margin-top: 2px;
     color: gray;
+    pointer-events: none;
 }
 
 .relative {
