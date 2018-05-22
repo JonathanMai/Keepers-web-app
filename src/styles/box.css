@@ -31,16 +31,17 @@
 
 .under_curse {
     text-align: center;
-    margin-top: 5px;
+    margin-bottom: 14px;
     font-weight: bold;
     font-size: 10px;
 }
 
 .go_to {
+    position: absolute;
+    right: 0px;
+    bottom: -4px;
     color: gray;
-    float: right;
-    margin-right: 14px;
-    margin-top: -20px;
+    padding: 2px;
 }
 
 .box_yellow::before {

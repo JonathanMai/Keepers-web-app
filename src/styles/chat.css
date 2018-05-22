@@ -32,14 +32,13 @@
 
 .main {
     background: url("../assets/Background-image.png") no-repeat center center; 
-    -webkit-background-size: 58%;
-    -moz-background-size: 58%;
-    -o-background-size: 58%;
-    background-size: 58%;
-    border-left: 1px solid #80808057;
-    border-right: 1px solid #80808057;
+    -webkit-background-size: 20vh;
+    -moz-background-size: 20vh;
+    -o-background-size: 20vh;
+    background-size: 20vh;
+    border: 1px solid #80808057;
     border-top: 1px solid #FFFFFF; 
-    height: 34vh;
+    height: 26vh;
     overflow-y: scroll;
     padding: 0px 20px 20px 20px;
 }
