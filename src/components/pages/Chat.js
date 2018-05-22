@@ -74,7 +74,7 @@ var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "hea
 const ChatBubble = function(props){
     let strength = strengthClass[props.strength];
     let bubble = (
-        <li className={"message-" + props.side}> 
+        <li className={"message message-" + props.side}> 
             <div className={(strength !== undefined ? strength : "") + " message-text"}>
                 <div className={"sender-" + props.side}>{props.sentBy} <p className="msg-metadata">{props.metaData}</p></div>
                 <div className="msg_context" dangerouslySetInnerHTML={{ __html: props.message}} />
