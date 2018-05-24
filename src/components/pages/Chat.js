@@ -11,7 +11,7 @@ class Chat extends Component {
     createChatBubbles() {
         let appName = this.props.chatMessages.app_name;
         let chat =
-        (<ul className="chat-message-list">
+        (<ul>
                 {this.props.chatMessages.messages.map((message, index) => {
                     if(message.text !== "") {
                         return (<ChatBubble
@@ -73,10 +73,11 @@ var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "hea
 
 const ChatBubble = function(props){
     let strength = strengthClass[props.strength];
+    let opositeSide = props.side === "right" ? "left" : "right"; 
     let bubble = (
         <li className={"message message-" + props.side}> 
             <div className={(strength !== undefined ? strength : "") + " message-text"}>
-                <div className={"sender-" + props.side}>{props.sentBy} <p className="msg-metadata">{props.metaData}</p></div>
+                <div className={"sender-" + props.side}>{props.sentBy} <div className={"msg-metadata  message-" + opositeSide}>{props.metaData}</div></div>
                 <div className="msg_context" dangerouslySetInnerHTML={{ __html: props.message}} />
                 
             </div>
