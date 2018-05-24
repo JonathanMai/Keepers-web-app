@@ -1,5 +1,6 @@
 import axios from 'axios';
 import JQuery from 'jquery';
+import moment from 'moment';
 
 const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/";
 const auth = "0600b4de-3642-49cf-994a-8fc7dfaaf65d";
@@ -70,9 +71,25 @@ export const GetEntireMessage = (id, msgId) => {
 }
 
 export const GetBatteryLevel = (id, startTime, endTime) => {
-    console.log(startTime);
-    console.log(endTime);
     return axios.get(url + "devices/" + id + "/battery/level?startTime=" + startTime + "&endTime=" + endTime,{
+        headers: {
+            auth: auth
+        }
+    });
+}
+
+export const GetCurrentLocation = (id) => {
+    let body = {
+        childId: id,
+        fromDate: moment().startOf('day'),
+        toDate: moment()
+    };
+    let headers = {headers: {
+        'content-type': "application/json",
+        auth: auth
+    }};
+
+    return axios.post(url + "location/queryInRange",{
         headers: {
             auth: auth
         }
