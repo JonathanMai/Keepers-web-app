@@ -26,14 +26,14 @@
     width: 33px;
     height: 33px;
     margin: 2px;
-    padding: 5px 6px 5px 5px;
+    padding: 5px;
 }
 
 .img_share {
-    width: 70px;
-    height: 70px;
-    margin: -17px;
-    padding: 5px;
+    width: 33px;
+    height: 33px;
+    margin: 1px;
+    padding: 6px;
 }
 
 .logo:hover {
