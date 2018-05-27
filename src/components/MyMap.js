@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import { connect } from 'react-redux';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class MyMap extends Component {
+
   static defaultProps = {
     center: {
       lat: 59.95,
@@ -11,6 +13,20 @@ class MyMap extends Component {
     },
     zoom: 11
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      kidsLocation: {}
+    };
+    this.getKidsCurrLocation();
+  }
+
+  getKidsCurrLocation() {
+    for(var i = 0; i < this.props.childrens.length; i++){
+      
+    }
+  }
 
   render() {
     return (
@@ -40,4 +56,13 @@ class MyMap extends Component {
   }
 }
 
-export default MyMap;
+const mapStateToProps = (state) => {
+  return {
+      childrens: state.dashboardInfo.childrens
+      // startDate: state.dashboardInfo.startDate,
+      // range: state.dashboardInfo.datesRange,
+      // isOneDay: state.dashboardInfo.isOneDay
+  };
+};
+
+export default connect(mapStateToProps)(MyMap);
