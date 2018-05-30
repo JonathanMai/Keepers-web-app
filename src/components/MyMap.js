@@ -70,6 +70,7 @@ class MyMap extends Component {
     this.state = {
       kidsLocation: []
     };
+    setInterval(this.getKidsCurrLocation.bind(this), 60000 * 5);
     this.getKidsCurrLocation();
   }
 
@@ -80,7 +81,8 @@ class MyMap extends Component {
 		// while(this.getCurrentLocation(this.props.childrens[i].id,) === -1){ 
 			// if(curr < moment().subtract(day)) {
 			// curr = curr.subtract(1, 'day');
-			let data = this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
+      let data = this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
+
 			// if(data === -1 && data === undefined) {
 			//     i = i-1;
 			// }
@@ -104,7 +106,8 @@ class MyMap extends Component {
   
   getCurrentLocation(id, from, index) {
 		GetLocation(id, from, moment()).then(res => {  // When respond package is with status 200
-		if(res.data.length === 0) {
+      // console.log(res)
+      if(res.data.length === 0) {
 			// this.getCurrentLocation(id, from.subtract(3, 'hours'))
 			return -1;
 		}
@@ -113,10 +116,10 @@ class MyMap extends Component {
 		else {
 			let kidsLocation = this.state.kidsLocation;
 			let markers = this.state.markers;
-			kidsLocation[index] = res.data[0];
+			kidsLocation[index] = res.data[res.data.length - 1];
 			let newLocation = {
-				lat: res.data[0].latitude,
-				lon: res.data[0].longitude
+				lat: res.data[res.data.length - 1].latitude,
+				lon: res.data[res.data.length - 1].longitude
 			};
 
 			this.setState({
