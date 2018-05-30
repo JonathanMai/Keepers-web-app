@@ -143,10 +143,6 @@ class MyMap extends Component {
 		// return -1
 
   }
-  
-  getChildNameById(id) {
-
-  }
 
   render() {
     return (

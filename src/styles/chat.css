@@ -28,6 +28,7 @@
     display: inline-block;
     border-bottom: 1px solid #80808057;
     width: 14vw;
+    font-size: 12px;
 }
 
 .main {

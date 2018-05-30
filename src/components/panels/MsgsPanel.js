@@ -178,8 +178,7 @@ class Msgs extends Component {
                 messagePanel = (
                     <div>
                         {this.buildMessageBox(this.state.childId,this.state.message)} 
-                        <Chat chatMessages={this.state.chat} childIndex={this.props.childIndex} chatTitle={this.state.message.is_group_chat ? "Group chat" : this.state.message.chat_title} close={this.handleSelect.bind(this)}/>
-                    </div>
+                        <Chat chatMessages={this.state.chat} childIndex={this.props.childIndex} chatTitle={moment(this.state.message.time).format("MMM, Do")} close={this.handleSelect.bind(this)}/>                    </div>
                 );
             }
         return messagePanel;
