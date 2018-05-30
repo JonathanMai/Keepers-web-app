@@ -140,6 +140,20 @@ export const ResetPassword = (email, password, code) => {
     });
 };
 
+export const GetLocation = (id, fromDate, toDate) => {
+    let body = {
+        childId: id,
+        fromDate: fromDate,
+        toDate: toDate
+    };
+    let headers = {headers: {
+        'content-type': "application/json",
+        auth: auth
+    }};
+
+    return axios.post(url + "location/queryInRange",body, headers);
+}
+
 const generateRandomPIN = function() {
     var random = (Math.random() * 9000) + 1000;
     random = Math.ceil(random);
