@@ -24,7 +24,8 @@ class TopPanel extends Component {
                     </Row>
                     <Row style={{height: '10%'}}>
                     <div>
-                        <div>&#128065; Usage Time</div>
+                        <span className="date_title"><span className="clock_icon">&#128340;</span>	 Usage Time</span>
+                        <hr className="line_hr"/>
                     </div>
                     </Row>
                     <Row style={{height: '50%'}}>
