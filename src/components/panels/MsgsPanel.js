@@ -32,17 +32,17 @@ class Msgs extends Component {
 
     getMessagesHeads(props) {
         let messagesHeads = [];
-        this.addPageToArray(messagesHeads, 0, props, newData, props.startDate, props.endDate);
+        this.addPageToArray(messagesHeads, 0, props, props.startDate, props.endDate);
     }
         
-    addPageToArray(messagesHeads, page, props, newData, from, to) {
+    addPageToArray(messagesHeads, page, props, from, to) {
         GetMessagesHeads(this.state.childId, from, to.endOf('day'), page).then(res => {  // When respond package is with status 200
             if(res.data.length > 0) {
                 res.data.forEach(element => { 
                     let key = moment(element.time).format("YY-MM-DD");
                     messagesHeads.push(element);
                 });
-                this.addPageToArray(messagesHeads, page+1, props, newData, from, to);
+                this.addPageToArray(messagesHeads, page+1, props, from, to);
             }
             else {
                 this.setState({
