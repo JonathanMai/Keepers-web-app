@@ -12,9 +12,6 @@ class Dates extends Component {
     constructor(props) {
         super(props);
 
-        this.state ={
-            text: ""
-        }
         this.handleDaySelect = this.handleDaySelect.bind(this);
         this.handleWeekSelect = this.handleWeekSelect.bind(this);
         this.handleMonthSelect = this.handleMonthSelect.bind(this);
@@ -26,9 +23,7 @@ class Dates extends Component {
         this.refs.day.className = "date_active";
         this.refs.week.className = "date_button";
         this.refs.month.className = "date_button";
-        this.setState({
-            text: ""
-        });
+        this.props.setText("");
     }
 
     handleWeekSelect() {
@@ -36,9 +31,7 @@ class Dates extends Component {
         this.refs.day.className = "date_button";
         this.refs.week.className = "date_active";
         this.refs.month.className = "date_button";
-        this.setState({
-            text: ""
-        });
+        this.props.setText("");
     }
 
     handleMonthSelect() {
@@ -46,9 +39,7 @@ class Dates extends Component {
         this.refs.day.className = "date_button";
         this.refs.week.className = "date_button";
         this.refs.month.className = "date_active";
-        this.setState({
-            text: ""
-        });
+        this.props.setText("");
     }
 
     datepicker(ev, picker) { // TODO: fix two days pick logic.
@@ -58,9 +49,7 @@ class Dates extends Component {
             // console.log(!picker.startDate.isSame(this.props.dates[0], 'date') || !picker.endDate.startOf('day').isSame(this.props.dates[1]), 'date'))
             if(!picker.startDate.isSame(this.props.startDate, 'date') || !picker.endDate.isSame(this.props.endDate, 'date')){
                 let text = picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY");
-                this.setState({
-                    text: text
-                });
+                this.props.setText(text);
                 this.props.setDate([picker.startDate, picker.endDate.startOf('day')]);
             }
         }
@@ -93,7 +82,7 @@ class Dates extends Component {
                             onEvent={this.datepicker.bind(this)}
                         >
                             <div className="relative">
-                                <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" value={this.state.text}/>
+                                <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" value={this.props.text}/>
                                 <span className="arrow_down"> &#9660; </span>
                             </div>
                         </DateRangePicker>
@@ -113,7 +102,8 @@ const mapStateToProps = (state) => {
     return {
         startDate: state.dashboardInfo.startDate,
         endDate: state.dashboardInfo.endDate,
-        range: state.dashboardInfo.datesRange
+        range: state.dashboardInfo.datesRange,
+        text: state.dashboardInfo.datesText
     };
 };
 
@@ -122,6 +112,12 @@ const mapDispatchToProps = (dispatch) => {
         setDate: (val) => {
             dispatch({
                 type: "SET_DATES",
+                value: val
+            });
+        },
+        setText: (val) => {
+            dispatch({
+                type: "SET_TEXT",
                 value: val
             });
         }

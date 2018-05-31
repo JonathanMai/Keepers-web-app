@@ -5,6 +5,7 @@ const initialState = {
     startDate: moment().subtract(1,'w').startOf('day'),
     endDate: moment().startOf('day'),
     datesRange: 7,
+    datesText: "",
     isOneDay: false
 };
 
@@ -34,6 +35,11 @@ const dashboardInfo = (state = initialState, action) => {
                 endDate: action.value[1],
                 datesRange: difference,
                 isOneDay: isSame
+            };
+        case "SET_TEXT":
+            return {
+                ...state,
+                datesText: action.value
             };
         default: 
             return state;
