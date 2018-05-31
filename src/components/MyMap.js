@@ -23,30 +23,36 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap,
   withStateHandlers(() => ({
-    isOpen: false,
-    clicked: false,
+    isOpen: {},
+    clicked: {},
   }), {
-    onToggleOpen: ({ isOpen }) => () => ({
-      isOpen: !isOpen,
-    }),
-    onClikedToggle: ({ clicked, isOpen }) => () => ({
-      clicked: !clicked,
-      isOpen: true,
-    }),
-    onCloseToggle: ({ clicked, isOpen }) => () => ({
-      clicked: false,
-      isOpen: false,
-    })
+    onToggleOpen: (state) => (index) => {
+      let newIsOpen = Object.assign({}, state.isOpen);
+      newIsOpen[index] = !state.isOpen[index]
+      return { isOpen: newIsOpen }
+    },
+    onClikedToggle: (state) => (index) => {
+      let newClicked = Object.assign({}, state.clicked);
+      newClicked[index] = !state.clicked[index];
+      return { clicked: newClicked }
+    },
+    onCloseToggle: (state) => (index) => {
+      let newIsOpen = Object.assign({}, state.isOpen);
+      let newClicked = Object.assign({}, state.clicked);
+      newIsOpen[index] = false;
+      newClicked[index] = false;
+      return { isOpen: newIsOpen, clicked: newClicked };
+    }
   }),
 )(props => {
   return (
-  <GoogleMap defaultZoom={6} defaultCenter={{ lat: 31.755308, lng: 35.209049}}>
+  <GoogleMap defaultZoom={9} defaultCenter={{ lat: 31.755308, lng: 35.209049}}>
       {
           props.children.map((element, index) => {
-          return (<Marker key={element.childId} onMouseOut={!props.clicked ? props.onToggleOpen : null} onMouseOver={!props.clicked ? props.onToggleOpen : null} onClick={props.onClikedToggle} position={{ lat: element.latitude, lng: element.longitude }} >
+          return (<Marker key={element.childId} onMouseOut={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onMouseOver={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onClick={props.onClikedToggle.bind(this, index)} position={{ lat: element.latitude, lng: element.longitude }} >
           {
-            props.isOpen && 
-            <InfoWindow onCloseClick={props.onCloseToggle}>
+            props.isOpen[index] && 
+            <InfoWindow onCloseClick={props.onCloseToggle.bind(this, index)}>
               <ChildName name={props.names[index].name}/>
             </InfoWindow>
           }
