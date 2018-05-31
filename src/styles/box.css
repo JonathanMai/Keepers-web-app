@@ -12,12 +12,12 @@
 }
 
 .box::before {
-        content: '';
-        position: absolute;
-        border: 18px solid transparent;
-        left: -21px;
-        top: -18px;
-        -webkit-transform: rotate(-225deg);
+    content: '';
+    position: absolute;
+    border: 18px solid transparent;
+    left: -19px;
+    top: -19px;
+    -webkit-transform: rotate(-225deg);
 }
 
 .box::after {

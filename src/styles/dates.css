@@ -4,8 +4,9 @@
 }
 
 .line_hr {
-    margin-top: 5px;
-    margin-bottom: 10px;
+    position: relative;
+    margin: 7px;
+    width: 98%;
 }
 
 .choose_dates {
@@ -14,13 +15,16 @@
 }
 
 .date_title {
-    font-size: 20px;
+    position: relative;
+    top: 4px;
+    font-size: 15px;
+    margin-left: 15px;
     font-family: "OpenSans-Regular";
 }
 
 .dates {
     /* display: inline-flex; */
-    font-size: 15px;
+    font-size: 13px;
     /* text-align: center; */
     /* font-family: "OpenSans-Regular"; */
     float: right;
@@ -46,9 +50,9 @@ span {
     display: inline;
     text-align: left;
     margin-left: 10px;
-    padding-right: 23px;
     padding-left: 8px;
-    min-width: 236px;
+    min-width: 210px;
+    vertical-align: baseline;
 }
 
 .choose_date_input:hover{
@@ -65,7 +69,7 @@ span {
 @keyframes date_anim {
     from {
         top: 0px;
-        font-size: 15px;
+        font-size: 13px;
     }
     to {
         top: -7px;
@@ -86,4 +90,11 @@ span {
 
 .relative {
     position: relative;
+}
+
+.clock_icon {
+    position: relative;
+    font-size: 10px;
+    top: -2px;
+    margin: 0;
 }
