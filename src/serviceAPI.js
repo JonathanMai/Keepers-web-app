@@ -70,8 +70,8 @@ export const GetEntireMessage = (id, msgId) => {
     });
 }
 
-export const GetBatteryLevel = (id, startTime, endTime) => {
-    return axios.get(url + "devices/" + id + "/battery/level?startTime=" + startTime + "&endTime=" + endTime,{
+export const GetBatteryLevel = (id) => {
+    return axios.get(url + "devices/" + id + "/battery/level",{
         headers: {
             auth: auth
         }
