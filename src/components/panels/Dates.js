@@ -24,6 +24,12 @@ class Dates extends Component {
         this.refs.week.className = "date_button";
         this.refs.month.className = "date_button";
         this.props.setText("");
+        this.refs.under_date_day.className = "show";
+        this.refs.under_date_week.className = "hide";
+        this.refs.under_date_month.className = "hide";
+        this.refs.date1.className = "tiny";
+        this.refs.date2.className = "normal";
+        this.refs.date3.className = "normal";
     }
 
     handleWeekSelect() {
@@ -32,6 +38,12 @@ class Dates extends Component {
         this.refs.week.className = "date_active";
         this.refs.month.className = "date_button";
         this.props.setText("");
+        this.refs.under_date_day.className = "hide";
+        this.refs.under_date_week.className = "show";
+        this.refs.under_date_month.className = "hide";
+        this.refs.date1.className = "normal";
+        this.refs.date2.className = "tiny";
+        this.refs.date3.className = "normal";
     }
 
     handleMonthSelect() {
@@ -40,6 +52,12 @@ class Dates extends Component {
         this.refs.week.className = "date_button";
         this.refs.month.className = "date_active";
         this.props.setText("");
+        this.refs.under_date_day.className = "hide";
+        this.refs.under_date_week.className = "hide";
+        this.refs.under_date_month.className = "show";
+        this.refs.date1.className = "normal";
+        this.refs.date2.className = "normal";
+        this.refs.date3.className = "tiny";
     }
 
     datepicker(ev, picker) { // TODO: fix two days pick logic.
@@ -64,16 +82,22 @@ class Dates extends Component {
                 <div className="choose_dates">
                     <div className="date_title">&#128065; Graph of abusive conversation </div>
                     <div className="dates">
-                            <div ref="day" className="date_button" onClick={this.handleDaySelect}> Day<br/>
-                                <div style={{display: "none"}}> <span className="btn_left">&#10094;</span> Apr 29 - Apr 30 <span className="btn_right">&#10095;</span></div>
+                            <div ref="day" className="date_button" onClick={this.handleDaySelect}> 
+                                <span ref="date1" className="span_date">Day</span>
+                                <br/>
+                                <div ref="under_date_day" className="hide">
+                                    <span className="btn_left">&#10094;</span>
+                                        Apr - Sun 08 - Wed 11 
+                                    <span className="btn_right">&#10095;</span>
+                                </div>
                             </div>
                             <span class="c">|</span>
-                            <div ref="week" className="date_button" onClick={this.handleWeekSelect}> Week<br/>
-                                <div style={{display: "none"}}> <span className="btn_left">&#10094;</span> Apr 29 - Apr 30 <span className="btn_right">&#10095;</span></div>
+                            <div ref="week" className="date_button" onClick={this.handleWeekSelect}> <span ref="date2" className="span_date">Week</span><br/>
+                                <div ref="under_date_week" className="hide"> <span className="btn_left">&#10094;</span> Apr - Sun 08 - Wed 11 <span className="btn_right">&#10095;</span></div>
                              </div>
                             <span class="c">|</span>
-                            <div ref="month" className="date_button" onClick={this.handleMonthSelect}> Month <br/>
-                                <div style={{display: "none"}}><span className="btn_left">&#10094;</span> Apr 29 - Apr 30 <span className="btn_right">&#10095;</span></div>
+                            <div ref="month" className="date_button" onClick={this.handleMonthSelect}><span ref="date3" className="span_date"> Month </span> <br/>
+                                <div ref="under_date_month" className="hide"><span className="btn_left">&#10094;</span> Apr - Sun 08 - Wed 11 <span className="btn_right">&#10095;</span></div>
                             </div>
               
                         <DateRangePicker
