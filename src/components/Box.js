@@ -7,7 +7,7 @@ const Data = function(props) {
         <div>
             <div className="curse">{props.message}</div>
             <p className="under_curse">{props.metaData}</p>
-            <span className="go_to">  &gt;   </span>
+            <span className="go_to">  &#10095;   </span>
         </div>)
 }
 

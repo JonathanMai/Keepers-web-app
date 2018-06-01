@@ -62,14 +62,20 @@ class Dates extends Component {
         return (
             <div>
                 <div className="choose_dates">
-                    <span className="date_title">&#128065; Graph of abusive conversation </span>
-                    <span className="dates">
-                        <span ref="day" className="date_button" onClick={this.handleDaySelect}> Day </span>
-                        <span>|</span>
-                        <span ref="week" className="date_button" onClick={this.handleWeekSelect}> Week </span>
-                        <span>|</span>
-                        <span ref="month" className="date_button" onClick={this.handleMonthSelect}> Month </span>
-                        
+                    <div className="date_title">&#128065; Graph of abusive conversation </div>
+                    <div className="dates">
+                            <div ref="day" className="date_button" onClick={this.handleDaySelect}> Day<br/>
+                                <div style={{display: "none"}}> <span className="btn_left">&#10094;</span> Apr 29 - Apr 30 <span className="btn_right">&#10095;</span></div>
+                            </div>
+                            <span class="c">|</span>
+                            <div ref="week" className="date_button" onClick={this.handleWeekSelect}> Week<br/>
+                                <div style={{display: "none"}}> <span className="btn_left">&#10094;</span> Apr 29 - Apr 30 <span className="btn_right">&#10095;</span></div>
+                             </div>
+                            <span class="c">|</span>
+                            <div ref="month" className="date_button" onClick={this.handleMonthSelect}> Month <br/>
+                                <div style={{display: "none"}}><span className="btn_left">&#10094;</span> Apr 29 - Apr 30 <span className="btn_right">&#10095;</span></div>
+                            </div>
+              
                         <DateRangePicker
                             dateLimit={maxSpans}
                             startDate={this.props.startDate}
@@ -83,12 +89,12 @@ class Dates extends Component {
                         >
                             <div className="relative">
                                 <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" value={this.props.text}/>
-                                <span className="arrow_down"> &#9660; </span>
+                                <span className="arrow_down"> &#10095; </span>
                             </div>
                         </DateRangePicker>
                         
 
-                    </span>
+                    </div>
                 </div>
                 <hr className="line_hr"/>
             </div>

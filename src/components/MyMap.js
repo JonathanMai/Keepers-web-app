@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from "recompose";
 import { GetLocation } from '../serviceAPI';
 import moment from 'moment';
+import markerIcon from'../assets/marker.png';
 import {
   withScriptjs,
   withGoogleMap,
@@ -49,7 +50,7 @@ const MyMapComponent = compose(
   <GoogleMap defaultZoom={9} defaultCenter={{ lat: 31.755308, lng: 35.209049}}>
       {
           props.children.map((element, index) => {
-          return (<Marker key={element.childId} onMouseOut={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onMouseOver={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onClick={props.onClikedToggle.bind(this, index)} position={{ lat: element.latitude, lng: element.longitude }} >
+          return (<Marker icon={markerIcon} key={element.childId} onMouseOut={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onMouseOver={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onClick={props.onClikedToggle.bind(this, index)} position={{ lat: element.latitude, lng: element.longitude }} >
           {
             props.isOpen[index] && 
             <InfoWindow onCloseClick={props.onCloseToggle.bind(this, index)}>

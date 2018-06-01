@@ -39,7 +39,7 @@
 .go_to {
     position: absolute;
     right: 0px;
-    bottom: -4px;
+    bottom: 0px;
     color: gray;
     padding: 2px;
 }
