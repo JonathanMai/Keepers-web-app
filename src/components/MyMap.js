@@ -18,7 +18,7 @@ const MyMapComponent = compose(
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyDxyu4XFYitntVnXBSTRK0N3OCV2cj1HoY&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `26vh` }} />,
+    containerElement: <div style={{ height: `32vh` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
@@ -47,8 +47,7 @@ const MyMapComponent = compose(
   }),
 )(props => {
   return (
-  <GoogleMap defaultZoom={9} defaultCenter={{ lat: 31.755308, lng: 35.209049}}>
-      {
+    <GoogleMap defaultZoom={15} defaultCenter={props.children[props.childFocused] ? {lat: props.children[props.childFocused].latitude, lng: props.children[props.childFocused].longitude } : { lat: 31.755308, lng: 35.209049} } >      {
           props.children.map((element, index) => {
           return (<Marker icon={markerIcon} key={element.childId} onMouseOut={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onMouseOver={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onClick={props.onClikedToggle.bind(this, index)} position={{ lat: element.latitude, lng: element.longitude }} >
           {
@@ -158,8 +157,8 @@ class MyMap extends Component {
     return (
       // Important! Always set the container height explicitly
       this.state.kidsLocation[0] != undefined && 
-        <MyMapComponent names={this.props.childrens} children={this.state.kidsLocation}/>
-        // <GoogleMapReact 
+      <MyMapComponent names={this.props.childrens} children={this.state.kidsLocation} childFocused={this.props.childFocused} />  
+            // <GoogleMapReact 
           
         //   // Map position
         //   style={{position: 'absolute',
