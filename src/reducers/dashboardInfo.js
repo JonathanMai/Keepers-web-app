@@ -2,11 +2,12 @@ import moment from 'moment';
 const initialState = {
     childrens: [],
     currTab: 0,
-    startDate: moment().subtract(1,'w').startOf('day'),
-    endDate: moment().startOf('day'),
-    datesRange: 7,
+    startDate: moment().startOf('day'),
+    endDate: moment().endOf('day'),
+    datesRange: 1,
     datesText: "",
-    isOneDay: false
+    activeDates: 0,
+    isOneDay: true
 };
 
 const dashboardInfo = (state = initialState, action) => {
@@ -40,6 +41,11 @@ const dashboardInfo = (state = initialState, action) => {
             return {
                 ...state,
                 datesText: action.value
+            };
+        case "SET_ACTIVE":
+            return {
+                ...state,
+                activeDates: action.value
             };
         default: 
             return state;

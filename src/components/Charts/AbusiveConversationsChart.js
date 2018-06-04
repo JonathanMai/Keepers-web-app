@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 
 var AbusiveConversationsChart = (props) => {
-    console.log(props);
     let line = 
         <div className="chart" style={{position: "relative", height:"100%", width:"inherit"}}>
             <Line

@@ -4,12 +4,10 @@ import { Bar, Line, Pie } from 'react-chartjs-2';
 class UsageTimeChart extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.getTooltipLabel = this.getTooltipLabel.bind(this);
     }
 
     getTooltipLabel(tooltipItem) {
-        console.log(tooltipItem)
         let label = "";
 
         // Data shown in hours.

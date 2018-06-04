@@ -48,7 +48,6 @@ class BarChart extends Component {
             let appName = usageData.appName;
             tempData.push({appName: appName, count: difference})
             // return;
-            console.log(usageData);
             // labels.push(usageData.appName);
             // dataSet.push(differnece);
             // return;
