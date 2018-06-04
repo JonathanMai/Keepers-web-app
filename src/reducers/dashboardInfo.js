@@ -2,6 +2,7 @@ import moment from 'moment';
 const initialState = {
     childrens: [],
     currTab: 0,
+    defaultZoom: 16,
     startDate: moment().subtract(1,'w').startOf('day'),
     endDate: moment().startOf('day'),
     datesRange: 7,
@@ -40,6 +41,12 @@ const dashboardInfo = (state = initialState, action) => {
             return {
                 ...state,
                 datesText: action.value
+            };
+
+        case "SET_ZOOM":
+            return {
+                ...state,
+                defaultZoom: action.value
             };
         default: 
             return state;
