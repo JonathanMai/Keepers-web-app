@@ -38,8 +38,8 @@ class UsageTimeChart extends Component {
                             backgroundColor: this.props.data.map(() => {
                                 return 'rgba(0, 180, 175, 0.6)'
                             })
-                        }]}}
-
+                        }]
+                    }}
                     options={{
                         maintainAspectRatio: false,
                         animation: {easing: 'linear'},
@@ -57,6 +57,7 @@ class UsageTimeChart extends Component {
                             backgroundColor: "rgb(255, 255, 255)",
                             bodyFontColor: "rgb(0, 0, 0)",
                             displayColors: false,
+                            caretSize: 0,
                             callbacks: {
                                 title: function() {},
                                 label: (tooltipItem, data) => this.getTooltipLabel(tooltipItem)
