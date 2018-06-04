@@ -47,24 +47,23 @@ const MyMapComponent = compose(
   }),
 )(props => {
   return (
-    <GoogleMap defaultZoom={15} defaultCenter={props.children[props.childFocused] ? {lat: props.children[props.childFocused].latitude, lng: props.children[props.childFocused].longitude } : { lat: 31.755308, lng: 35.209049} } >      {
-          props.children.map((element, index) => {
-          return (<Marker icon={markerIcon} key={element.childId} onMouseOut={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onMouseOver={!props.clicked[index] ? props.onToggleOpen.bind(this, index) : null} onClick={props.onClikedToggle.bind(this, index)} position={{ lat: element.latitude, lng: element.longitude }} >
+    <GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude + 0.001, lng: props.children[props.currTab].longitude } : { lat: 31.74, lng: 35.33}} >      {
+          props.children[props.currTab] && 
+          <Marker icon={markerIcon} onMouseOut={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onMouseOver={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onClick={props.onClikedToggle.bind(this, props.currTab)} position={{ lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude }} >
           {
-            props.isOpen[index] && 
-            <InfoWindow onCloseClick={props.onCloseToggle.bind(this, index)}>
-              <ChildName name={props.names[index].name}/>
+            props.isOpen[props.currTab] && 
+            <InfoWindow onCloseClick={props.onCloseToggle.bind(this, props.currTab)}>
+              <ChildName name={props.names[props.currTab].name}/>
             </InfoWindow>
           }
-          </Marker> );
-        })  
-      }
+          </Marker>
+        }
   </GoogleMap>
 )});
 
 class ChildName extends Component {
   render() {
-    return(<div>{this.props.name}</div>);
+    return(<span>{this.props.name}</span>);
   }
 }
 
@@ -154,10 +153,11 @@ class MyMap extends Component {
   }
 
   render() {
+    console.log("STATE", this.props);
     return (
       // Important! Always set the container height explicitly
-      this.state.kidsLocation[0] != undefined && 
-      <MyMapComponent names={this.props.childrens} children={this.state.kidsLocation} childFocused={this.props.childFocused} />  
+      // this.state.kidsLocation[0] != undefined && this.state.point != undefined &&
+      <MyMapComponent zoom={this.props.defaultZoom} names={this.props.childrens} children={this.state.kidsLocation} currTab={this.props.currentTab} childFocused={this.state.point} />  
             // <GoogleMapReact 
           
         //   // Map position
@@ -185,7 +185,9 @@ class MyMap extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      childrens: state.dashboardInfo.childrens
+      childrens: state.dashboardInfo.childrens,
+      currentTab: state.dashboardInfo.currTab,
+      defaultZoom: state.dashboardInfo.defaultZoom
       // startDate: state.dashboardInfo.startDate,
       // range: state.dashboardInfo.datesRange,
       // isOneDay: state.dashboardInfo.isOneDay

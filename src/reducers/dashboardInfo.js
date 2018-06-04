@@ -47,6 +47,11 @@ const dashboardInfo = (state = initialState, action) => {
                 ...state,
                 activeDates: action.value
             };
+        case "SET_ZOOM":
+            return {
+                ...state,
+                defaultZoom: action.value
+            };
         default: 
             return state;
     }

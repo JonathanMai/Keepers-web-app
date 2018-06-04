@@ -20,6 +20,10 @@ class Dashboard extends Component {
     handleTabSelect(key) {
         // console.log(key);
         this.props.setCurrTab(key);
+        let zoom;
+        this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
+        this.props.setZoom(zoom);
+        // console.log("ZOOM", this.props.zoom);
         // console.log(this.props.setCurrTab);
     }
 
@@ -62,7 +66,8 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens
+        childrens: state.dashboardInfo.childrens,
+        zoom: state.dashboardInfo.defaultZoom
     };
 };
 
@@ -78,6 +83,12 @@ const mapDispatchToProps = (dispatch) => {
         setCurrTab: (val) => {
             dispatch({
                 type: "SET_TAB",
+                value: val
+            });
+        },
+        setZoom: (val) => {
+            dispatch({
+                type: "SET_ZOOM",
                 value: val
             });
         }
