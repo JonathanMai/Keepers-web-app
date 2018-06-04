@@ -13,6 +13,7 @@ export class LineChart extends Component {
             data: {}, // {"18-05-18" : {***}, "19-05-18": {***}}
             // useData: [],
             dateLabels: [],
+            labels: [],
             tickValues: []
         }
         // this.buildChart = this.buildChart.bind(this);
@@ -36,6 +37,7 @@ export class LineChart extends Component {
         let range = props.isOneDay ? 24 : props.range;
         let addBy = props.isOneDay ? 'hours' : 'day';
         let tempDay =  moment(day);
+        let labels = new Array(range + 1);
         let tickVals = new Array((range > 7) ? range/5 | 0 : range);
         let countEasy = new Array(range+1);
         let countMedium = new Array(range+1);
@@ -59,17 +61,17 @@ export class LineChart extends Component {
             if(!props.isOneDay && this.state.data !== undefined && newData[tempDay.format("YY-MM-DD")] !== undefined) {
                 let format = tempDay.format("YY-MM-DD");
                 this.insertTickVal(tickVals, newData[format][0]["x"], range, i);
-                countEasy[i] = this.state.data[format][0]; // easy count.
-                countMedium[i] = this.state.data[format][1];// medium count.
-                countHard[i] = this.state.data[format][2]; // heavy count.
+                labels[i] = moment(tempDay).format("MMM Do").toString();
+                countEasy[i] = newData[format][0]; // easy count.
+                countMedium[i] = newData[format][1];// medium count.
+                countHard[i] = newData[format][2]; // heavy count.
                 flag++;
                 if(flag > range) {
-                    this.insertNewData(newData, [countEasy, countMedium, countHard], tickVals, props.isOneDay);
+                    this.insertNewData(newData, [countEasy, countMedium, countHard], labels);
                 }
             }
             // If data wasnt called before - fetch data from server.
             else {
-                console.log("API");
 
                 // insertToData = true;
                 let startTime;
@@ -84,29 +86,31 @@ export class LineChart extends Component {
                 }
                 // console.log(tempDay);
                 let label =  "";
-                console.log(props.isOneDay)
                 if(props.isOneDay) {
                     if(i === 0 || i === range)
                         label += moment(tempDay).format("MMM Do Ha").toString();
                     else
                         label += moment(tempDay).format("Ha").toString();
                 }
-                else
+                else {
                     label += moment(tempDay).format("MMM Do").toString();
-                    
+                }
+                labels[i] = label; 
                 this.insertTickVal(tickVals, label, range, i);
                 //  (range <= 1 && i !== ) ? moment(tempDay).add(i, 'hours').valueOf() :.valueOf();
                 // (range <= 1) ? moment(tempDay).add(i+1, 'hours').valueOf() :.valueOf();
                 GetMessagesStatistics(props.child.id, startTime, endTime).then(res => {  // When respond package is with status 200
                     let result = res.data;
-                    countEasy[i] = this.createStatisticObject(label, parseInt(result.easyCount)); // easy count.
-                    countMedium[i] = this.createStatisticObject(label, parseInt(result.mediumCount)); // medium count.
-                    countHard[i] = this.createStatisticObject(label, parseInt(result.heavyCount)); // heavy count.
+                    countEasy[i] = parseInt(result.easyCount); // easy count.
+                    countMedium[i] = parseInt(result.mediumCount); // medium count.
+                    countHard[i] = parseInt(result.heavyCount); // heavy count.
+    
+                    // this.createStatisticObject(label, dayStatistics); 
                     if(!props.isOneDay)
                         newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHard[i]];
                     flag++;
                     if(flag > range)
-                        this.insertNewData(newData, [countEasy, countMedium, countHard], tickVals, props.isOneDay);
+                        this.insertNewData(newData, [countEasy, countMedium, countHard], labels);
 
                 // if(this.state.draw[0] == false){
                 //     let tempDraw = this.state.draw;
@@ -125,15 +129,15 @@ export class LineChart extends Component {
         }
     }
 
-    insertNewData(newData, tempData, tickVals, isOneDay) {
+    insertNewData(newData, useData, labels) {
         // let data = this.state.data;
         // if (insertToData) data.push(newData);
         // console.log(tempData, newData);
         this.setState({
             ...this.state,
             data: newData,
-            useData: tempData,
-            tickValues: tickVals
+            useData: useData,
+            labels: labels
         });
 
         // let tempData = [];
@@ -149,7 +153,7 @@ export class LineChart extends Component {
     }
 
     insertTickVal(tickVals, label, range, index) {
-        if(range > 7 && (index%5 === 0 || index===range)) {
+        if(range > 7 && (index%5 === 0 || index === range)) {
             // if(i === range && range%8 !== 0)
                 tickVals[index/5 | 0] = label;
         }
@@ -158,10 +162,10 @@ export class LineChart extends Component {
     }
     getMessagesStatisticsByRange(){}
 
-    createStatisticObject(date, count) {
+    createStatisticObject(date, count) { // date: {label: "", data: [[],[],[]]}
         return ({
-            "x": date,
-            "y": count
+            "label": date,
+            "data": count
         });
     }
 
@@ -169,7 +173,7 @@ export class LineChart extends Component {
     render() {
         // this.getChildMessagesStatistics();
         // return <div>ok</div>
-        return (this.state.useData !== undefined && <AbusiveConversationsChart data={this.state.useData} tickValues={this.state.tickValues} />);
+        return (this.state.useData !== undefined && <AbusiveConversationsChart data={this.state.useData} labels={this.state.labels} />);
     }
 }
 

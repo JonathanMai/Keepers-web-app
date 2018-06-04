@@ -13,8 +13,9 @@ class BarChart extends Component {
         
         this.state = {
             dataAssigned: false,
-            data: [],
-            keys: []
+            labels: [],
+            dataSet: [],
+            timeType: 'm'
         }
         // var colors = {}
         this.getUsageStatistics(this.props);
@@ -25,6 +26,7 @@ class BarChart extends Component {
         this.getUsageStatistics(this.props);
     }
 
+    // Gets the child usage data - how many hours he spent and in what.
     getUsageStatistics(props) {
         // let child = props.childId; // Gets the child id.
         GetUsageStatistics(props.childId).then(res => {  // When respond package is with status 200
@@ -36,41 +38,52 @@ class BarChart extends Component {
 
     // Creates the data.
     buildChartData(data) {
+        let type = 'm';
         let tempData = [];
-        let keys = [];
+        // let keys = [];
         data.map((usageData) => {
             // console.log(usageData);
             let difference = moment.utc(usageData.endTime).diff(moment.utc(usageData.startTime), 'minutes');
+            if(difference >= 60) type = 'h';
             let appName = usageData.appName;
             tempData.push({appName: appName, count: difference})
-            return;
+            // return;
+            console.log(usageData);
+            // labels.push(usageData.appName);
+            // dataSet.push(differnece);
+            // return;
             // newData.push({appName: appName, [appName]: difference});
         }) ;
-        // let newData = [];
-        const newData = [].concat(tempData)
+
+        let dataSet = [];
+        let labels = [];
+        [].concat(tempData)
         .sort((a, b) => a.count === b.count ? a.appName > b.appName  : a.count < b.count)
         .map((item, i) => {
-                keys.push(item.appName);
+                labels.push(item.appName);
+                dataSet.push(type === "m" ? item.count : item.count/60);
                 // <div key={i}> {item.matchID} {item.timeM}{item.description}</div>
-                return({appName: item.appName, [item.appName]: item.count})}
-            );
+                // return({appName: item.appName, [item.appName]: item.count})}
+                return;
+        });
         this.setState({
             ...this.state,
-            data: newData,
-            keys: keys,
+            labels: labels,
+            dataSet: dataSet,
+            timeType: type,
             dataAssigned: true
         });
     }
 
     render() {
-        return (this.state.dataAssigned && <UsageTimeChart data={this.state.data} keys={this.state.keys}/>);
+        return (this.state.dataAssigned && <UsageTimeChart style={{height: 'inherit'}} labels={this.state.labels} data={this.state.dataSet} type={this.state.timeType}/>);
         // return (this.state.data !== undefined && <UsageTimeChart data={this.state.data} />);
     }
 }
 
 function BarChartPanel(props) {
     // console.log(props);
-    return <BarChart childId={props.childrens[props.childIndex].id} startDate={props.startDate} range={props.range} />
+    return <BarChart style={{height: 'inherit'}} childId={props.childrens[props.childIndex].id} startDate={props.startDate} range={props.range} />
 }
 
 const mapStateToProps = (state) => {
