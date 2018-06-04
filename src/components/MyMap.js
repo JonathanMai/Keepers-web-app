@@ -47,7 +47,7 @@ const MyMapComponent = compose(
   }),
 )(props => {
   return (
-    <GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude } : { lat: 31.74, lng: 35.33}} >      {
+    <GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude + 0.001, lng: props.children[props.currTab].longitude } : { lat: 31.74, lng: 35.33}} >      {
           props.children[props.currTab] && 
           <Marker icon={markerIcon} onMouseOut={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onMouseOver={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onClick={props.onClikedToggle.bind(this, props.currTab)} position={{ lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude }} >
           {
@@ -57,13 +57,13 @@ const MyMapComponent = compose(
             </InfoWindow>
           }
           </Marker>
-        })  
+        }
   </GoogleMap>
 )});
 
 class ChildName extends Component {
   render() {
-    return(<div>{this.props.name}</div>);
+    return(<span>{this.props.name}</span>);
   }
 }
 
