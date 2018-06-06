@@ -2,9 +2,9 @@ import axios from 'axios';
 import JQuery from 'jquery';
 import moment from 'moment';
 
-const url = "https://keepers-main-bezeq-qa.eu-gb.mybluemix.net/keeper-server/";
-const auth = "0600b4de-3642-49cf-994a-8fc7dfaaf65d";
-const parentId = 51;
+const url = "https://keepers-main-vodafone-dev.eu-de.mybluemix.net/keeper-server/";
+const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
+const parentId = 11;
 const phoneNumber = "9720527078570";
 
 export const GetById = () => {
@@ -27,9 +27,8 @@ export const GetProfileByID = () => {
 export const GetAllChildren = () => {
     return axios.get(url + "parents/getAllChildrenForParent/" + parentId,{
         headers: {
-            'content-type': "text/plain",
-            auth: auth,
-            crossDomain: true
+            'Content-Type': "text/plain",
+            auth: auth
         }
     });
 }
