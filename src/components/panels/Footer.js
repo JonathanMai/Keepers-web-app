@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logoChat from '../../assets/Home-icon.png'; 
 import logoShare from '../../assets/Share-icon.png'; 
 import '../../styles/footer.css';
+import { connect } from 'react-redux';
 
 class Footer extends Component {
     constructor(props){
@@ -19,16 +20,16 @@ class Footer extends Component {
                         <div className="logo" onClick={this.open_close_consultant.bind(this)}>
                             <img className="img_chat" src={logoChat} />
                         </div>
-                        <span className="text1"> Our Consultants </span>
+                        <span className="text1"> {this.props.currLang.consultants} </span>
                         <div className="logo logo2" onClick={this.share.bind(this)}>
                             <img className="img_share" src={logoShare} />
                         </div>
-                        <span className="text1"> Share Keepers </span>
+                        <span className="text1"> {this.props.currLang.share} </span>
                     </div>
                 </div>
                 <div className="chat_screen">
                     <iframe className="chat_frame" src="https://chat-bot-55ed9.firebaseapp.com/">
-                        <p>Your browser does not support iframes.</p>
+                        <p>{this.props.currLang.not_support_iframe}</p>
                     </iframe>
                 </div>
             </div>);
@@ -61,4 +62,10 @@ class Footer extends Component {
     }
 }
 
-export default Footer;
+const mapStateToProps = (state) => {
+    return {
+        currLang: state.lang.currLang
+    };
+};
+
+export default connect(mapStateToProps, null)(Footer);

@@ -15,8 +15,6 @@ import {
 
 const MyMapComponent = compose(
   withProps({
-    googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `32vh` }} />,
     mapElement: <div style={{ height: `100%` }} />
@@ -153,11 +151,17 @@ class MyMap extends Component {
   }
 
   render() {
-    console.log("STATE", this.props);
+    console.log("aaaa", this.props);
+    let url = "https://maps.googleapis.com/maps/api/js" + 
+    "?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo" +
+    "&language=" + this.props.currLang.map_lang +
+    "&region=" + this.props.currLang.map_lang +
+    "&v=3.exp" + "&libraries=geometry,drawing,places";
     return (
       // Important! Always set the container height explicitly
       // this.state.kidsLocation[0] != undefined && this.state.point != undefined &&
-      <MyMapComponent zoom={this.props.defaultZoom} names={this.props.childrens} children={this.state.kidsLocation} currTab={this.props.currentTab} childFocused={this.state.point} />  
+      <MyMapComponent zoom={this.props.defaultZoom} names={this.props.childrens} children={this.state.kidsLocation} currTab={this.props.currentTab} childFocused={this.state.point} 
+      googleMapURL={url} />  
             // <GoogleMapReact 
           
         //   // Map position
@@ -187,7 +191,8 @@ const mapStateToProps = (state) => {
   return {
       childrens: state.dashboardInfo.childrens,
       currentTab: state.dashboardInfo.currTab,
-      defaultZoom: state.dashboardInfo.defaultZoom
+      defaultZoom: state.dashboardInfo.defaultZoom,
+      currLang: state.lang.currLang
       // startDate: state.dashboardInfo.startDate,
       // range: state.dashboardInfo.datesRange,
       // isOneDay: state.dashboardInfo.isOneDay

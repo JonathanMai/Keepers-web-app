@@ -5,3 +5,9 @@
     background-color: rgba(37, 185, 204, 0.45);
     padding: 15px;
 }
+
+.select_lang {
+    position: absolute;
+    right: 52px;
+    top: 5px;
+}

@@ -12,7 +12,7 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 class Dates extends Component {
     constructor(props) {
         super(props);
-
+console.log("AAAAAAAAAAA", this.props.lang)
         this.handleDaySelect = this.handleDaySelect.bind(this);
         this.handleWeekSelect = this.handleWeekSelect.bind(this);
         this.handleMonthSelect = this.handleMonthSelect.bind(this);
@@ -139,22 +139,22 @@ class Dates extends Component {
         let panel = 
             (<div>
                 <div className="choose_dates">
-                    <div className="date_title">&#128065; Graph of abusive conversation </div>
+                    <div className="date_title">&#128065; {this.props.lang.title} </div>
                     <div className="dates">
                             <div ref="day" className="date_active"> 
-                                <span ref="date1" className="span_date tiny" onClick={this.handleDaySelect}>Day</span>
+                                <span ref="date1" className="span_date tiny" onClick={this.handleDaySelect}>{this.props.lang.day}</span>
                                 <br/>
                                 {this.props.activeDate === 0 && <Arrows active={0} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay = {this.props.isOneDay} />}
                             </div>
                             <span className="c">|</span>
                             <div ref="week" className="date_button"> 
-                                <span ref="date2" className="span_date" onClick={this.handleWeekSelect}>Week</span>
+                                <span ref="date2" className="span_date" onClick={this.handleWeekSelect}>{this.props.lang.week}</span>
                                 <br/>
                                 {this.props.activeDate === 1 && <Arrows active={1} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay = {this.props.isOneDay} />}
                             </div>
                             <span className="c">|</span>
                             <div ref="month" className="date_button">
-                                <span ref="date3" className="span_date" onClick={this.handleMonthSelect}> Month </span> 
+                                <span ref="date3" className="span_date" onClick={this.handleMonthSelect}> {this.props.lang.month} </span> 
                                 <br/>
                                 {this.props.activeDate === 2 && <Arrows active={2} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay = {this.props.isOneDay} />}
                             </div>
@@ -171,7 +171,7 @@ class Dates extends Component {
                             onEvent={this.datepicker.bind(this)}
                         >
                             <div className="relative">
-                                <input  className="choose_date_input" readOnly placeholder="Want to choose a date?" value={this.props.text}/>
+                                <input  className="choose_date_input" readOnly placeholder={this.props.lang.date_picker} value={this.props.text}/>
                                 <span className="arrow_down"> &#10095; </span>
                             </div>
                         </DateRangePicker>
@@ -212,7 +212,8 @@ const mapStateToProps = (state) => {
         range: state.dashboardInfo.datesRange,
         text: state.dashboardInfo.datesText,
         isOneDay: state.dashboardInfo.isOneDay,
-        activeDate: state.dashboardInfo.activeDates
+        activeDate: state.dashboardInfo.activeDates,
+        lang: state.lang.currLang
     };
 };
 

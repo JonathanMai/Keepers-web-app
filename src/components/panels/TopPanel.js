@@ -24,7 +24,7 @@ class TopPanel extends Component {
                     </Row>
                     <Row style={{height: '10%'}}>
                     <div>
-                        <span className="date_title"><span className="clock_icon">&#128340;</span>	 Usage Time</span>
+                        <span className="date_title"><span className="clock_icon">&#128340;</span>{this.props.currLang.usage_time}</span>
                         <hr className="line_hr"/>
                     </div>
                     </Row>
@@ -42,7 +42,8 @@ class TopPanel extends Component {
 const mapStateToProps = (state) => {
     return {
         dates: state.dashboardInfo.dates,
-        range: state.dashboardInfo.datesRange
+        range: state.dashboardInfo.datesRange,
+        currLang: state.lang.currLang
     };
 };
 
