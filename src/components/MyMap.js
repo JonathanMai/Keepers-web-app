@@ -147,20 +147,15 @@ class MyMap extends Component {
 			return -1;
 		});
 		// return -1
-
   }
 
+
   render() {
-    console.log("aaaa", this.props);
-    let url = "https://maps.googleapis.com/maps/api/js" + 
-    "?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo" +
-    "&language=" + this.props.currLang.map_lang +
-    "&region=" + this.props.currLang.map_lang +
-    "&v=3.exp" + "&libraries=geometry,drawing,places";
+    let url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${this.props.currLang.map_lang}&region=${this.props.currLang.map_lang}&v=3.exp&libraries=geometry,drawing,places`;
     return (
       // Important! Always set the container height explicitly
-      // this.state.kidsLocation[0] != undefined && this.state.point != undefined &&
-      <MyMapComponent zoom={this.props.defaultZoom} names={this.props.childrens} children={this.state.kidsLocation} currTab={this.props.currentTab} childFocused={this.state.point} 
+      // this.state.kidsLocation[0] != undefined && this.state.point != undefined && 
+      <MyMapComponent key={this.state.key} zoom={this.props.defaultZoom} names={this.props.childrens} children={this.state.kidsLocation} currTab={this.props.currentTab} childFocused={this.state.point} 
       googleMapURL={url} />  
             // <GoogleMapReact 
           
