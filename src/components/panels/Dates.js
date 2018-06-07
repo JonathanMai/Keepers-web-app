@@ -160,6 +160,10 @@ console.log("AAAAAAAAAAA", this.props.lang)
                             </div>
             
                         <DateRangePicker
+                            locale={{        
+                                "daysOfWeek": this.props.lang.date_picker_days,
+                                "monthNames": this.props.lang.date_picker_months
+                                }}
                             dateLimit={maxSpans}
                             startDate={this.props.startDate}
                             endDate={this.props.activeDate === 3 ? this.props.endDate : moment(this.props.endDate).subtract(1, 'days').startOf('day')}
@@ -171,7 +175,7 @@ console.log("AAAAAAAAAAA", this.props.lang)
                             onEvent={this.datepicker.bind(this)}
                         >
                             <div className="relative">
-                                <input  className="choose_date_input" readOnly placeholder={this.props.lang.date_picker} value={this.props.text}/>
+                                <input  className="choose_date_input" readOnly placeholder={this.props.lang.date_picker_placeholder} value={this.props.text}/>
                                 <span className="arrow_down"> &#10095; </span>
                             </div>
                         </DateRangePicker>
