@@ -151,33 +151,17 @@ class MyMap extends Component {
 
 
   render() {
-    let url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${this.props.currLang.map_lang}&region=${this.props.currLang.map_lang}&v=3.exp&libraries=geometry,drawing,places`;
+    var language = window.navigator.userLanguage || window.navigator.language;
+    let url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`;
     return (
       // Important! Always set the container height explicitly
-      // this.state.kidsLocation[0] != undefined && this.state.point != undefined && 
-      <MyMapComponent key={this.state.key} zoom={this.props.defaultZoom} names={this.props.childrens} children={this.state.kidsLocation} currTab={this.props.currentTab} childFocused={this.state.point} 
-      googleMapURL={url} />  
-            // <GoogleMapReact 
-          
-        //   // Map position
-        //   style={{position: 'absolute',
-        //     top: 0,
-        //     left: 0,
-        //     right: 0,
-        //     bottom: 0,
-        //     height: '-webkit-fill-available'}
-        //   }
-        //   bootstrapURLKeys={{ key: "AIzaSyDxyu4XFYitntVnXBSTRK0N3OCV2cj1HoY" }}
-        //   defaultCenter={this.props.center}
-        //   defaultZoom={this.props.zoom}
-        //   height='-webkit-fill-available'
-        // >
-        //   <AnyReactComponent
-        //     lat={59.955413}
-        //     lng={30.337844}
-        //     text={'Kreyser Avrora'}
-        //   />
-        // </GoogleMapReact>
+      <MyMapComponent 
+        zoom={this.props.defaultZoom} 
+        names={this.props.childrens}
+        children={this.state.kidsLocation} 
+        currTab={this.props.currentTab} 
+        childFocused={this.state.point} 
+        googleMapURL={url} />  
     );
   }
 }
@@ -187,10 +171,6 @@ const mapStateToProps = (state) => {
       childrens: state.dashboardInfo.childrens,
       currentTab: state.dashboardInfo.currTab,
       defaultZoom: state.dashboardInfo.defaultZoom,
-      currLang: state.lang.currLang
-      // startDate: state.dashboardInfo.startDate,
-      // range: state.dashboardInfo.datesRange,
-      // isOneDay: state.dashboardInfo.isOneDay
   };
 };
 
