@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Bar, Line, Pie } from 'react-chartjs-2';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 import AbusiveConversationsChart from '../charts/AbusiveConversationsChart'
 import { GetMessagesStatistics } from '../../serviceAPI';
 
@@ -17,6 +17,7 @@ export class LineChart extends Component {
             tickValues: []
         }
         // this.buildChart = this.buildChart.bind(this);
+        // moment.locale(props.lang.map_lang)
         this.getChildMessagesStatisticsByRange(this.props);
     }
     
@@ -25,6 +26,8 @@ export class LineChart extends Component {
         //     ...this.state,
         //     useData: []
         // });
+        // moment.locale(props.lang.map_lang)
+        
         this.getChildMessagesStatisticsByRange(props);
     }
 
@@ -44,10 +47,12 @@ export class LineChart extends Component {
         let countHard = new Array(range+1);
         let newData = this.state.data;
         let flag = 0;
+        console.log(props);
         // let insertToData = false;
         // console.log(this.state);
         // console.log((range > 7 || range <= 1)? "YEAHH" : "NOOOOOOO");
         for(let i=0; i<=range;  i++, tempDay=moment(day).add(i,addBy)) {
+
             // datesLabel.push(moment(day).format("MMMM DD"));
             // day=moment(day).add(1,'days').format("MMMM D");
             // if(i ===2 | i === 3) {
@@ -58,6 +63,7 @@ export class LineChart extends Component {
             // console.log(newData);
             // console.log(objectNames);
             // console.log(!props.isOneDay && this.state.data !== undefined && this.state.data[tempDay.format("YY-MM-DD")] !== undefined);
+
             if(!props.isOneDay && this.state.data !== undefined && newData[tempDay.format("YY-MM-DD")] !== undefined) {
                 let format = tempDay.format("YY-MM-DD");
                 this.insertTickVal(tickVals, newData[format][0]["x"], range, i);
@@ -87,10 +93,7 @@ export class LineChart extends Component {
                 // console.log(tempDay);
                 let label =  "";
                 if(props.isOneDay) {
-                    if(i === 0 || i === range)
-                        label += moment(tempDay).format("MMM Do Ha").toString();
-                    else
-                        label += moment(tempDay).format("Ha").toString();
+                    label += moment(tempDay).format("Ha").toString();
                 }
                 else {
                     label += moment(tempDay).format("MMM Do").toString();
@@ -121,7 +124,7 @@ export class LineChart extends Component {
                 //     });
                 //     console.log(this.state.draw);
                 // }
-            
+
                 }).catch(error => { // When respond package is with error status - 400 ...
                     console.log(error);
                 });
@@ -181,7 +184,7 @@ export class LineChart extends Component {
 
 function LineChartPanel(props) {
     // console.log(props);
-    return <LineChart child={props.childrens[props.childIndex]} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} />
+    return <LineChart child={props.childrens[props.childIndex]} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} lang={props.lang}/>
 }
 
 const mapStateToProps = (state) => {
@@ -189,7 +192,8 @@ const mapStateToProps = (state) => {
         childrens: state.dashboardInfo.childrens,
         startDate: state.dashboardInfo.startDate,
         range: state.dashboardInfo.datesRange,
-        isOneDay: state.dashboardInfo.isOneDay
+        isOneDay: state.dashboardInfo.isOneDay,
+        lang: state.lang.currLang
     };
   };
 
