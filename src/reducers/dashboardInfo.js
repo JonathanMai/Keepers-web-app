@@ -1,4 +1,5 @@
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
+
 const initialState = {
     childrens: [],
     currTab: 0,
@@ -6,12 +7,12 @@ const initialState = {
     endDate: moment().endOf('day'),
     datesRange: 1,
     datesText: "",
-    defaultZoom: 15,
     activeDates: 0,
     isOneDay: true
 };
 
 const dashboardInfo = (state = initialState, action) => {
+    console.log(action.type)
     switch(action.type) {
         case "SET_CHILDRENS":
             return {
@@ -25,11 +26,8 @@ const dashboardInfo = (state = initialState, action) => {
             }
         case "SET_DATES":
             // console.log(action.value);
-            console.log("startof", moment(action.value[1]).startOf('day'))
             let difference = moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days');
-            console.log("endof", action.value[1]);
-            let isSame = action.value[0].isSame(action.value[1]);
-            console.log("dif", difference)
+            let isSame = action.value[0].startOf('day').isSame(action.value[1].startOf('day'));
             // if(!action.value[0].isSame(action.value[1]) && difference === 1)
             //     difference += 1;
             // console.log(moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days'));

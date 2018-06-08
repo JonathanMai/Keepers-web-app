@@ -43,7 +43,7 @@ class BarChart extends Component {
         // let keys = [];
         data.map((usageData) => {
             // console.log(usageData);
-            let difference = moment.utc(usageData.endTime).diff(moment.utc(usageData.startTime), 'minutes');
+            let difference = moment(usageData.endTime).diff(moment(usageData.startTime), 'minutes');
             if(difference >= 60) type = 'h';
             let appName = usageData.appName;
             tempData.push({appName: appName, count: difference})
