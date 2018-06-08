@@ -47,7 +47,6 @@ export class LineChart extends Component {
         let countHard = new Array(range+1);
         let newData = this.state.data;
         let flag = 0;
-        console.log(props);
         // let insertToData = false;
         // console.log(this.state);
         // console.log((range > 7 || range <= 1)? "YEAHH" : "NOOOOOOO");
