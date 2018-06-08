@@ -11,7 +11,7 @@ const languages = {
         consultants: "Our Consultants",
         share: "Share Keepers",
         not_support_iframe: "Your browser does not support iframes",
-        map_lang: "en",
+        language: "en",
         
     },
     rus: {
@@ -26,8 +26,7 @@ const languages = {
         consultants: "Наши Консультанты",
         share: "Поделится Киперс",
         not_support_iframe: "Ваш браузер не поддерживает всплывающие окна",
-        map_lang: "ru"
-
+        language: "ru"
     }
 };
 
