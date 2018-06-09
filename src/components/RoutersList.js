@@ -17,9 +17,9 @@ class RoutersList extends Component {
                 <Route path="/" exact component={App} />
                 <Route path="/login" exact component={LoginPage} />
                 <Route path="/register" exact component={LoginPage} />
-                <Route path="/restore-password" exact component={RestartPasswordPage} />
+                <Route path="/restore-password" exact component={localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? App : RestartPasswordPage} />
                 <Route path="/keepers-dashboard" exact component={ localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? Dashboard : App} />
-                <Route render={() => <h1>Page not found</h1>} />
+                <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
             </Switch>
         </Router>
         )
@@ -34,6 +34,12 @@ class RoutersList extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        currLang: state.lang.currLang
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setUser: (val) => {    
@@ -45,4 +51,4 @@ const mapDispatchToProps = (dispatch) => {
     };
   };
 
-export default connect(null, mapDispatchToProps)(RoutersList);
+export default connect(mapStateToProps, mapDispatchToProps)(RoutersList);

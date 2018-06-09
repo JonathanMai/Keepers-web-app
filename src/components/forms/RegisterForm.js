@@ -32,6 +32,7 @@ class RegisterForm extends React.Component {
 
         Register(name, email, password).then(res => {
             console.log(res);
+            this.props.history.push('/login'); 
         }).catch(error => {
             console.log(error.response);
         });

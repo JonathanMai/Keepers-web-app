@@ -4,7 +4,6 @@ import moment from 'moment';
 import store from './store';
 
 const url = "https://keepers-main-vodafone-dev.eu-de.mybluemix.net/keeper-server/";
-// const user = store.getState().reducerAccountInfo;
 // const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
 // const parentId = 11;
 
@@ -105,7 +104,8 @@ export const Register = (name, email, password) => {
     return axios.post(url + "parents/createVodafoneAccount", {
         "name": name,
         "email": email,
-        "password": password
+        "password": password,
+        "isTest": "true"
     });
 };
 
@@ -113,9 +113,24 @@ export const Register = (name, email, password) => {
 export const Login = (email, password) => {
     return axios.post(url + "parents/login",{
         "email": email,
-        "password": password, 
+        "password": password
     });
 };
+
+export const GetLocation = (id, fromDate, toDate) => {
+    let body = {
+        childId: id,
+        fromDate: fromDate,
+        toDate: toDate
+    };
+    let headers = {headers: {
+        'content-type': "application/json",
+        auth: store.getState().reducerAccountInfo.auth
+    }};
+
+    return axios.post(url + "location/queryInRange",body, headers);
+}
+
 
 // ------------------------------------------------------------------------------------------------------------------------------
 //      Old method and api calls(Login and user related calls) - not used for now.
@@ -141,17 +156,3 @@ export const ResetPassword = (email, password, code) => {
 
     });
 };
-
-export const GetLocation = (id, fromDate, toDate) => {
-    let body = {
-        childId: id,
-        fromDate: fromDate,
-        toDate: toDate
-    };
-    let headers = {headers: {
-        'content-type': "application/json",
-        auth: store.getState().reducerAccountInfo.auth
-    }};
-
-    return axios.post(url + "location/queryInRange",body, headers);
-}

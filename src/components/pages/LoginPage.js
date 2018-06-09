@@ -15,7 +15,7 @@ const LoginPage = (props) => {
         obj = (
             <div>
                 <h1>In register page</h1>
-                <RegisterForm history={props.history} />
+                {   localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? <App /> : <RegisterForm history={props.history} /> }
             </div>);
     }
     return obj;
