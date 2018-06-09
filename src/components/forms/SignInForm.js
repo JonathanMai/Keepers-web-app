@@ -38,14 +38,20 @@ class SignInForm extends React.Component {
         this.props.history.push("/register");
     }
 
-    
     signIn(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
         var email = this.email.value;
         var password = this.password.value;
         
-       // Sends package and handling the respond.
+        console.log("email", email, "passowrd", password);
+        //    Sends package and handling the respond.
         Login(email, password).then(res => {  // When respond package is with status 200
+            let token = res.data.authToken;
+            let parentId = res.data.parentId;
+            this.props.setUser({
+                id: parentId,
+                authKey: token
+            });
             this.props.history.push('/keepers-dashboard');   // todo: redirect to main menu.
         }).catch(error => { // When respond package is with error status - 400 ...
             if(error.response.data.message === 'Email does not exists') {
@@ -76,6 +82,12 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({
                 type: "WRONG_PASSWORD_VALIDATION",
                 value: error
+            });
+        },
+        setUser: (user) => {
+            dispatch({
+                type: "SET_USER",
+                value: user
             });
         }
     };
