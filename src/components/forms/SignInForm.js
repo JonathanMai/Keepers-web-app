@@ -52,6 +52,8 @@ class SignInForm extends React.Component {
                 id: parentId,
                 authKey: token
             });
+            localStorage._id = parentId;
+            localStorage._token = token;
             this.props.history.push('/keepers-dashboard');   // todo: redirect to main menu.
         }).catch(error => { // When respond package is with error status - 400 ...
             if(error.response.data.message === 'Email does not exists') {
