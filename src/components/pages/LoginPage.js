@@ -1,6 +1,7 @@
 import React from 'react';
 import SignInForm from '../forms/SignInForm';
 import RegisterForm from '../forms/RegisterForm';
+import App from '../App';
 
 const LoginPage = (props) => {
     var obj = null;
@@ -8,7 +9,7 @@ const LoginPage = (props) => {
         obj = (
             <div>
                 <h1>In login page</h1>
-                <SignInForm history={props.history} />
+                {   localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? <App /> : <SignInForm history={props.history} /> }
             </div>);
     } else if(props.location.pathname === '/register') {
         obj = (
