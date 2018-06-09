@@ -54,7 +54,7 @@ span {
     text-align: left;
     margin-left: 30px;
     padding-left: 8px;
-    min-width: 210px;
+    min-width: 220px;
     vertical-align: baseline;
 }
 
@@ -92,7 +92,7 @@ span {
     position: absolute;
     right: 0px;
     margin: 10px;
-    margin-top: 5px;
+    margin-top: 3px;
     color: gray;
     pointer-events: none;
 }
