@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
-import App from './App';
 import LoginPage from './pages/LoginPage';
 import RestartPasswordPage from './pages/RestartPasswordPage';
 import Dashboard from './pages/Dashboard';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect, browserHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Banner from '../components/panels/Banner';
+import RegisterPage from './pages/RegisterPage';
 
 class RoutersList extends Component {
+    constructor(props) {
+        super(props);
+        this.checkStorage.bind(this);
+        this.updateRedux.bind(this);
+    }
     render() {
-        if(localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null) {
-            this.updateRedux.bind(this).call();
+        if(this.checkStorage) {
+            this.updateRedux();
         }
         return (
-        <Router>
-            <Switch>
-                <Route path="/" exact component={App} />
-                <Route path="/login" exact component={LoginPage} />
-                <Route path="/register" exact component={LoginPage} />
-                <Route path="/restore-password" exact component={localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? App : RestartPasswordPage} />
-                <Route path="/keepers-dashboard" exact component={ localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? Dashboard : App} />
-                <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
-            </Switch>
-        </Router>
+        <div>
+            <Banner/>
+            <Router>
+                <Switch>
+                    <Route path="/" exact component={() => <Redirect to="/login" />}/>
+                    <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
+                    <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <RegisterPage history={browserHistory.history}/>} />
+                    <Route path="/restore-password" exact component={() => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage/>} />
+                    <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to="/login" />} />
+                    <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
+                </Switch>
+            </Router>
+        </div>
         )
+    }
+
+    checkStorage() {    // if true already logged in
+        return localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null;
     }
 
     updateRedux() {

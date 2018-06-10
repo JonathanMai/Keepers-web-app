@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import RoutersList from './RoutersList';
+import store from '../store';
+import { Provider } from 'react-redux';
 import './App.css';
 
 class App extends Component {
@@ -7,10 +10,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {
-          localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null ? <Redirect to="/keepers-dashboard"/> : (<Redirect to="/login"/>)
-        }
-      </div>
+        <Provider store={store}>
+          <RoutersList />
+        </Provider>
+       </div>
     );
   }
 

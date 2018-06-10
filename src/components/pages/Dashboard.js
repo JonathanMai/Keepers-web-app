@@ -40,7 +40,6 @@ class Dashboard extends Component {
     render() {
         return  (   this.props.childrens.length == 0 ? this.props.currLang.children_not_found :             
             <div>
-                <Banner />
                 <Grid fluid={true} className="grid">
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
