@@ -21,7 +21,7 @@ class SignInForm extends React.Component {
         this.state = {
             email: "",
             password: "",
-            buttonDisabled: true
+            disableButton: true
         }
     }
     isValidEmail(email){
@@ -62,35 +62,29 @@ class SignInForm extends React.Component {
                 emailIsValid = this.isValidEmail(this.state.email);
                 passwordIsValid = this.isValidPassword(this.state.password);
         } 
-        if(this.state.buttonDisabled && emailIsValid && passwordIsValid){
+        if(this.state.disableButton && emailIsValid && passwordIsValid){
             return false;
         }
-        else if(!this.state.buttonDisabled  && (!emailIsValid || !passwordIsValid)){
+        else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid)){
             return true;
         }
-        else {
-            return this.state.buttonDisabled;
-        }
+        return this.state.disableButton;
     }
     
     handleEmail(email){
         this.setState({
             ...this.state,
             email: email,
-            buttonDisabled: this.enableButton('email', email)
+            disableButton: this.enableButton('email', email)
         });
-
-        this.enableButton();
     }
 
     handlePassword(password){ 
         this.setState({
             ...this.state,
             password: password,
-            buttonDisabled: this.enableButton('password', password)
+            disableButton: this.enableButton('password', password)
         });
-
-        this.enableButton();
     }
     render() {
         return(
@@ -110,7 +104,7 @@ class SignInForm extends React.Component {
                             value={this.state.password} 
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
-                    <Button disabled={this.state.buttonDisabled} type="submit">Sign In</Button>
+                    <Button disabled={this.state.disableButton} type="submit">Sign In</Button>
                 </Form>
                 <Link to={"/restore-password"}>Forgot Password</Link>
                 <RegisterModal 
