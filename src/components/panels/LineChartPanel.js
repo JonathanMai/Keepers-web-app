@@ -12,9 +12,9 @@ export class LineChart extends Component {
         this.state = {
             data: {}, // {"18-05-18" : {***}, "19-05-18": {***}}
             // useData: [],
-            dateLabels: [],
+            // dateLabels: [],
             labels: [],
-            tickValues: []
+            // tickValues: []
         }
         // this.buildChart = this.buildChart.bind(this);
         // moment.locale(props.lang.map_lang)

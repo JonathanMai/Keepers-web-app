@@ -58,23 +58,23 @@ class Dates extends Component {
         switch(active){
             case 0:
                 this.handleActive(this.refs.day, this.refs.date1);
-                this.handleUnactive(this.refs.week, this.refs.date2);
-                this.handleUnactive(this.refs.month, this.refs.date3);
+                this.handleInactive(this.refs.week, this.refs.date2);
+                this.handleInactive(this.refs.month, this.refs.date3);
                 break;
             case 1:
-                this.handleUnactive(this.refs.day, this.refs.date1);
+                this.handleInactive(this.refs.day, this.refs.date1);
                 this.handleActive(this.refs.week, this.refs.date2);
-                this.handleUnactive(this.refs.month, this.refs.date3);
+                this.handleInactive(this.refs.month, this.refs.date3);
                 break;
             case 2:
-                this.handleUnactive(this.refs.day, this.refs.date1);
-                this.handleUnactive(this.refs.week, this.refs.date2);
+                this.handleInactive(this.refs.day, this.refs.date1);
+                this.handleInactive(this.refs.week, this.refs.date2);
                 this.handleActive(this.refs.month, this.refs.date3);
                 break;
             default:
-                this.handleUnactive(this.refs.day, this.refs.date1);
-                this.handleUnactive(this.refs.week, this.refs.date2);
-                this.handleUnactive(this.refs.month, this.refs.date3);
+                this.handleInactive(this.refs.day, this.refs.date1);
+                this.handleInactive(this.refs.week, this.refs.date2);
+                this.handleInactive(this.refs.month, this.refs.date3);
                 break;
         }
     }
@@ -84,7 +84,7 @@ class Dates extends Component {
         text.className = "tiny";
     }
 
-    handleUnactive(deactivate, text) {
+    handleInactive(deactivate, text) {
         deactivate.className = "date_button";
         text.className = "normal";
     }
