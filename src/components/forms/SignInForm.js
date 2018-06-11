@@ -17,21 +17,24 @@ class SignInForm extends React.Component {
         this.isValidEmail = this.isValidEmail.bind(this);
         this.isValidPassword = this.isValidPassword.bind(this);
         this.getValidationMessages = this.getValidationMessages.bind(this);
+        this.enableButton = this.enableButton.bind(this);
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            buttonDisabled: true
         }
     }
-    isValidEmail(){
+    isValidEmail(email){
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (this.state.email === "" || !re.test(this.state.email))
+        if (email === "" || !re.test(email))
             return false;
         return true;
     }
 
-    isValidPassword(){
-        if(this.state.password.length < 6 || this.state.password.length > 15)
+    isValidPassword(password){
+        if(password.length < 6 || password.length > 15)
             return false;
+
         return true;
     }
 
@@ -43,19 +46,51 @@ class SignInForm extends React.Component {
                return "Invalid email address";
         }
     }
+
+    enableButton(type, input) {
+        let emailIsValid, passwordIsValid;
+        switch(type){
+            case 'email':
+                emailIsValid = this.isValidEmail(input);
+                passwordIsValid = this.isValidPassword(this.state.password);
+                break;
+            case 'password':
+                emailIsValid = this.isValidEmail(this.state.email);
+                passwordIsValid = this.isValidPassword(input);
+                break;
+            default:
+                emailIsValid = this.isValidEmail(this.state.email);
+                passwordIsValid = this.isValidPassword(this.state.password);
+        } 
+        if(this.state.buttonDisabled && emailIsValid && passwordIsValid){
+            return false;
+        }
+        else if(!this.state.buttonDisabled  && (!emailIsValid || !passwordIsValid)){
+            return true;
+        }
+        else {
+            return this.state.buttonDisabled;
+        }
+    }
     
     handleEmail(email){
-        console.log(email);
         this.setState({
-        ...this.state,
-          email: email
+            ...this.state,
+            email: email,
+            buttonDisabled: this.enableButton('email', email)
         });
+
+        this.enableButton();
     }
-    handlePassword(password){
+
+    handlePassword(password){ 
         this.setState({
-        ...this.state,
-          password: password
+            ...this.state,
+            password: password,
+            buttonDisabled: this.enableButton('password', password)
         });
+
+        this.enableButton();
     }
     render() {
         return(
@@ -66,16 +101,16 @@ class SignInForm extends React.Component {
                             this.handleEmail(e.currentTarget.value)}}
                             name={"EMAIL"}
                             value={this.state.email} 
-                            isValid={this.isValidEmail('EMAIL')} 
+                            isValid={this.isValidEmail(this.state.email)} 
                             errorMessage={this.getValidationMessages('EMAIL')} />
     
                     <FloatingLabelInput type={"password"} labelName={"PARENT'S PASSWORD"} 
                             onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                             name={"PASSWORD"}
                             value={this.state.password} 
-                            isValid={this.isValidPassword('PASSWORD')} 
+                            isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
-                    <Button type="submit">Sign In</Button>
+                    <Button disabled={this.state.buttonDisabled} type="submit">Sign In</Button>
                 </Form>
                 <Link to={"/restore-password"}>Forgot Password</Link>
                 <RegisterModal 
@@ -100,7 +135,6 @@ class SignInForm extends React.Component {
         var email = this.state.email
         var password = this.state.password;
         
-        console.log("email", email, "passowrd", password);
         //    Sends package and handling the respond.
         Login(email, password).then(res => {  // When respond package is with status 200
             let token = res.data.authToken;
@@ -111,7 +145,6 @@ class SignInForm extends React.Component {
             });
             localStorage._id = parentId;
             localStorage._token = token;
-            console.log(this.props)
             this.props.history.push('/keepers-dashboard'); 
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error);

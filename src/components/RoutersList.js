@@ -18,20 +18,20 @@ class RoutersList extends Component {
             this.updateRedux();
         }
         return (
-        <div>
-            <Banner/>
-            <Router>
-                <Switch>
-                    <Route path="/" exact component={() => <Redirect to="/login" />}/>
-                    <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
-                    <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <RegisterPage history={browserHistory.history}/>} />
-                    <Route path="/restore-password" exact component={() => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage/>} />
-                    <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to="/login" />} />
-                    <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
-                </Switch>
-            </Router>
-        </div>
-        )
+            <div>
+                <Banner/>
+                <Router>
+                    <Switch>
+                        <Route path="/" exact component={() => <Redirect to="/login" />}/>
+                        <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
+                        <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <RegisterPage history={browserHistory.history}/>} />
+                        <Route path="/restore-password" exact component={() => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage/>} />
+                        <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to="/login" />} />
+                        <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
+                    </Switch>
+                </Router>
+            </div>
+        );
     }
 
     checkStorage() {    // if true already logged in
