@@ -4,11 +4,30 @@
 }
 
 .intro_text {
-    font-size: 58px;
+    font-size: 9vh;
+    text-align: center;
     /* letter-spacing: -4px; */
     color: rgb(37, 185, 204);
     font-family: "OpenSans-Regular";
     /* margin: 0px; */
+
+}
+
+.login_page_row {
+    margin-top: 15; 
+    height: 80vh;
+}
+
+.login_page_container {
+    height: 100%;
+    display: table;
+    margin :0 auto;
+}
+
+.login_page_mid {
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 /* .banner {
@@ -19,3 +38,100 @@
     margin: 0px;
 }
 
+/* On screens that are 992px or less */
+@media screen and (max-height: 664px) {
+    .intro_text {
+        font-size: 10vh;
+    }
+}
+
+/* On screens that are 992px or less */
+@media screen and (max-height: 485px) {
+    .intro_text {
+        font-size: 40px;
+    }
+}
+
+  /* On screens that are 768px or less */
+@media screen and (max-width: 768px) {
+    .intro_text {
+        font-size: 48px;
+    }
+    .login_page_container {
+        margin-top: 15px;
+        height: auto;
+        width:100%;
+        /* display: none; */
+        position: relative;
+    }
+}
+  
+  /* On screens that are 768px or less */
+  @media screen and (max-aspect-ratio: 1/1) {
+    .intro_text {
+        font-size: 48px;
+    }
+    .login_page_container {
+        margin-top: 15px;
+        height: auto;
+        width:100%;
+        /* display: none; */
+        position: relative;
+    }
+}
+  
+
+@media screen and (max-width: 690px) {
+    .intro_text {
+        font-size: 43px;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .intro_text {
+        font-size: 42px;
+    }
+}
+
+/* On screens that are 600px or less*/
+@media screen and (max-width: 604px) {
+    .intro_text {
+        font-size: 40px;
+    }
+}
+
+/* On screens that are 768px or less */
+@media screen and (max-aspect-ratio: 1/1) and (min-height:640px){
+
+    .login_page_row {
+        margin-top: 15; 
+        height: 80vh;
+    }
+    
+    .login_page_container {
+        height: 40%;
+        display: table;
+        margin :0 auto;
+    }
+    
+    .login_page_mid {
+        /* height: 120%; */
+        display: block;
+    }
+    
+    .intro_text {
+        margin-top: 24px;
+    }
+
+    #login_page_form {
+        /* height: 120%; */
+        height: auto;
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        width: 80%;
+    }
+}
+
+
+/*  */

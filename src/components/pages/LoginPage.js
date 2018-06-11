@@ -7,23 +7,20 @@ import '../../styles/login_page.css';
 
 const LoginPage = (props) => {
     return (
-        <Grid>
-            <Row>
-            <Col sm={12} md={3} lg={2}>
-                <p className="intro_text"> The Key to your Child's Safety </p>
-            </Col>
-            <Col sm={0} md={9} lg={9} lgOffset={1}>
-                <Row>
-                    asdasdasdasd
-                </Row>
-                <Row>
-                    <SignInForm history={props.history} />
-                </Row>
-            </Col>
+        <Grid fluid={true}>
+            <Row className="justify-content-center" style={{"marginTop": 15, "height": "80vh"}}>
+                <Col className="login_page_container text-center" sm={2} md={2} lg={2}>
+                    <p className="intro_text login_page_mid "> The Key to your Child's Safety </p>
+                </Col>
+                <Col className="login_page_container" sm={8} md={8} lg={8}>
+                    <div  id="login_page_form" className="login_page_mid">
+                        <SignInForm history={props.history} />
+                    </div>
+                </Col>
             </Row>
-            <Row>
+            {/* <Row>
                 asdsdffgsdfgsdfgsdf gsdfg sdfg sdfg dsf
-            </Row>
+            </Row> */}
         </Grid>);
 }
 
