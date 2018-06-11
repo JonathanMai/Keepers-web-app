@@ -152,7 +152,6 @@ export class RestoreForm extends Component {
     }
     
     handleEmail(email){
-        console.log(this.enableButton('email', email))
         this.setState({
             ...this.state,
             email: email,
@@ -161,8 +160,6 @@ export class RestoreForm extends Component {
     }
 
     handleCode(code){
-        console.log(this.enableButton('code', code));
-
         this.setState({
             ...this.state,
             code: code,
@@ -172,8 +169,6 @@ export class RestoreForm extends Component {
 
 
     handlePassword(password){ 
-        console.log(this.enableButton('password', password))
-
         this.setState({
             ...this.state,
             password: password,
@@ -191,6 +186,16 @@ export class RestoreForm extends Component {
             <Grid className="reset_password_container" >
                 Password reset
                 <Form onSubmit={this.resetPass.bind(this)}>
+                
+                <FloatingLabelInput type={"code"} labelName={"PLEASE ENTER YOUR CODE"} 
+                        onChange={(e) => {e.preventDefault();
+                            this.handleCode(e.currentTarget.value)}}
+                        name={"CODE"}
+                        value={this.state.code} 
+                        isValid={this.state.code !== ""} 
+                        errorMessage={this.getValidationMessages('CODE')}/>
+
+                    {' '}
 
                     <FloatingLabelInput type={"email"} labelName={"EMAIL ADDRESS"} 
                         onChange={(e) => {e.preventDefault();
@@ -200,16 +205,6 @@ export class RestoreForm extends Component {
                         isValid={this.isValidEmail(this.state.email)} 
                         errorMessage={this.getValidationMessages('EMAIL')} />
                    
-                    {' '}
-
-                    <FloatingLabelInput type={"code"} labelName={"PLEASE ENTER YOUR CODE"} 
-                        onChange={(e) => {e.preventDefault();
-                            this.handleCode(e.currentTarget.value)}}
-                        name={"CODE"}
-                        value={this.state.code} 
-                        isValid={this.state.code !== ""} 
-                        errorMessage={this.getValidationMessages('CODE')}/>
-
                     {' '}
 
                     <FloatingLabelInput type={"password"} labelName={"NEW PASSWORD"} 
