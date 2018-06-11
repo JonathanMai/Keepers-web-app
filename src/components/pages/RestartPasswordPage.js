@@ -13,7 +13,7 @@ class RestartPasswordPage extends React.Component {
     render() {
         var renderPage;
 
-        if(this.state.page === 1) {
+        if(this.state.page === 3) {
             renderPage = (<EnterEmailForm submit={this.sendRestartCode.bind(this)}/>)
         }
 
@@ -31,7 +31,7 @@ class RestartPasswordPage extends React.Component {
                 page: 2
             });
         }).catch(error => { // When respond package is with error status - 400 ...
-                console.log(error.response);
+                console.log(error);
             }
         );
     }

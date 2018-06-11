@@ -140,7 +140,7 @@ export const GetLocation = (id, fromDate, toDate) => {
 
 // Request a code to restart password using email.
 export const SendRestartCode = (email) => {
-    return axios.head(url + "users/reset",{
+    return axios.head(url + "/requestPasswordReset",{
         params: {
             "email": email
         }       
