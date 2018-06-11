@@ -12,6 +12,8 @@ const languages = {
         share: "Share Keepers",
         not_support_iframe: "Your browser does not support iframes",
         language: "en",
+        page_not_found: "Page not found",
+        children_not_found: "Register children not found, Please make sure you register your children."
         
     },
     rus: {
@@ -26,7 +28,10 @@ const languages = {
         consultants: "Наши Консультанты",
         share: "Поделится Киперс",
         not_support_iframe: "Ваш браузер не поддерживает всплывающие окна",
-        language: "ru"
+        language: "ru",
+        page_not_found: "Страница не найдена",
+        children_not_found: "Детей не найдено, Пожалуйста убедитесь что вы зарегистрировали их."
+
     }
 };
 

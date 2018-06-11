@@ -38,9 +38,8 @@ class Dashboard extends Component {
     }
 
     render() {
-        return  (   this.props.childrens.length == 0 ? "No Childrens in app" :             
+        return  (   this.props.childrens.length == 0 ? this.props.currLang.children_not_found :             
             <div>
-                <Banner />
                 <Grid fluid={true} className="grid">
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
@@ -67,7 +66,8 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
-        zoom: state.dashboardInfo.defaultZoom
+        zoom: state.dashboardInfo.defaultZoom,
+        currLang: state.lang.currLang
     };
 };
 

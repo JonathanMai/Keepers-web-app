@@ -1,11 +1,19 @@
 const initialState = {
-    phoneNumber: null,
     parentId: null,
     auth: null
 };
 
 const reducerAccountInfo = (state = initialState, action) => {
-    return state;
+    switch(action.type) {
+        case "SET_USER":
+            return {
+                ...state,
+                parentId: action.value.id,
+                auth: action.value.authKey
+            };
+        default: 
+            return state;
+    }
 };
 
 export default reducerAccountInfo;

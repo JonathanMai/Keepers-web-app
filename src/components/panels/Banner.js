@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/banner.css';
 import { connect } from 'react-redux';
-import language from '../../lang/lang'
+// import language from '../../lang/lang'
 
 class Banner extends Component {
    

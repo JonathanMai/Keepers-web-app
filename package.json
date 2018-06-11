@@ -16,6 +16,7 @@
     "react-bootstrap-daterangepicker": "^4.1.0",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.4.0",
+    "react-floating-label-paper-input": "^1.0.4",
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

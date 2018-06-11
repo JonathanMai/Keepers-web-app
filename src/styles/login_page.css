@@ -1,0 +1,21 @@
+@font-face {
+    font-family: "OpenSans-Regular";
+    src: url("../fonts/OpenSans-Regular.ttf");
+}
+
+.intro_text {
+    font-size: 58px;
+    /* letter-spacing: -4px; */
+    color: rgb(37, 185, 204);
+    font-family: "OpenSans-Regular";
+    /* margin: 0px; */
+}
+
+/* .banner {
+    position: relative !important;
+} */
+
+.paper-input-bar, .has-error-text {
+    margin: 0px;
+}
+

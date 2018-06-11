@@ -29,8 +29,10 @@ class RegisterForm extends React.Component {
         var name = this.name.value;
         var email = this.email.value;
         var password = this.password.value;
+
         Register(name, email, password).then(res => {
             console.log(res);
+            this.props.history.push('/login'); 
         }).catch(error => {
             console.log(error.response);
         });

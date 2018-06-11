@@ -63,6 +63,19 @@
 }
 
 .chat_frame {
+    position: absolute;
+    top: 26px;
+    right: 0px;
     width: 400px;
     height: 70vh;
+    padding: 40px;
+    border: none;
+}
+
+.closeBtn {
+    top: 75px;
+    position: relative;
+    right: 322px;
+    z-index: 1;
+    cursor: pointer;
 }

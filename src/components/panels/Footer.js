@@ -3,6 +3,8 @@ import logoChat from '../../assets/Home-icon.png';
 import logoShare from '../../assets/Share-icon.png'; 
 import '../../styles/footer.css';
 import { connect } from 'react-redux';
+import closeBtn from '../../assets/close.png'; 
+
 
 class Footer extends Component {
     constructor(props){
@@ -28,6 +30,9 @@ class Footer extends Component {
                     </div>
                 </div>
                 <div className="chat_screen">
+                    <div className="closeBtn">
+                        <img style={{width: 25 + 'px'}} src={closeBtn} onClick={this.open_close_consultant.bind(this)}/>
+                    </div>
                     <iframe className="chat_frame" src="https://chat-bot-55ed9.firebaseapp.com/">
                         <p>{this.props.currLang.not_support_iframe}</p>
                     </iframe>
