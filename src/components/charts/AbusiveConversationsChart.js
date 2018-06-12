@@ -64,6 +64,11 @@ var AbusiveConversationsChart = (props) => {
                             ticks: {
                                 beginAtZero: true
                             }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontSize: 10
+                            }
                         }]
                     },
                     tooltips: {

@@ -57,7 +57,6 @@ class Dashboard extends Component {
                             <BottomPanel  />
                         </Tabs>
                 </Grid>
-                <Footer />
             </div>
         );
     }

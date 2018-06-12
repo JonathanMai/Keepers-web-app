@@ -10,12 +10,12 @@ class BottomPanel extends Component {
     render(){
         console.log(this.props);
         return(
-            <div className="card" style={{height: 36 + 'vh', padding: 15, marginTop: 10}}>
-                <Col xs={8} style={{padding: 0, height: '-webkit-fill-available'}}>
+            <div className="card" style={{height: 32 + 'vh', padding: 10, marginTop: 10}}>
+                <Col xs={11} style={{padding: 0, height: 'auto'}}>
                     <MyMap />
                 </Col>   
-                <Col xs={4} style={{ padding: 0, height: '-webkit-fill-available'}}>
-                    <div className="border" style={{height: '-webkit-fill-available'}}></div>
+                <Col xs={1} style={{ padding: 0, height: '-webkit-fill-available'}}>
+                    <div  style={{height: '-webkit-fill-available'}}></div>
                 </Col>
             </div>
         );

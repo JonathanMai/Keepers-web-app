@@ -16,7 +16,7 @@ import {
 const MyMapComponent = compose(
   withProps({
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `32vh` }} />,
+    containerElement: <div style={{ height: `29vh` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
