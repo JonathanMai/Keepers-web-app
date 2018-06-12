@@ -2,11 +2,13 @@ import React from 'react';
 import SignInForm from '../forms/SignInForm';
 import RegisterForm from '../forms/RegisterForm';
 import App from '../App';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Checkbox } from 'react-bootstrap';
 import '../../styles/login_page.css';
+import wave from '../../assets/Wave_main.png';
 
 const LoginPage = (props) => {
     return (
+        <div>
         <Grid fluid={true}>
             <Row className="justify-content-center" style={{"marginTop": 15, "height": "80vh"}}>
                 <Col className="login_page_container text-center" sm={2} md={2} lg={2}>
@@ -18,10 +20,11 @@ const LoginPage = (props) => {
                     </div>
                 </Col>
             </Row>
-            {/* <Row>
-                asdsdffgsdfgsdfgsdf gsdfg sdfg sdfg dsf
-            </Row> */}
-        </Grid>);
+        </Grid>
+        <div>
+            <img className="wave" src={wave} />
+        </div>
+        </div>);
 }
 
 

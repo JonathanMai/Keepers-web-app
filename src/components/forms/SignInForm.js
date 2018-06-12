@@ -1,13 +1,15 @@
 import React from 'react';
-import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap';
+import { Form, FormGroup, Button, ControlLabel, FormControl, Image } from 'react-bootstrap';
 import { RegisterModal } from '../modals/RegisterModal';
 import { Login } from '../../serviceAPI';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
 import '../../styles/login_page.css';
-
-
+import submitBtn from '../../assets/submit_ok.png';
+import disableSubmitBtn from '../../assets/submit_disabled.png';
+import emptyV from '../../assets/empty_v.png';
+import fullV from '../../assets/full_v.png';
 
 class SignInForm extends React.Component {
     constructor(props){
@@ -110,9 +112,15 @@ class SignInForm extends React.Component {
                             value={this.state.password} 
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
-                    <Button disabled={this.state.buttonDisabled} type="submit">Sign In</Button>
+
+                    <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
+
+                    <Button className="btn_submit" disabled={this.state.buttonDisabled} type="submit"> 
+                        <Image style={{width: 70 + 'px'}} src={this.state.buttonDisabled ? disableSubmitBtn : submitBtn} 
+                            rounded
+                            disabled={this.state.buttonDisabled} />
+                    </Button>
                 </Form>
-                <Link to={"/restore-password"}>Forgot Password</Link>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
@@ -147,12 +155,11 @@ class SignInForm extends React.Component {
             localStorage._token = token;
             this.props.history.push('/keepers-dashboard'); 
         }).catch(error => { // When respond package is with error status - 400 ...
-            console.log(error);
-            // if(error.response.data.message === 'Email does not exists') {
+            if(error.response.data.code === '994') {    // parent not exists
                 this.props.setShowModal(true);
-            // } else if(error.response.data.message === 'Password does not match') {
+            } else if(error.response.data.code === '935') { // password is wrong
                 this.props.setPasswordErrors("error");
-            // }
+            }
         });
     }
 }
