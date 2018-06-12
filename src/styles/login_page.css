@@ -8,7 +8,7 @@
     src: url("../fonts/OpenSans-Light.ttf");
 }
 
-.wrong_password {
+.error_message {
     position: absolute;
     color: red;
     margin: 0;

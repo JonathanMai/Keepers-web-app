@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import SignInForm from '../forms/SignInForm';
-import RegisterForm from '../forms/RegisterForm';
-import App from '../App';
-import { Grid, Row, Col, Checkbox, Image } from 'react-bootstrap';
+import { Grid, Row, Col, Image } from 'react-bootstrap';
 import '../../styles/login_page.css';
 import wave from '../../assets/Wave_main.png';
 import emptyV from '../../assets/empty_v.png';

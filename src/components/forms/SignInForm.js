@@ -163,7 +163,7 @@ class SignInForm extends React.Component {
                             circle
                         />
                         {
-                         this.state.showErrorMessage ? (<span className="wrong_password">{this.state.errorMessage}</span>) : ""
+                         this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
                         }
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
