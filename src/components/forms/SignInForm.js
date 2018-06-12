@@ -36,7 +36,6 @@ class SignInForm extends React.Component {
     isValidPassword(password){
         if(password.length < 6 || password.length > 15)
             return false;
-
         return true;
     }
 
@@ -89,6 +88,7 @@ class SignInForm extends React.Component {
         });
     }
     render() {
+        console.log(this.state.disableButton);
         return(
             <div>
                 <Form onSubmit={this.signIn.bind(this)}>
@@ -106,18 +106,14 @@ class SignInForm extends React.Component {
                             value={this.state.password} 
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
-<<<<<<< HEAD
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
 
-                    <Button className="btn_submit" disabled={this.state.buttonDisabled} type="submit"> 
-                        <Image style={{width: 70 + 'px'}} src={this.state.buttonDisabled ? disableSubmitBtn : submitBtn} 
-                            rounded
-                            disabled={this.state.buttonDisabled} />
+                    <Button className="btn_submit" disabled={this.state.disableButton} type="submit"> 
+                        <Image style={{width: 70 + 'px'}} src={this.state.disableButton ? disableSubmitBtn : submitBtn} 
+                            circle
+                        />
                     </Button>
-=======
-                    <Button disabled={this.state.disableButton} type="submit">Sign In</Button>
->>>>>>> f95337753d74e0593dd0f31320ecd4b140b2f3f1
                 </Form>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
@@ -152,14 +148,8 @@ class SignInForm extends React.Component {
             localStorage._id = parentId;
             localStorage._token = token;
             this.props.history.push('/keepers-dashboard'); 
-<<<<<<< HEAD
         }).catch(error => { // When respond package is with error status - 400 ...
             if(error.response.data.code === '994') {    // parent not exists
-=======
-        }).catch((error) => { // When respond package is with error status - 400 ...
-            console.log(error.response);
-            // if(error.response.data.message === 'Email does not exists') {
->>>>>>> f95337753d74e0593dd0f31320ecd4b140b2f3f1
                 this.props.setShowModal(true);
             } else if(error.response.data.code === '935') { // password is wrong
                 this.props.setPasswordErrors("error");

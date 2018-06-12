@@ -3,6 +3,11 @@
     src: url("../fonts/OpenSans-Regular.ttf");
 }
 
+@font-face {
+    font-family: "OpenSans-Light";
+    src: url("../fonts/OpenSans-Light.ttf");
+}
+
 .intro_text {
     font-size: 9vh;
     text-align: left;
@@ -10,7 +15,7 @@
 
     /* letter-spacing: -4px; */
     color: rgb(37, 185, 204);
-    font-family: "OpenSans-Regular";
+    font-family: "OpenSans-Light";
     /* margin: 0px; */
 
 }
@@ -163,7 +168,7 @@ img.wave {
     border: none;
     margin-top: 20px;
     position: relative;
-    top: 25px;
+    top: 10px;
 }
 
 span.has-error-text {
@@ -175,6 +180,10 @@ span.has-error-text {
     display: block;
     float: right;
     position: relative;
-    top: 21px;
+    top: 0px;
+    font-family: "OpenSans-Regular";
 }
-/*  */
+
+.floating-label {
+    margin-bottom: 20px;
+}
