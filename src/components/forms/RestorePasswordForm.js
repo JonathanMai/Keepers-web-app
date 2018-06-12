@@ -176,16 +176,16 @@ export class RestoreForm extends Component {
         });
     }
 
-    resetPass(event) {
+    restartPassword(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
-
+        this.props.submit(this.state.email, this.state.code, this.state.password);
     }
 
     render() {
         return(
             <Grid className="reset_password_container" >
                 Password reset
-                <Form onSubmit={this.resetPass.bind(this)}>
+                <Form onSubmit={this.restartPassword.bind(this)}>
                 
                 <FloatingLabelInput type={"code"} labelName={"PLEASE ENTER YOUR CODE"} 
                         onChange={(e) => {e.preventDefault();

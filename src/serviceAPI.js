@@ -3,7 +3,7 @@ import JQuery from 'jquery';
 import moment from 'moment';
 import store from './store';
 
-const url = "https://keepers-main-vodafone-dev.eu-de.mybluemix.net/keeper-server/";
+const url = "https://keepers-main-vodafone-prod.eu-de.mybluemix.net/keeper-server/";
 // const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
 // const parentId = 11;
 
@@ -140,19 +140,26 @@ export const GetLocation = (id, fromDate, toDate) => {
 
 // Request a code to restart password using email.
 export const SendRestartCode = (email) => {
-    return axios.head(url + "/requestPasswordReset",{
-        params: {
-            "email": email
-        }       
-    });
+    let body = {
+        email: email
+    };
+    let headers = {headers: {
+        'content-type': "application/json"
+    }};
+
+    return axios.post(url + "passwordReset/requestPasswordReset", body, headers);
 };
 
 // Restart password using code sent to email.
-export const ResetPassword = (email, password, code) => {
-    return axios.post(url + "users/reset",{
-        "email": email,
-        "password": password,
-        "code": code
+export const ResetPassword = (email, code, password ) => {
+    let body = {
+        email: email,
+        passwordFromEmail: code,
+        newPermPassword: password
+    };
+    let headers = {headers: {
+        "content-type": "application/json"
+    }};
 
-    });
-};
+    return axios.post(url + "passwordReset/applyPasswordReset", body, headers);
+};  

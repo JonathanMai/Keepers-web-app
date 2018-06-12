@@ -140,8 +140,8 @@ class SignInForm extends React.Component {
             localStorage._id = parentId;
             localStorage._token = token;
             this.props.history.push('/keepers-dashboard'); 
-        }).catch(error => { // When respond package is with error status - 400 ...
-            console.log(error);
+        }).catch((error) => { // When respond package is with error status - 400 ...
+            console.log(error.response);
             // if(error.response.data.message === 'Email does not exists') {
                 this.props.setShowModal(true);
             // } else if(error.response.data.message === 'Password does not match') {

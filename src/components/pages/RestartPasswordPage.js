@@ -13,7 +13,7 @@ class RestartPasswordPage extends React.Component {
     render() {
         var renderPage;
 
-        if(this.state.page === 3) {
+        if(this.state.page === 1) {
             renderPage = (<EnterEmailForm submit={this.sendRestartCode.bind(this)}/>)
         }
 
@@ -36,17 +36,17 @@ class RestartPasswordPage extends React.Component {
         );
     }
 
-    restartPassword(email, password, code) {
+    restartPassword(email, code, password) {
        // Sends package and handling the respond.
-        ResetPassword(email, password, code).then(res => {  // When respond package is with status 200
+        ResetPassword(email, code, password).then(res => {  // When respond package is with status 200
             this.props.history.push("/login");   // todo: redirect to main menu.
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.response);
-            if(error.response.data.message === "Email does not exists") {
-                // TODO: change field color to red after mistake.
-            } else if(error.response.data.code === "Confirmation code is not valid") {
-                // TODO: change field color to red after mistake.
-            }
+            // if(error.response.data.message === "Email does not exists") {
+            //     // TODO: change field color to red after mistake.
+            // } else if(error.response.data === "Confirmation code is not valid") {
+            //     // TODO: change field color to red after mistake.
+            // }
         });
     }
 }
