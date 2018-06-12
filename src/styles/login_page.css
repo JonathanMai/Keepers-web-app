@@ -5,7 +5,9 @@
 
 .intro_text {
     font-size: 9vh;
-    text-align: center;
+    text-align: left;
+    padding-left: 120px;
+
     /* letter-spacing: -4px; */
     color: rgb(37, 185, 204);
     font-family: "OpenSans-Regular";
@@ -63,6 +65,7 @@
         width:100%;
         /* display: none; */
         position: relative;
+        padding-left: 0px;
     }
 }
   
@@ -70,6 +73,7 @@
   @media screen and (max-aspect-ratio: 1/1) {
     .intro_text {
         font-size: 48px;
+        /* padding-left: 0px; */
     }
     .login_page_container {
         margin-top: 15px;
@@ -80,6 +84,17 @@
     }
 }
   
+@media screen and (max-width: 1000px) {
+    .intro_text {
+        padding-left: 100px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .intro_text {
+        padding-left: 80px;
+    }
+}
 
 @media screen and (max-width: 690px) {
     .intro_text {
@@ -120,7 +135,9 @@
     }
     
     .intro_text {
+        text-align: center;
         margin-top: 24px;
+        padding-left: 0px;
     }
 
     #login_page_form {

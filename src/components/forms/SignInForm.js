@@ -23,7 +23,7 @@ class SignInForm extends React.Component {
         this.state = {
             email: "",
             password: "",
-            buttonDisabled: true
+            disableButton: true
         }
     }
     isValidEmail(email){
@@ -64,35 +64,29 @@ class SignInForm extends React.Component {
                 emailIsValid = this.isValidEmail(this.state.email);
                 passwordIsValid = this.isValidPassword(this.state.password);
         } 
-        if(this.state.buttonDisabled && emailIsValid && passwordIsValid){
+        if(this.state.disableButton && emailIsValid && passwordIsValid){
             return false;
         }
-        else if(!this.state.buttonDisabled  && (!emailIsValid || !passwordIsValid)){
+        else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid)){
             return true;
         }
-        else {
-            return this.state.buttonDisabled;
-        }
+        return this.state.disableButton;
     }
     
     handleEmail(email){
         this.setState({
             ...this.state,
             email: email,
-            buttonDisabled: this.enableButton('email', email)
+            disableButton: this.enableButton('email', email)
         });
-
-        this.enableButton();
     }
 
     handlePassword(password){ 
         this.setState({
             ...this.state,
             password: password,
-            buttonDisabled: this.enableButton('password', password)
+            disableButton: this.enableButton('password', password)
         });
-
-        this.enableButton();
     }
     render() {
         return(
@@ -112,6 +106,7 @@ class SignInForm extends React.Component {
                             value={this.state.password} 
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
+<<<<<<< HEAD
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
 
@@ -120,6 +115,9 @@ class SignInForm extends React.Component {
                             rounded
                             disabled={this.state.buttonDisabled} />
                     </Button>
+=======
+                    <Button disabled={this.state.disableButton} type="submit">Sign In</Button>
+>>>>>>> f95337753d74e0593dd0f31320ecd4b140b2f3f1
                 </Form>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
@@ -154,8 +152,14 @@ class SignInForm extends React.Component {
             localStorage._id = parentId;
             localStorage._token = token;
             this.props.history.push('/keepers-dashboard'); 
+<<<<<<< HEAD
         }).catch(error => { // When respond package is with error status - 400 ...
             if(error.response.data.code === '994') {    // parent not exists
+=======
+        }).catch((error) => { // When respond package is with error status - 400 ...
+            console.log(error.response);
+            // if(error.response.data.message === 'Email does not exists') {
+>>>>>>> f95337753d74e0593dd0f31320ecd4b140b2f3f1
                 this.props.setShowModal(true);
             } else if(error.response.data.code === '935') { // password is wrong
                 this.props.setPasswordErrors("error");

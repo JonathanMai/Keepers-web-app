@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import { Bar, Line, Pie } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import moment from 'moment/min/moment-with-locales';
-import AbusiveConversationsChart from '../charts/AbusiveConversationsChart'
+import AbusiveConversationsChart from '../charts/AbusiveConversationsChart.js'
 import { GetMessagesStatistics } from '../../serviceAPI';
 
 export class LineChart extends Component {
