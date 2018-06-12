@@ -3,6 +3,11 @@
     src: url("../fonts/OpenSans-Regular.ttf");
 }
 
+@font-face {
+    font-family: "OpenSans-Light";
+    src: url("../fonts/OpenSans-Light.ttf");
+}
+
 .intro_text {
     font-size: 9vh;
     text-align: left;
@@ -10,7 +15,7 @@
 
     /* letter-spacing: -4px; */
     color: rgb(37, 185, 204);
-    font-family: "OpenSans-Regular";
+    font-family: "OpenSans-Light";
     /* margin: 0px; */
 
 }
@@ -150,5 +155,35 @@
     }
 }
 
+img.wave {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
 
-/*  */
+.btn_submit {
+    border-radius: 50%;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    margin-top: 20px;
+    position: relative;
+    top: 10px;
+}
+
+span.has-error-text {
+    position: absolute;
+}
+
+.link {
+    color: rgb(37, 185, 204);
+    display: block;
+    float: right;
+    position: relative;
+    top: 0px;
+    font-family: "OpenSans-Regular";
+}
+
+.floating-label {
+    margin-bottom: 20px;
+}
