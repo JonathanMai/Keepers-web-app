@@ -20,6 +20,25 @@
 
 }
 
+.terms {
+    position: absolute;
+    bottom: 25px;
+    width: 20px;
+    left: 60px;
+}
+
+.terms + span {
+    font-size: 20px;
+    position: absolute;
+    bottom: 20px;
+    left: 80px;
+    font-family: "OpenSans-Light";
+}
+
+.terms + span > u {
+    cursor: pointer;
+}
+
 .login_page_row {
     margin-top: 15; 
     height: 80vh;

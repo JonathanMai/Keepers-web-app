@@ -117,8 +117,8 @@ class SignInForm extends React.Component {
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
 
-                    <Button className="btn_submit" disabled={this.state.disableButton} type="submit"> 
-                        <Image style={{width: 70 + 'px'}} src={this.state.disableButton ? disableSubmitBtn : submitBtn} 
+                    <Button className="btn_submit" disabled={this.state.disableButton || !this.props.agreement} type="submit"> 
+                        <Image style={{width: 70 + 'px'}} src={this.state.disableButton || !this.props.agreement ? disableSubmitBtn : submitBtn} 
                             circle
                         />
                     </Button>
@@ -179,7 +179,8 @@ class SignInForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         registerModal: state.reducerA,
-        wrongPassword: state.reducerA.wrongPassword
+        wrongPassword: state.reducerA.wrongPassword,
+        agreement: state.reducerA.agreement
     };
 };
 

@@ -1,7 +1,8 @@
 const initialState = {
     showModal: false,
     wrongPassword: null,
-    panel_color: "transparent"
+    panel_color: "transparent",
+    agreement: false
 };
 
 const reducerA = (state = initialState, action) => {
@@ -20,7 +21,12 @@ const reducerA = (state = initialState, action) => {
             return {
                 ...state,
                 panel_color: action.value
-            };    
+            };   
+        case "SET_AGREEMENT":
+            return {
+                ...state,
+                agreement: action.value
+            };   
         default: 
             return state;
     }
