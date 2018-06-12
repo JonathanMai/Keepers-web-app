@@ -17,9 +17,11 @@ class RoutersList extends Component {
         if(this.checkStorage) {
             this.updateRedux();
         }
+        console.log("aaaaaaaa", this.props);
+
         return (
             <div>
-                <Banner/>
+                <Banner color={this.props.panel_color}/>
                 <Router>
                     <Switch>
                         <Route path="/" exact component={() => <Redirect to="/login" />}/>
@@ -48,8 +50,10 @@ class RoutersList extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
-        currLang: state.lang.currLang
+        currLang: state.lang.currLang,
+        panel_color: state.reducerA.panel_color
     };
 };
 

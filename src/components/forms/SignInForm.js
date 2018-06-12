@@ -10,6 +10,8 @@ import submitBtn from '../../assets/submit_ok.png';
 import disableSubmitBtn from '../../assets/submit_disabled.png';
 import emptyV from '../../assets/empty_v.png';
 import fullV from '../../assets/full_v.png';
+import openEye from '../../assets/open_eye.png';
+import closedEye from '../../assets/closed_eye.png';
 
 class SignInForm extends React.Component {
     constructor(props){
@@ -20,10 +22,12 @@ class SignInForm extends React.Component {
         this.isValidPassword = this.isValidPassword.bind(this);
         this.getValidationMessages = this.getValidationMessages.bind(this);
         this.enableButton = this.enableButton.bind(this);
+        this.changePasswordEye = this.changePasswordEye.bind(this);
         this.state = {
             email: "",
             password: "",
-            disableButton: true
+            disableButton: true,
+            showPassword: false
         }
     }
     isValidEmail(email){
@@ -88,7 +92,6 @@ class SignInForm extends React.Component {
         });
     }
     render() {
-        console.log(this.state.disableButton);
         return(
             <div>
                 <Form onSubmit={this.signIn.bind(this)}>
@@ -100,12 +103,17 @@ class SignInForm extends React.Component {
                             isValid={this.isValidEmail(this.state.email)} 
                             errorMessage={this.getValidationMessages('EMAIL')} />
     
-                    <FloatingLabelInput type={"password"} labelName={"PARENT'S PASSWORD"} 
+                    <FloatingLabelInput ref="password" type={"password"} labelName={"PARENT'S PASSWORD"} 
                             onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                             name={"PASSWORD"}
                             value={this.state.password} 
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
+                            
+                    <Image onClick={this.changePasswordEye} className={!this.state.showPassword ? "eyes closed_eye" : "eyes open_eye"}
+                        src={!this.state.showPassword ? closedEye : openEye} 
+                            circle
+                        />
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
 
@@ -122,6 +130,16 @@ class SignInForm extends React.Component {
 
             </div>
         );
+    }
+
+    changePasswordEye() {
+        let type = "";
+        this.setState({
+            ...this.state,
+            showPassword: !this.state.showPassword
+        });
+        this.state.showPassword ? type = "password" : type = "text";
+        this.refs.password.inputs.type = type;
     }
 
     closeRegisterModal() {

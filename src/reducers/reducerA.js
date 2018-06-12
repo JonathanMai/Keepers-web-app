@@ -1,6 +1,7 @@
 const initialState = {
     showModal: false,
-    wrongPassword: null
+    wrongPassword: null,
+    panel_color: "transparent"
 };
 
 const reducerA = (state = initialState, action) => {
@@ -15,6 +16,11 @@ const reducerA = (state = initialState, action) => {
                 ...state,
                 wrongPassword: action.value
             };
+        case "CHANGE_PANEL_COLOR":
+            return {
+                ...state,
+                panel_color: action.value
+            };    
         default: 
             return state;
     }

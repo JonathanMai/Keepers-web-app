@@ -187,3 +187,18 @@ span.has-error-text {
 .floating-label {
     margin-bottom: 20px;
 }
+
+.eyes {
+    cursor: pointer;
+    width: 30px;
+    position: relative;
+    float: right;
+}
+
+.closed_eye {
+    top: -40px;
+}
+
+.open_eye {
+    top: -50px;
+}

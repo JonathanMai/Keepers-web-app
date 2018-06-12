@@ -1,8 +1,12 @@
+@font-face {
+    font-family: "OpenSans-Light";
+    src: url("../fonts/OpenSans-Light.ttf");
+}
+
 .banner {
     position: absolute;
     left: 0px;
     right: 0px;
-    background-color: rgba(37, 185, 204, 0.45);
     padding: 15px;
 }
 
@@ -10,4 +14,6 @@
     position: absolute;
     right: 52px;
     top: 5px;
+    font-family: "OpenSans-Light";
+    border: none;
 }

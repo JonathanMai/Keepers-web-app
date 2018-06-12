@@ -8,8 +8,6 @@ import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
 import '../../styles/card.css';
 import Footer from '../panels/Footer';
-import Banner from '../panels/Banner';
-
 
 class Dashboard extends Component {
     constructor(props){
@@ -37,7 +35,9 @@ class Dashboard extends Component {
         });
     }
 
+
     render() {
+        this.props.changePanelColor("rgba(37, 185, 204, 0.45)");
         return  (   this.props.childrens.length == 0 ? this.props.currLang.children_not_found :             
             <div>
                 <Grid fluid={true} className="grid">
@@ -89,6 +89,12 @@ const mapDispatchToProps = (dispatch) => {
         setZoom: (val) => {
             dispatch({
                 type: "SET_ZOOM",
+                value: val
+            });
+        },
+        changePanelColor: (val) => {
+            dispatch({
+                type: "CHANGE_PANEL_COLOR",
                 value: val
             });
         }

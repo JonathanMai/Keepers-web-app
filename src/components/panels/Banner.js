@@ -7,7 +7,7 @@ class Banner extends Component {
    
     render() {
         return (
-            <div className="banner">
+            <div className="banner" style={{backgroundColor: this.props.color}}>
                 <div>
                     <select className="select_lang" onChange={(e) => this.changeLanguage(e)}>
                     {
