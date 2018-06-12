@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Button, ControlLabel, FormControl , Grid} from 'react-bootstrap';
+import { Form, Button, Grid, Image} from 'react-bootstrap';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
 import '../../styles/reset_password.css';
-
+import submitBtn from '../../assets/submit_ok.png';
+import disableSubmitBtn from '../../assets/submit_disabled.png';
+import { SendRestartCode, ResetPassword } from '../../serviceAPI';
+import openEye from '../../assets/open_eye.png';
+import closedEye from '../../assets/closed_eye.png';
 
 
 export class EnterEmailForm extends Component {
 
     constructor(props) {
         super(props);
-
         this.isValidEmail = this.isValidEmail.bind(this);
         this.getValidationMessages = this.getValidationMessages.bind(this);
         this.enableButton = this.enableButton.bind(this);
-
+        this.sendCode = this.sendCode.bind(this);
+        this.emailOnFocus = this.emailOnFocus.bind(this);
         this.state = {
             email: "",
-            disableButton: true
+            disableButton: true,
+            showError: false,
+            errorMessage: ""
         }
     }
 
@@ -33,7 +39,6 @@ export class EnterEmailForm extends Component {
 
     enableButton(input) {
         let emailIsValid = this.isValidEmail(input);
-
         if(this.state.disableButton && emailIsValid){
             return false;
         }
@@ -53,23 +58,51 @@ export class EnterEmailForm extends Component {
 
     sendCode(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
-        // if
-        this.props.submit(this.state.email);
+        this.sendRestartCode();
+    }
+
+    sendRestartCode() {
+        // Sends package and handling the respond.
+         SendRestartCode(this.state.email).then(res => {  // When respond package is with status 200
+            this.props.nextPage();
+         }).catch(error => { // When respond package is with error status - 400 ...
+                 console.log(error.response);
+                 if(error.response.data.code === "994") {   // parent was not found
+                    this.setState({
+                        ...this.state,
+                        errorMessage: "Parent was not found in the system",
+                        showError: true
+                    });
+                 }
+             }
+         );
+     }
+
+    emailOnFocus() {
+        this.setState({
+            ...this.state,
+            showError: false
+        });
     }
 
     render() {
         return(
             <Grid className="reset_password_container">
                 <p className="forgot_pass_text">Forgot your password? don't worry, just enter your email address below and we'll send you some instructions.</p>
-                <Form onSubmit={this.sendCode.bind(this)}>
-                    <FloatingLabelInput type={"email"} labelName={"ENTER YOUR EMAIL ADDRESS"} 
+                <Form onSubmit={this.sendCode}>
+                    <FloatingLabelInput ref="email" onFocus={this.emailOnFocus} type={"email"} labelName={"ENTER YOUR EMAIL ADDRESS"} 
                         onChange={(e) => {e.preventDefault();
                         this.handleEmail(e.currentTarget.value)}}
                         name={"EMAIL"}
                         value={this.state.email} 
                         isValid={this.isValidEmail(this.state.email)} 
                         errorMessage={this.getValidationMessages()} />
-                        <Button type="submit" disabled={this.state.disableButton} style={{marginTop: 10}}>Send Restart Code</Button>
+                        {this.state.showError && <span className="error_message"> {this.state.errorMessage} </span>}
+                        <Button className="btn_submit" type="submit" disabled={this.state.disableButton}>
+                            <Image style={{width: 70 + 'px'}} src={this.state.disableButton ? disableSubmitBtn : submitBtn} 
+                                circle={true}
+                            />
+                        </Button>
                 </Form>
             </Grid> 
         );
@@ -80,15 +113,31 @@ export class RestoreForm extends Component {
 
     constructor(props) {
         super(props);
-
         this.isValidEmail = this.isValidEmail.bind(this);
         this.getValidationMessages = this.getValidationMessages.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
+        this.restartPassword = this.restartPassword.bind(this);
+        this.fieldOnFocus = this.fieldOnFocus.bind(this);
+        this.changePasswordEye = this.changePasswordEye.bind(this);
         this.state = {
             email: "",
             code: "",
             password: "",
-            disableButton: true
+            disableButton: true,
+            showError: false,
+            errorMessage: "",
+            showPassword: false
         }
+    }
+
+    changePasswordEye() {
+        let type = "";
+        this.setState({
+            ...this.state,
+            showPassword: !this.state.showPassword
+        });
+        this.state.showPassword ? type = "password" : type = "text";
+        this.refs.password.inputs.type = type;
     }
 
     isValidEmail(email){
@@ -118,9 +167,6 @@ export class RestoreForm extends Component {
 
     enableButton(type, input) {
         let emailIsValid, codeIsValid, passwordIsValid;
-        console.log(this.state)
-        console.log(this.state.code === "")
-
         switch(type){
             case 'email':
                 emailIsValid = this.isValidEmail(input);
@@ -167,7 +213,6 @@ export class RestoreForm extends Component {
         });
     }
 
-
     handlePassword(password){ 
         this.setState({
             ...this.state,
@@ -176,20 +221,56 @@ export class RestoreForm extends Component {
         });
     }
 
-    restartPassword(event) {
+    resetPassword(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
-        this.props.submit(this.state.email, this.state.code, this.state.password);
+        this.restartPassword(this.state.email, this.state.code, this.state.password);
+    }
+
+    restartPassword(email, code, password) {
+        // Sends package and handling the respond.
+         ResetPassword(email, code, password).then(res => {  // When respond package is with status 200
+            this.setState({
+                ...this.state,
+                showError: true,
+                errorMessage: "You have successfully reset your password!"
+            });
+            setTimeout(() => {
+                this.props.history.history.push("/login");   // Redirect to main menu.
+            }, 2000);
+         }).catch(error => { // When respond package is with error status - 400 ...
+             if(error.response.data.code === "825") {   // the code is not corrent
+                this.setState({
+                    ...this.state,
+                    errorMessage: "The code is incorrent",
+                    showError: true
+                });
+             }
+             else if(error.response.data.code === "827") {   // for that email you didnt ask for reset password
+                this.setState({
+                    ...this.state,
+                    errorMessage: "You didn't request reset password for that email address",
+                    showError: true
+                });
+             }
+         });
+    }
+
+    fieldOnFocus() {
+        this.setState({
+            ...this.state,
+            showError: false
+        });
     }
 
     render() {
         return(
             <Grid className="reset_password_container" >
-                Password reset
-                <Form onSubmit={this.restartPassword.bind(this)}>
+                <p className="intro_text">Password reset</p>
+                <Form onSubmit={this.resetPassword}>
                 
-                <FloatingLabelInput type={"code"} labelName={"PLEASE ENTER YOUR CODE"} 
+                <FloatingLabelInput onFocus={this.fieldOnFocus} type={"code"} labelName={"PLEASE ENTER YOUR CODE"} 
                         onChange={(e) => {e.preventDefault();
-                            this.handleCode(e.currentTarget.value)}}
+                        this.handleCode(e.currentTarget.value)}}
                         name={"CODE"}
                         value={this.state.code} 
                         isValid={this.state.code !== ""} 
@@ -197,7 +278,7 @@ export class RestoreForm extends Component {
 
                     {' '}
 
-                    <FloatingLabelInput type={"email"} labelName={"EMAIL ADDRESS"} 
+                    <FloatingLabelInput onFocus={this.fieldOnFocus} type={"email"} labelName={"EMAIL ADDRESS"} 
                         onChange={(e) => {e.preventDefault();
                         this.handleEmail(e.currentTarget.value)}}
                         name={"EMAIL"}
@@ -207,13 +288,26 @@ export class RestoreForm extends Component {
                    
                     {' '}
 
-                    <FloatingLabelInput type={"password"} labelName={"NEW PASSWORD"} 
+                    <FloatingLabelInput ref="password" onFocus={this.fieldOnFocus} type={"password"} labelName={"NEW PASSWORD"} 
                         onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                         name={"PASSWORD"}
                         value={this.state.password} 
                         isValid={this.isValidPassword(this.state.password)} 
                         errorMessage={this.getValidationMessages('PASSWORD')}/>
-                    <Button type="submit" disabled={this.state.disableButton} style={{marginTop: 10}}>Restart Password</Button>
+
+                    <Image onClick={this.changePasswordEye} className={!this.state.showPassword ? "eyes closed_eye" : "eyes open_eye"}
+                        src={!this.state.showPassword ? closedEye : openEye} 
+                            circle />
+
+                    {this.state.showError && 
+                        (this.state.errorMessage !== "You have successfully reset your password!" ? <span className="error_message"> {this.state.errorMessage} </span> : <span className="error_message" style={{color: "green"}}> {this.state.errorMessage} </span>)
+                    }
+
+                    <Button className="btn_submit" type="submit" disabled={this.state.disableButton}>
+                        <Image style={{width: 70 + 'px'}} src={this.state.disableButton ? disableSubmitBtn : submitBtn} 
+                            circle={true}
+                        />
+                    </Button>                
                 </Form>
             </Grid>
         );

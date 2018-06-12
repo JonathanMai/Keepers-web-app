@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Button, ControlLabel, FormControl, Image } from 'react-bootstrap';
+import { Form, Button, Image } from 'react-bootstrap';
 import { RegisterModal } from '../modals/RegisterModal';
 import { Login, Register } from '../../serviceAPI';
 import { connect } from 'react-redux';
@@ -8,8 +8,6 @@ import FloatingLabelInput from "react-floating-label-paper-input";
 import '../../styles/login_page.css';
 import submitBtn from '../../assets/submit_ok.png';
 import disableSubmitBtn from '../../assets/submit_disabled.png';
-import emptyV from '../../assets/empty_v.png';
-import fullV from '../../assets/full_v.png';
 import openEye from '../../assets/open_eye.png';
 import closedEye from '../../assets/closed_eye.png';
 
