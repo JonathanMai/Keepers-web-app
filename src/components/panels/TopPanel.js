@@ -17,18 +17,18 @@ class TopPanel extends Component {
     }
     render(){
         return(
-            <Row style={{height: 42 + 'vh'}}>
+            <Row style={{height: 54 + 'vh'}}>
                 <Col xs={8} md={9} style={{padding: 0, height: 'inherit'}}>
-                    <Row style={{height: '45%'}}> 
+                    <Row style={{height: '47%'}}> 
                         {this.props.range !== undefined && <LineChartPanel childIndex={this.props.childIndex} />}
                     </Row>
                     <Row style={{height: '10%'}}>
                     <div>
-                        <span className="date_title"><span className="clock_icon">&#128340;</span>{this.props.currLang.usage_time}</span>
+                        <div className="date_title clock_icon">&#128340; {this.props.currLang.usage_time}</div>
                         <hr className="line_hr"/>
                     </div>
                     </Row>
-                    <Row style={{height: '45%'}}>
+                    <Row style={{height: '47%'}}>
                         {this.props.range !== undefined && <BarChartPanel childIndex={this.props.childIndex} />}
                     </Row>
                 </Col>

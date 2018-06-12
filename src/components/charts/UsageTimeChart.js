@@ -46,6 +46,11 @@ class UsageTimeChart extends Component {
                                 ticks: {
                                     beginAtZero: true
                                 }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontSize: 10
+                                }
                             }]
                         },
                         tooltips: {
