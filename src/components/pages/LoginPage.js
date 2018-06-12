@@ -12,7 +12,7 @@ const LoginPage = (props) => {
                 <Col className="login_page_container text-center" sm={2} md={2} lg={2}>
                     <p className="intro_text login_page_mid "> The Key to your Child's Safety </p>
                 </Col>
-                <Col className="login_page_container" sm={8} md={8} lg={8}>
+                <Col className="login_page_container" sm={7} md={7} lg={7}>
                     <div  id="login_page_form" className="login_page_mid">
                         <SignInForm history={props.history} />
                     </div>
