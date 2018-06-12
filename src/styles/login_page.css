@@ -8,6 +8,12 @@
     src: url("../fonts/OpenSans-Light.ttf");
 }
 
+.wrong_password {
+    position: absolute;
+    color: red;
+    margin: 0;
+}
+
 .intro_text {
     font-size: 9vh;
     text-align: left;

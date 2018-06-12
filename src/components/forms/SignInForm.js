@@ -27,7 +27,8 @@ class SignInForm extends React.Component {
             email: "",
             password: "",
             disableButton: true,
-            showPassword: false
+            showPassword: false,
+            showErrorMessageIncorrectPassword: false
         }
     }
     isValidEmail(email){
@@ -37,7 +38,7 @@ class SignInForm extends React.Component {
         return true;
     }
 
-    isValidPassword(password){
+    isValidPassword(password){       
         if(password.length < 6 || password.length > 15)
             return false;
         return true;
@@ -91,7 +92,17 @@ class SignInForm extends React.Component {
             disableButton: this.enableButton('password', password)
         });
     }
-    render() {
+
+    passwordOnFocus() {
+        if(this.refs.password) {
+            this.setState({
+                ...this.state,
+                showErrorMessageIncorrectPassword: false
+            });
+        }
+    }
+
+    render() {        
         return(
             <div>
                 <Form onSubmit={this.signIn.bind(this)}>
@@ -103,7 +114,7 @@ class SignInForm extends React.Component {
                             isValid={this.isValidEmail(this.state.email)} 
                             errorMessage={this.getValidationMessages('EMAIL')} />
     
-                    <FloatingLabelInput ref="password" type={"password"} labelName={"PARENT'S PASSWORD"} 
+                    <FloatingLabelInput onFocus={this.passwordOnFocus.bind(this)} ref="password" type={"password"} labelName={"PARENT'S PASSWORD"} 
                             onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                             name={"PASSWORD"}
                             value={this.state.password} 
@@ -114,6 +125,9 @@ class SignInForm extends React.Component {
                         src={!this.state.showPassword ? closedEye : openEye} 
                             circle
                         />
+                        {
+                         this.state.showErrorMessageIncorrectPassword ? (<span className="wrong_password">Password is incorrect</span>) : ""
+                        }
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
 
@@ -170,7 +184,10 @@ class SignInForm extends React.Component {
             if(error.response.data.code === '994') {    // parent not exists
                 this.props.setShowModal(true);
             } else if(error.response.data.code === '935') { // password is wrong
-                this.props.setPasswordErrors("error");
+                this.setState({
+                    ...this.state,
+                    showErrorMessageIncorrectPassword: true
+                });
             }
         });
     }
@@ -190,12 +207,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({
                 type: "SET_SHOW_MODAL",
                 value: val
-            });
-        },
-        setPasswordErrors: (error) => {
-            dispatch({
-                type: "WRONG_PASSWORD_VALIDATION",
-                value: error
             });
         },
         setUser: (user) => {
