@@ -145,19 +145,7 @@ class RegisterForm extends React.Component {
     </div>);
     }
 
-    register(event) {
-        event.preventDefault(); // cancel auto refresh.
-        var parentName = this.parentName.value;
-        var email = this.email.value;
-        var password = this.password.value;
-
-        Register(parentName, email, password).then(res => {
-            console.log(res);
-            this.props.history.push('/login'); 
-        }).catch(error => {
-            console.log(error.response);
-        });
-    }
+    
 }
 
 export default RegisterForm;

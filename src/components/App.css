@@ -20,5 +20,18 @@ select:-webkit-autofill:focus {
   /* border: 1px solid black; */
   -webkit-text-fill-color: black;
   -webkit-box-shadow: 0 0 0px 1000px #5a171700 inset;
+  box-shadow: 0 0 0px 1000px #5a171700 inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/*  Remove the blue border after click */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none !important;
+}
+
+button:disabled {
+  cursor: auto !important;
 }

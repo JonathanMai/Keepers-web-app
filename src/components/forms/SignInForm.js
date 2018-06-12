@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, Button, ControlLabel, FormControl, Image } from 'react-bootstrap';
 import { RegisterModal } from '../modals/RegisterModal';
-import { Login } from '../../serviceAPI';
+import { Login, Register } from '../../serviceAPI';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
@@ -16,6 +16,7 @@ import closedEye from '../../assets/closed_eye.png';
 class SignInForm extends React.Component {
     constructor(props){
         super(props);
+        console.log("Aaa");
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.isValidEmail = this.isValidEmail.bind(this);
@@ -28,9 +29,15 @@ class SignInForm extends React.Component {
             password: "",
             disableButton: true,
             showPassword: false,
-            showErrorMessageIncorrectPassword: false
+            showErrorMessage: false,
+            errorMessage: ""
+        }
+        if(this.props.history.location.pathname === "/register") {
+            this.state["name"] = "";
+            this.handleName = this.handleName.bind(this);
         }
     }
+
     isValidEmail(email){
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
@@ -68,13 +75,25 @@ class SignInForm extends React.Component {
                 emailIsValid = this.isValidEmail(this.state.email);
                 passwordIsValid = this.isValidPassword(this.state.password);
         } 
-        if(this.state.disableButton && emailIsValid && passwordIsValid){
-            return false;
+        if(this.state.name === undefined) { // login page
+            if(this.state.disableButton && emailIsValid && passwordIsValid){
+                return false;
+            }
+            else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid)){
+                return true;
+            }
+            return this.state.disableButton;
+        } else {    // register page
+            let nameIsValid =  (type === "name" ? input : this.state.name) !== "";
+            if(this.state.disableButton && emailIsValid && passwordIsValid && nameIsValid){
+                return false;
+            }
+            else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid || !nameIsValid)){
+                return true;
+            }
+            return this.state.disableButton;
         }
-        else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid)){
-            return true;
-        }
-        return this.state.disableButton;
+      
     }
     
     handleEmail(email){
@@ -97,15 +116,33 @@ class SignInForm extends React.Component {
         if(this.refs.password) {
             this.setState({
                 ...this.state,
-                showErrorMessageIncorrectPassword: false
+                showErrorMessage: false
             });
         }
+    }
+
+    handleName(name) {
+        this.setState({
+            ...this.state,
+            name: name,
+            disableButton: this.enableButton('name', name)
+        });
     }
 
     render() {        
         return(
             <div>
-                <Form onSubmit={this.signIn.bind(this)}>
+                <Form onSubmit={this.state.name === undefined ? this.signIn.bind(this) : this.register.bind(this) }>
+                    {
+                        this.state.name !== undefined && <FloatingLabelInput type={"text"} labelName={"PARENT'S NAME"}
+                        onChange={(e) => {e.preventDefault();
+                        this.handleName(e.currentTarget.value)}}
+                        name={"NAME"}
+                        value={this.state.name} 
+                        isValid={this.state.name !== ""} 
+                        errorMessage={"Please make sure name is filled"} /> 
+                    }
+                        
                     <FloatingLabelInput type={"email"} labelName={"PARENT'S EMAIL"} 
                             onChange={(e) => {e.preventDefault();
                             this.handleEmail(e.currentTarget.value)}}
@@ -126,7 +163,7 @@ class SignInForm extends React.Component {
                             circle
                         />
                         {
-                         this.state.showErrorMessageIncorrectPassword ? (<span className="wrong_password">Password is incorrect</span>) : ""
+                         this.state.showErrorMessage ? (<span className="wrong_password">{this.state.errorMessage}</span>) : ""
                         }
 
                     <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
@@ -161,6 +198,7 @@ class SignInForm extends React.Component {
     }
 
     redirectToRegister() {
+        this.props.setShowModal(false);
         this.props.history.push("/register");
     }
 
@@ -186,7 +224,28 @@ class SignInForm extends React.Component {
             } else if(error.response.data.code === '935') { // password is wrong
                 this.setState({
                     ...this.state,
-                    showErrorMessageIncorrectPassword: true
+                    showErrorMessage: true,
+                    errorMessage: "Wrong password, please try again"
+                });
+            }
+        });
+    }
+
+    register(event) {
+        event.preventDefault(); // cancel auto refresh.
+        var parentName = this.state.name;
+        var email = this.state.email;
+        var password = this.state.password;
+
+        Register(parentName, email, password).then(res => {
+            console.log(res);
+            this.props.history.push('/login'); 
+        }).catch(error => {
+            if(error.response.data.code === "993") {
+                this.setState({
+                    ...this.state,
+                    showErrorMessage: true,
+                    errorMessage: "User with that email adress already exists"
                 });
             }
         });
