@@ -7,7 +7,7 @@ import disableSubmitBtn from '../../assets/submit_disabled.png';
 import { SendRestartCode, ResetPassword } from '../../serviceAPI';
 import openEye from '../../assets/open_eye.png';
 import closedEye from '../../assets/closed_eye.png';
-
+import { connect } from 'react-redux';
 
 export class EnterEmailForm extends Component {
 

@@ -13,12 +13,13 @@ class LoginPage extends Component {
         this.changeTerms = this.changeTerms.bind(this);
     }
     render() {
+        console.log("LANG", this.props.currLang);
         return (
         <div>
             <Grid fluid={true}>
                 <Row className="justify-content-center" style={{"marginTop": 15, "height": "80vh"}}>
                     <Col className="login_page_container text-center" sm={2} md={2} lg={2}>
-                        <p className="intro_text login_page_mid "> The Key to your Child's Safety </p>
+                        <p className="intro_text login_page_mid "> {this.props.currLang.key_child_safety} </p>
                     </Col>
                     <Col className="login_page_container" sm={7} md={7} lg={7}>
                         <div  id="login_page_form" className="login_page_mid">
@@ -31,7 +32,7 @@ class LoginPage extends Component {
                 <Image className="wave" src={wave} />
                 <div>
                     <Image className="terms" onClick={this.changeTerms} src={this.props.agreement ? fullV : emptyV} />
-                    <span> I accept <u><a href="https://www.keeperschildsafety.net/eula" target="_blank">the terms</a></u> </span>
+                    <span> {this.props.currLang.i_accept} <u><a href="https://www.keeperschildsafety.net/eula" target="_blank">{this.props.currLang.terms}</a></u> </span>
                 </div>
             </div>
         </div>);
@@ -44,7 +45,8 @@ class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        agreement: state.reducerA.agreement
+        agreement: state.reducerA.agreement,
+        currLang: state.lang.currLang.login_page
     };
 };
 

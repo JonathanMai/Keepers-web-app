@@ -51,9 +51,9 @@ class SignInForm extends React.Component {
     getValidationMessages(key){
         switch(key) {
             case "PASSWORD":
-                return "Your password must be between 6 and 15 characters length";
+                return this.props.currLang.password_warning;
             case "EMAIL":
-               return "Invalid email address";
+               return this.props.currLang.invalid_email;
         }
     }
 
@@ -131,16 +131,16 @@ class SignInForm extends React.Component {
             <div>
                 <Form onSubmit={this.state.name === undefined ? this.signIn.bind(this) : this.register.bind(this) }>
                     {
-                        this.state.name !== undefined && <FloatingLabelInput type={"text"} labelName={"PARENT'S NAME"}
+                        this.state.name !== undefined && <FloatingLabelInput type={"text"} labelName={this.props.currLang.parents_name}
                         onChange={(e) => {e.preventDefault();
                         this.handleName(e.currentTarget.value)}}
                         name={"NAME"}
                         value={this.state.name} 
                         isValid={this.state.name !== ""} 
-                        errorMessage={"Please make sure name is filled"} /> 
+                        errorMessage={this.props.currLang.name_warning} /> 
                     }
                         
-                    <FloatingLabelInput type={"email"} labelName={"PARENT'S EMAIL"} 
+                    <FloatingLabelInput type={"email"} labelName={this.props.currLang.parents_email} 
                             onChange={(e) => {e.preventDefault();
                             this.handleEmail(e.currentTarget.value)}}
                             name={"EMAIL"}
@@ -148,7 +148,7 @@ class SignInForm extends React.Component {
                             isValid={this.isValidEmail(this.state.email)} 
                             errorMessage={this.getValidationMessages('EMAIL')} />
     
-                    <FloatingLabelInput onFocus={this.passwordOnFocus.bind(this)} ref="password" type={"password"} labelName={"PARENT'S PASSWORD"} 
+                    <FloatingLabelInput onFocus={this.passwordOnFocus.bind(this)} ref="password" type={"password"} labelName={this.props.currLang.parents_password} 
                             onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                             name={"PASSWORD"}
                             value={this.state.password} 
@@ -164,7 +164,7 @@ class SignInForm extends React.Component {
                         }
 
                     {
-                       this.state.name === undefined && <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
+                       this.state.name === undefined && <Link className="link" to={"/restore-password"}>{this.props.currLang.forgot_password}</Link>
                     }
                     <Button className="btn_submit" disabled={this.state.disableButton || !this.props.agreement} type="submit"> 
                         <Image style={{width: 70 + 'px'}} src={this.state.disableButton || !this.props.agreement ? disableSubmitBtn : submitBtn} 
@@ -175,7 +175,8 @@ class SignInForm extends React.Component {
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
-                    registerUser={this.redirectToRegister.bind(this)}/>
+                    registerUser={this.redirectToRegister.bind(this)}
+                    currLang={this.props.currLang.modal}/>
 
             </div>
         );
@@ -223,7 +224,7 @@ class SignInForm extends React.Component {
                 this.setState({
                     ...this.state,
                     showErrorMessage: true,
-                    errorMessage: "Wrong password, please try again"
+                    errorMessage: this.props.currLang.error_935
                 });
             }
         });
@@ -243,7 +244,7 @@ class SignInForm extends React.Component {
                 this.setState({
                     ...this.state,
                     showErrorMessage: true,
-                    errorMessage: "User with that email adress already exists"
+                    errorMessage: this.props.currLang.error_993
                 });
             }
         });
@@ -254,7 +255,8 @@ const mapStateToProps = (state) => {
     return {
         registerModal: state.reducerA,
         wrongPassword: state.reducerA.wrongPassword,
-        agreement: state.reducerA.agreement
+        agreement: state.reducerA.agreement,
+        currLang: state.lang.currLang.login_page
     };
 };
 
