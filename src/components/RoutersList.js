@@ -5,6 +5,9 @@ import Dashboard from './pages/Dashboard';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Banner from '../components/panels/Banner';
+import { createHashHistory } from 'history'
+
+const history = createHashHistory()
 
 class RoutersList extends Component {
     constructor(props) {
@@ -16,17 +19,15 @@ class RoutersList extends Component {
         if(this.checkStorage) {
             this.updateRedux();
         }
-        console.log("aaaaaaaa", this.props);
-
         return (
             <div>
-                <Banner color={this.props.panel_color}/>
+                <Banner color={this.props.panel_color} history={history}/>
                 <Router>
                     <Switch>
                         <Route path="/" exact component={() => <Redirect to="/login" />}/>
-                        <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
-                        <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <LoginPage history={browserHistory.history}/>} />
-                        <Route path="/restore-password" exact component={(browserHistory) => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage history={browserHistory}/>} />
+                        <Route path="/login" exact component={() => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={history}/>} />
+                        <Route path="/register" exact component={() => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <LoginPage history={history}/>} />
+                        <Route path="/restore-password" exact component={() => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage history={history}/>} />
                         <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to="/login" />} />
                         <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
                     </Switch>

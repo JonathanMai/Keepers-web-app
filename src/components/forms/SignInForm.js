@@ -126,7 +126,11 @@ class SignInForm extends React.Component {
         });
     }
 
-    render() {        
+    render() { 
+        this.props.setUser({
+            id: null,
+            authKey: null
+        });       
         return(
             <div>
                 <Form onSubmit={this.state.name === undefined ? this.signIn.bind(this) : this.register.bind(this) }>

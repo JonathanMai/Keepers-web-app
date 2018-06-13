@@ -137,7 +137,7 @@ class RestoreForm extends Component {
                 resetSuccess: true
             });
             setTimeout(() => {
-                this.props.history.history.push("/login");   // Redirect to main menu.
+                this.props.history.push("/login");   // Redirect to main menu.
             }, 2000);
          }).catch(error => { // When respond package is with error status - 400 ...
              if(error.response.data.code === "825") {   // the code is not corrent

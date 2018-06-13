@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import '../../styles/banner.css';
 import { connect } from 'react-redux';
-// import language from '../../lang/lang'
+import { Image } from 'react-bootstrap';
+import logoutImg from '../../assets/logout.png';
+import { LogOut } from '../../serviceAPI';
 
 class Banner extends Component {
    
     render() {
+        console.log("PROPS", this.props);
         return (
             <div className="banner" style={{backgroundColor: this.props.color}}>
                 <div>
@@ -16,8 +19,19 @@ class Banner extends Component {
                         })
                     }
                     </select>
+                    <Image alt="log out" className="logout" src={logoutImg} onClick={this.logout.bind(this)} />
                 </div>
             </div>);
+    }
+
+    logout() {
+        LogOut().then(res => {
+            localStorage.removeItem("_id")
+            localStorage.removeItem("_token")
+            this.props.history.push('/login');
+        }).catch(error => {
+            console.log(error.response)
+        });
     }
 
     changeLanguage(e) {

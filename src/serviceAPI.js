@@ -163,3 +163,15 @@ export const ResetPassword = (email, code, password ) => {
 
     return axios.post(url + "passwordReset/applyPasswordReset", body, headers);
 };  
+
+export const LogOut = () => {
+    let body = {
+        parentId: store.getState().reducerAccountInfo.parentId
+    };
+    let headers = {headers: {
+        "content-type": "application/json",
+        auth: store.getState().reducerAccountInfo.auth
+    }};
+
+    return axios.post(url + "parents/logout", body, headers);
+};  
