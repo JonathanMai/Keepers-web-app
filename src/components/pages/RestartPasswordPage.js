@@ -1,5 +1,6 @@
 import React from 'react';
-import { EnterEmailForm, RestoreForm } from '../forms/RestorePasswordForm';
+import RestoreForm from '../forms/RestorePasswordForm';
+import EnterEmailForm from '../forms/EnterEmailForm';
 import wave from '../../assets/Wave_main.png';
 import { Image } from 'react-bootstrap';
 

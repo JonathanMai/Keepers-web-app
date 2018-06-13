@@ -8,11 +8,12 @@ import FloatingLabelInput from "react-floating-label-paper-input";
 import '../../styles/reset_password.css';
 import submitBtn from '../../assets/submit_ok.png';
 import disableSubmitBtn from '../../assets/submit_disabled.png';
-import { SendRestartCode, ResetPassword } from '../../serviceAPI';
+import { ResetPassword } from '../../serviceAPI';
 import openEye from '../../assets/open_eye.png';
 import closedEye from '../../assets/closed_eye.png';
 import { connect } from 'react-redux';
 
+<<<<<<< HEAD
 export class EnterEmailForm extends Component {
 
     constructor(props) {
@@ -115,6 +116,9 @@ export class EnterEmailForm extends Component {
 }
 
 export class RestoreForm extends Component {
+=======
+class RestoreForm extends Component {
+>>>>>>> 0cf360aded0638026aabf89a769ea0cc16378f0a
 
     constructor(props) {
         super(props);
@@ -131,7 +135,8 @@ export class RestoreForm extends Component {
             disableButton: true,
             showError: false,
             errorMessage: "",
-            showPassword: false
+            showPassword: false,
+            resetSuccess: false
         }
     }
 
@@ -162,11 +167,11 @@ export class RestoreForm extends Component {
     getValidationMessages(key){
         switch(key) {
             case "EMAIL":
-               return "Invalid email address";
+               return this.props.currLang.invalid_email;
             case "CODE":
-               return "Enter code";
+               return this.props.currLang.code_warning;
             case "PASSWORD":
-                return "Your password must be between 6 and 15 characters length";
+                return this.props.currLang.password_warning;
         }
     }
 
@@ -237,7 +242,8 @@ export class RestoreForm extends Component {
             this.setState({
                 ...this.state,
                 showError: true,
-                errorMessage: "You have successfully reset your password!"
+                errorMessage: this.props.currLang.success_restart,
+                resetSuccess: true
             });
             setTimeout(() => {
                 this.props.history.history.push("/login");   // Redirect to main menu.
@@ -246,14 +252,14 @@ export class RestoreForm extends Component {
              if(error.response.data.code === "825") {   // the code is not corrent
                 this.setState({
                     ...this.state,
-                    errorMessage: "The code is incorrent",
+                    errorMessage: this.props.currLang.error_825,
                     showError: true
                 });
              }
              else if(error.response.data.code === "827") {   // for that email you didnt ask for reset password
                 this.setState({
                     ...this.state,
-                    errorMessage: "You didn't request reset password for that email address",
+                    errorMessage: this.props.currLang.error_827,
                     showError: true
                 });
              }
@@ -270,10 +276,10 @@ export class RestoreForm extends Component {
     render() {
         return(
             <Grid className="reset_password_container" >
-                <p className="intro_text">Password reset</p>
+                <p className="intro_text">{this.props.currLang.into_password_text}</p>
                 <Form onSubmit={this.resetPassword}>
                 
-                <FloatingLabelInput onFocus={this.fieldOnFocus} type={"code"} labelName={"PLEASE ENTER YOUR CODE"} 
+                <FloatingLabelInput onFocus={this.fieldOnFocus} type={"code"} labelName={this.props.currLang.enter_code} 
                         onChange={(e) => {e.preventDefault();
                         this.handleCode(e.currentTarget.value)}}
                         name={"CODE"}
@@ -283,7 +289,7 @@ export class RestoreForm extends Component {
 
                     {' '}
 
-                    <FloatingLabelInput onFocus={this.fieldOnFocus} type={"email"} labelName={"EMAIL ADDRESS"} 
+                    <FloatingLabelInput onFocus={this.fieldOnFocus} type={"email"} labelName={this.props.currLang.email} 
                         onChange={(e) => {e.preventDefault();
                         this.handleEmail(e.currentTarget.value)}}
                         name={"EMAIL"}
@@ -293,7 +299,7 @@ export class RestoreForm extends Component {
                    
                     {' '}
 
-                    <FloatingLabelInput ref="password" onFocus={this.fieldOnFocus} type={"password"} labelName={"NEW PASSWORD"} 
+                    <FloatingLabelInput ref="password" onFocus={this.fieldOnFocus} type={"password"} labelName={this.props.currLang.password} 
                         onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                         name={"PASSWORD"}
                         value={this.state.password} 
@@ -305,7 +311,7 @@ export class RestoreForm extends Component {
                             circle />
 
                     {this.state.showError && 
-                        (this.state.errorMessage !== "You have successfully reset your password!" ? <span className="error_message"> {this.state.errorMessage} </span> : <span className="error_message" style={{color: "green"}}> {this.state.errorMessage} </span>)
+                        (!this.state.resetSuccess ? <span className="error_message"> {this.state.errorMessage} </span> : <span className="error_message" style={{color: "green"}}> {this.state.errorMessage} </span>)
                     }
 
                     <Button className="btn_submit" type="submit" disabled={this.state.disableButton}>
@@ -318,3 +324,11 @@ export class RestoreForm extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        currLang: state.lang.currLang.password_recovery
+    };
+}; 
+
+export default connect(mapStateToProps)(RestoreForm);
