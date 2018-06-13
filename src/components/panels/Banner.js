@@ -11,7 +11,7 @@ class Banner extends Component {
                 <div>
                     <select className="select_lang" onChange={(e) => this.changeLanguage(e)}>
                     {
-                        Object.keys(this.props.AllLang).map((val, index) => {
+                        Object.keys(this.props.allLang).map((val, index) => {
                             return <option key={index} value={val}> {val} </option>
                         })
                     }
@@ -21,13 +21,13 @@ class Banner extends Component {
     }
 
     changeLanguage(e) {
-        this.props.setLang(this.props.AllLang[e.target.value]);
+        this.props.setLang(this.props.allLang[e.target.value]);
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        AllLang: state.lang.lang,
+        allLang: state.lang.lang,
         currLang: state.lang.currLang
     };
 };

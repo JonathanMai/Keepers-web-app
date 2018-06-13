@@ -1,3 +1,7 @@
+/*
+    Form that holds all the logic of restart password, and all the fields.
+*/
+
 import React, { Component } from 'react';
 import { Form, Button, Grid, Image} from 'react-bootstrap';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
@@ -26,6 +30,7 @@ export class EnterEmailForm extends Component {
         }
     }
 
+    
     isValidEmail(email){
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
