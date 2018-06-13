@@ -32,6 +32,21 @@ const languages = {
                 create: "lets create a new account!",
                 sign_up: "Sign Up"
             }
+        },
+        password_recovery: {
+            intro: "Forgot your password? don't worry, just enter your email address below and we'll send you some instructions.",
+            invalid_email: "Invalid email address",
+            error_994: "Parent was not found in the system",
+            email: "EMAIL ADDRESS",
+            code_warning: "Enter code",
+            password_warning: "Your password must be between 6 and 15 characters length",
+            success_restart: "You have successfully reset your password!",
+            error_825: "The code is incorrent",
+            error_827: "You didn't request reset password for that email address",
+            enter_code: "PLEASE ENTER YOUR CODE",
+            invalid_email: "Invalid email address",
+            password: "NEW PASSWORD",
+            into_password_text: "Password reset"
         }
         
     },
@@ -68,6 +83,21 @@ const languages = {
                 create: "давайте создадим новую учетную запись!",
                 sign_up: "Зарегистрироваться"
             }
+        },
+        password_recovery: {
+            intro: "Забыли пароль? Не волнуйтесь, просто введите свой адрес электронной почты ниже, и мы вышлем вам несколько инструкций.",
+            invalid_email: "Неверный адрес электронной почты",
+            error_994: "Учетная запись не существует",
+            email: "Электронная почта родителя",
+            code_warning: "Введите код активации",
+            password_warning: "Ваш пароль должен быть от 6 до 15 символов",
+            success_restart: "Вы успешно поменяли ваш пароль!",
+            error_825: "Указан неверный код",
+            error_827: "Вы не запрашивали сброс пароля для этой учетнай записи",
+            enter_code: "Введите ваш код",
+            password: "Введите новый пароль",
+            into_password_text: "Сброс пароля"
+
         }
 
     }
