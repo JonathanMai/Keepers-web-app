@@ -13,10 +13,29 @@
 
 .modal_arrow {
     transform: rotate(180deg);
-    cursor: pointer;
 }
 
 .modal_info {
     position: relative;
     color: white;
+}
+
+.sign_up {
+    position: absolute;
+    right: 80px;
+    top: 25px;
+    font-size: 40px;
+    margin: 0px;
+    cursor: pointer;
+    font-family: "OpenSans-Regular";
+}
+
+.invite {
+    font-family: "OpenSans-Light";
+    position: relative;
+    left: 100px;
+    bottom: 30px;
+    font-size: 40px;
+    width: 42%;
+    display: inline-block;
 }
