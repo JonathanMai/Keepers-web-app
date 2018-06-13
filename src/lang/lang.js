@@ -47,7 +47,8 @@ const languages = {
             invalid_email: "Invalid email address",
             password: "NEW PASSWORD",
             into_password_text: "Password reset"
-        }
+        },
+        batteryState: "Battery State"
         
     },
     rus: {
@@ -97,8 +98,8 @@ const languages = {
             enter_code: "Введите ваш код",
             password: "Введите новый пароль",
             into_password_text: "Сброс пароля"
-
-        }
+        },
+        batteryState: "Уровень Батареи"
 
     }
 };
