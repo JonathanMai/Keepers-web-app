@@ -14,7 +14,6 @@ import closedEye from '../../assets/closed_eye.png';
 class SignInForm extends React.Component {
     constructor(props){
         super(props);
-        console.log("Aaa");
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.isValidEmail = this.isValidEmail.bind(this);

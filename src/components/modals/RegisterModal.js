@@ -1,25 +1,23 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import wave from '../../assets/wave.png';
+import arrow from '../../assets/arrow.png';
+import '../../styles/modal.css';
 
+// PROPS.REGISTER
+// PROPS.CLOSE
 export const RegisterModal = (props) => {
         return (
             <Modal
                 show={props.showModal}
                 onHide={props.closeModal}
                 aria-labelledby="contained-modal-title">
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title">
-                        The user does not exists
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Do you want to create a new account?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={props.registerUser}>Register</Button>
-                    <Button onClick={props.closeModal}>Close</Button>
-                </Modal.Footer>
+                <Image className="wave" src={wave} />
+                <div className="modal_info">
+                    <span>We notice that you are a new user, lets create a new account!</span>
+                    <span>Sign Up <Image className="modal_arrow" onClick={props.registerUser} src={arrow} /></span>
+                </div>
             </Modal>
         );
 };

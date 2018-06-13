@@ -1,0 +1,22 @@
+.modal-dialog {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    margin: 0px;
+}
+
+.modal-content {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+.modal_arrow {
+    transform: rotate(180deg);
+    cursor: pointer;
+}
+
+.modal_info {
+    position: relative;
+    color: white;
+}
