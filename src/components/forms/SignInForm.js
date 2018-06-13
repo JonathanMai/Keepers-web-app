@@ -163,8 +163,9 @@ class SignInForm extends React.Component {
                          this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
                         }
 
-                    <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
-
+                    {
+                       this.state.name === undefined && <Link className="link" to={"/restore-password"}>Forgot Password?</Link>
+                    }
                     <Button className="btn_submit" disabled={this.state.disableButton || !this.props.agreement} type="submit"> 
                         <Image style={{width: 70 + 'px'}} src={this.state.disableButton || !this.props.agreement ? disableSubmitBtn : submitBtn} 
                             circle
