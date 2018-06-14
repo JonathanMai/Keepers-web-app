@@ -2,11 +2,13 @@ import axios from 'axios';
 import moment from 'moment';
 import store from './store';
 
+let parentId = store.getState().reducerAccountInfo.parentId;
+let auth = store.getState().reducerAccountInfo.auth
+
 const url = "https://keepers-main-vodafone-prod.eu-de.mybluemix.net/keeper-server/";
 // const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
 // const parentId = 11;
 
-// console.log();
 
 export const GetById = () => {
 
@@ -18,18 +20,18 @@ export const GetById = () => {
 }
 
 export const GetProfileByID = () => {
-    return axios.get(url + "parents/profileById/" + store.getState().reducerAccountInfo.parentId,{
+    return axios.get(url + "parents/profileById/" + parentId,{
         headers: {
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
 
 export const GetAllChildren = () => {
-    return axios.get(url + "parents/getAllChildrenForParent/" + store.getState().reducerAccountInfo.parentId,{
+    return axios.get(url + "parents/getAllChildrenForParent/" + parentId,{
         headers: {
             'Content-Type': "text/plain",
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
@@ -37,7 +39,7 @@ export const GetAllChildren = () => {
 export const GetMessagesStatistics = (id, startTime, endTime) => {
     return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
@@ -47,7 +49,7 @@ export const GetUsageStatistics = (id, startTime, endTime) =>{
     let body = {childId: id};
     let headers = {headers: {
         'content-type': "application/json",
-        auth: store.getState().reducerAccountInfo.auth
+        auth: auth
     }};
 
     return axios.post(url + "appUsageTime/queryAllUsages", body, headers); 
@@ -57,7 +59,7 @@ export const GetMessagesHeads = (id, startTime, endTime, page) => {
     // console.log("id:",id,", start time:", startTime, ", end time:",endTime,", page:", page)
     return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
         headers: {
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
@@ -65,7 +67,7 @@ export const GetMessagesHeads = (id, startTime, endTime, page) => {
 export const GetEntireMessage = (id, msgId) => {
     return axios.get(url + "conversation/" + id + "/" + msgId + "/entire",{
         headers: {
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
@@ -73,7 +75,7 @@ export const GetEntireMessage = (id, msgId) => {
 export const GetBatteryLevel = (id) => {
     return axios.get(url + "devices/" + id + "/battery/level",{
         headers: {
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
@@ -86,12 +88,12 @@ export const GetCurrentLocation = (id) => {
     };
     let headers = {headers: {
         'content-type': "application/json",
-        auth: store.getState().reducerAccountInfo.auth
+        auth: auth
     }};
 
     return axios.post(url + "location/queryInRange",{
         headers: {
-            auth: store.getState().reducerAccountInfo.auth
+            auth: auth
         }
     });
 }
@@ -122,7 +124,7 @@ export const GetLocation = (id, fromDate, toDate) => {
     };
     let headers = {headers: {
         'content-type': "application/json",
-        auth: store.getState().reducerAccountInfo.auth
+        auth: auth
     }};
 
     return axios.post(url + "location/queryInRange",body, headers);
