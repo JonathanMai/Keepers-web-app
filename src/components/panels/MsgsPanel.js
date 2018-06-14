@@ -4,7 +4,6 @@ import Box from '../Box';
 import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import jQuery from 'jquery';
 import Chat from '../pages/Chat';
 import '../../styles/messagesPanel.css';
 

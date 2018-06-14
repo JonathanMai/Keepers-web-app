@@ -8,7 +8,6 @@ import { LogOut } from '../../serviceAPI';
 class Banner extends Component {
    
     render() {
-        console.log("PROPS", this.props);
         return (
             <div className="banner" style={{backgroundColor: this.props.color}}>
                 <div>
@@ -19,16 +18,20 @@ class Banner extends Component {
                         })
                     }
                     </select>
-                    <Image alt="log out" className="logout" src={logoutImg} onClick={this.logout.bind(this)} />
+                    {
+                        this.props.showIcon && <Image alt="log out" className="logout" src={logoutImg} onClick={this.logout.bind(this)} />
+                    }
                 </div>
             </div>);
     }
 
     logout() {
         LogOut().then(res => {
-            localStorage.removeItem("_id")
-            localStorage.removeItem("_token")
-            this.props.history.push('/login');
+            window.location.reload();
+            localStorage.removeItem("_id");
+            localStorage.removeItem("_token");
+            this.props.setPanelColor("transparent");
+            this.props.setShowLogoutIcon(false);
         }).catch(error => {
             console.log(error.response)
         });
@@ -42,7 +45,9 @@ class Banner extends Component {
 const mapStateToProps = (state) => {
     return {
         allLang: state.lang.lang,
-        currLang: state.lang.currLang
+        currLang: state.lang.currLang,
+        panel_color: state.reducerA.panel_color,
+        showIcon: state.reducerA.showIcon
     };
 };
 
@@ -51,6 +56,18 @@ const mapDispatchToProps = (dispatch) => {
         setLang: (val) => {
             dispatch({
                 type: "SET_LANG",
+                value: val
+            });
+        },
+        setPanelColor: (val) => {
+            dispatch({
+                type: "CHANGE_PANEL_COLOR",
+                value: val
+            });
+        },
+        setShowLogoutIcon: (val) => {
+            dispatch({
+                type: "SET_ICON_VISIBILITY",
                 value: val
             });
         }

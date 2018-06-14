@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import '../../styles/chat.css';
 import moment from 'moment';
 
-class Chat extends Component {
-
-    constructor(props) {
-        super(props);
-    }    
+class Chat extends Component {   
 
     createChatBubbles() {
-        let appName = this.props.chatMessages.app_name;
+        // let appName = this.props.chatMessages.app_name;
         let chat =
         (<ul>
                 {this.props.chatMessages.messages.map((message, index) => {
@@ -29,7 +25,6 @@ class Chat extends Component {
     }
 
     render() {
-        console.log("curr", this.props);
         this.removeScrollFromPanel();
         return(
             <div>

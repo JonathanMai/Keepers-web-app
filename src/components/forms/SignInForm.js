@@ -127,10 +127,10 @@ class SignInForm extends React.Component {
     }
 
     render() { 
-        this.props.setUser({
-            id: null,
-            authKey: null
-        });       
+        // this.props.setUser({
+        //     id: null,
+        //     authKey: null
+        // });       
         return(
             <div>
                 <Form onSubmit={this.state.name === undefined ? this.signIn.bind(this) : this.register.bind(this) }>
@@ -218,6 +218,7 @@ class SignInForm extends React.Component {
                 id: parentId,
                 authKey: token
             });
+            this.props.setShowLogoutIcon(true);
             localStorage._id = parentId;
             localStorage._token = token;
             this.props.history.push('/keepers-dashboard'); 
@@ -260,7 +261,8 @@ const mapStateToProps = (state) => {
         registerModal: state.reducerA,
         wrongPassword: state.reducerA.wrongPassword,
         agreement: state.reducerA.agreement,
-        currLang: state.lang.currLang.login_page
+        currLang: state.lang.currLang.login_page,
+        showIcon: state.reducerA.showIcon
     };
 };
 
@@ -276,6 +278,12 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({
                 type: "SET_USER",
                 value: user
+            });
+        }, 
+        setShowLogoutIcon: (val) => {
+            dispatch({
+                type: "SET_ICON_VISIBILITY",
+                value: val
             });
         }
     };

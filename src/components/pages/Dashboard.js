@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { GetAllChildren } from '../../serviceAPI';
 import { connect } from 'react-redux';
-import { Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
+import { Tabs, Tab, Grid, Row } from 'react-bootstrap';
 import TopPanel from '../panels/TopPanel';
 import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
 import '../../styles/card.css';
-import Footer from '../panels/Footer';
 
 class Dashboard extends Component {
     constructor(props){
         super(props);
-        var current = 0;
+        props.changePanelColor("rgba(37, 185, 204, 0.45)");
+        props.setShowLogoutIcon(true);
     }
 
     handleTabSelect(key) {
-        // console.log(key);
         this.props.setCurrTab(key);
         let zoom;
         this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
@@ -31,13 +30,12 @@ class Dashboard extends Component {
             res.data.map(obj => {childrens.push(obj)});
             this.props.setChildrens(childrens);
         }).catch(error => { // When respond package is with error status - 400 ...
-            console.log(error);
+            console.log(error.response);
         });
     }
 
 
     render() {
-        this.props.changePanelColor("rgba(37, 185, 204, 0.45)");
         return  (   this.props.childrens.length == 0 ? this.props.currLang.children_not_found :             
             <div>
                 <Grid fluid={true} className="grid">
@@ -94,6 +92,12 @@ const mapDispatchToProps = (dispatch) => {
         changePanelColor: (val) => {
             dispatch({
                 type: "CHANGE_PANEL_COLOR",
+                value: val
+            });
+        },
+        setShowLogoutIcon: (val) => {
+            dispatch({
+                type: "SET_ICON_VISIBILITY",
                 value: val
             });
         }

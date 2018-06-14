@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../styles/dates.css';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import moment from 'moment/min/moment-with-locales';
-import Singleton from 'react-singleton';
 import { connect } from 'react-redux';
 // a tool like webpack, you can do the following:
 // import 'bootstrap/dist/css/bootstrap.css';

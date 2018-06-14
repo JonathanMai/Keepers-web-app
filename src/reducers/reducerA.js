@@ -1,7 +1,8 @@
 const initialState = {
     showModal: false,
     panel_color: "transparent",
-    agreement: false
+    agreement: false,
+    showIcon: false
 };
 
 const reducerA = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const reducerA = (state = initialState, action) => {
                 ...state,
                 agreement: action.value
             };   
+        case "SET_ICON_VISIBILITY":
+            return {
+                ...state,
+                showIcon: action.value
+            }; 
         default: 
             return state;
     }

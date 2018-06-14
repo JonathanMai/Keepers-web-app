@@ -1,5 +1,4 @@
 import axios from 'axios';
-import JQuery from 'jquery';
 import moment from 'moment';
 import store from './store';
 
@@ -36,8 +35,6 @@ export const GetAllChildren = () => {
 }
 
 export const GetMessagesStatistics = (id, startTime, endTime) => {
-    console.log(store.getState().reducerAccountInfo);
-
     return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
             auth: store.getState().reducerAccountInfo.auth
@@ -120,8 +117,8 @@ export const Login = (email, password) => {
 export const GetLocation = (id, fromDate, toDate) => {
     let body = {
         childId: id,
-        fromDate: fromDate,
-        toDate: toDate
+        fromDate: moment().startOf('day'),
+        toDate: moment()
     };
     let headers = {headers: {
         'content-type': "application/json",
