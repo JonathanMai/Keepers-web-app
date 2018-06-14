@@ -26,8 +26,16 @@ class Dashboard extends Component {
 
     componentWillMount() {
         GetAllChildren().then(res => {  // When respond package is with status 200
-            var childrens = [];
-            res.data.map(obj => {childrens.push(obj)});
+            let childrens = [];
+            let count = 0;
+            res.data.map(obj => {
+                if(count !== 0 && count !== 2 && count !== 3) childrens.push(obj);
+                count++;
+            });
+            let temp = childrens[0];
+            childrens[0] = childrens[2];
+            childrens[2] = childrens[1]
+            childrens[1] = temp;
             this.props.setChildrens(childrens);
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.response);
