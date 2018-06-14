@@ -15,12 +15,12 @@ class BottomPanel extends Component {
         super(props);
         this.getBatteryColor = this.getBatteryColor.bind(this);
         this.getBatteryImageIndex = this.getBatteryImageIndex.bind(this);
-        let initBatteryLevel = 37;
+        let initBatteryLevel = [37, 94, 8];
         this.state = {
             batteryLevel: initBatteryLevel,
             color: this.getBatteryColor(initBatteryLevel),
             batteryImages: [b100, b95, b70, b40, b15],
-            bIndex: this.getBatteryImageIndex(initBatteryLevel)
+            bIndex: [this.getBatteryImageIndex(initBatteryLevel[0]), this.getBatteryImageIndex(initBatteryLevel[1]), this.getBatteryImageIndex(initBatteryLevel[2])]
         }
 
         
@@ -76,10 +76,10 @@ class BottomPanel extends Component {
                     <div style={{height: '-webkit-fill-available', marginLeft: 10, padding: 5, textAlign: "center"}}>
                         <p style={{color: this.state.color}} className="battery_usage"> {this.props.currLang.batteryState} </p>
                         <div className="bImage">
-                            <Image src={this.state.batteryImages[this.state.bIndex]} />
+                            <Image src={this.state.batteryImages[this.state.bIndex[this.props.currKid]]} />
                         </div>
                         <div style={{color: this.state.color, fontSize: 30, marginTop: 10, fontWeight: "bold"}}>
-                            {this.state.batteryLevel}%
+                            {this.state.batteryLevel[this.props.currKid]}%
                         </div>
                     </div>
                 </Col>

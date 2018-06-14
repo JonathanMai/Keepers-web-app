@@ -83,8 +83,23 @@ class MyMap extends Component {
 		for(let i = 0; i < this.props.childrens.length; i++){
 		// while(this.getCurrentLocation(this.props.childrens[i].id,) === -1){ 
 			// if(curr < moment().subtract(day)) {
-			// curr = curr.subtract(1, 'day');
-      let data = this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
+      // curr = curr.subtract(1, 'day');
+      if(i === 0)
+        this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
+      
+      else {
+        let kidsLocation = this.state.kidsLocation;
+        kidsLocation[i] =  {address: "הכתובת לא קיימת", childId: 841, dateCreated: 1528975592000, latitude: 31.7692, longitude: 35.1937}
+        this.setState({
+          ...this.state,
+          kidsLocation: kidsLocation,
+          point: {
+            lat: 31.7692,
+            lon: 35.1937
+          }
+
+        });
+      }
 
 			// if(data === -1 && data === undefined) {
 			//     i = i-1;
@@ -117,13 +132,15 @@ class MyMap extends Component {
 		if(res.data === -1 && res.data === undefined) {
 		}
 		else {
+      console.log(res.data[res.data.length - 1])
 			let kidsLocation = this.state.kidsLocation;
 			let markers = this.state.markers;
 			kidsLocation[index] = res.data[res.data.length - 1];
 			let newLocation = {
 				lat: res.data[res.data.length - 1].latitude,
 				lon: res.data[res.data.length - 1].longitude
-			};
+      };
+      console.log(newLocation)
 
 			this.setState({
 				...this.state,

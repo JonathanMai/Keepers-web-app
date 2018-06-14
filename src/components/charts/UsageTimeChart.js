@@ -13,7 +13,7 @@ class UsageTimeChart extends Component {
         // Data shown in hours.
         if(this.props.type === "h") {
             let time = tooltipItem.yLabel * 60;
-            label = Math.floor(tooltipItem.yLabel) + " Hours and " + time % 60 + " Minutes"
+            label = Math.ceil(tooltipItem.yLabel) + " Hours and " + Math.ceil(time % 60) + " Minutes"
         }
         // Data shown in minutes.
         else {

@@ -175,7 +175,7 @@ export class LineChart extends Component {
     render() {
         // this.getChildMessagesStatistics();
         // return <div>ok</div>
-        return (this.state.useData !== undefined && <AbusiveConversationsChart data={this.state.useData} labels={this.state.labels} />);
+        return (this.state.useData !== undefined && <AbusiveConversationsChart style={{height: 'inherit'}} data={this.state.useData} labels={this.state.labels} />);
     }
 }
 
@@ -183,7 +183,7 @@ export class LineChart extends Component {
 
 function LineChartPanel(props) {
     // console.log(props);
-    return <LineChart child={props.childrens[props.childIndex]} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} lang={props.lang}/>
+    return <LineChart style={{height: 'inherit'}} child={props.childrens[props.childIndex]} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} lang={props.lang}/>
 }
 
 const mapStateToProps = (state) => {
