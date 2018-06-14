@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import MsgsPanel from './MsgsPanel';
 import LineChartPanel from './LineChartPanel';
 import BarChartPanel from './BarChartPanel';
-import UsageTimeChart from '../charts/UsageTimeChart';
-import "../../styles/topPanel.css";
 
 // TODO: in top panel there supposed to be date state that will change the data for all sub components.
 class TopPanel extends Component {

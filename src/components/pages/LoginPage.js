@@ -11,9 +11,10 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.changeTerms = this.changeTerms.bind(this);
+        props.setAgreement(false);
+
     }
     render() {
-        console.log("LANG", this.props.currLang);
         return (
         <div>
             <Grid fluid={true}>

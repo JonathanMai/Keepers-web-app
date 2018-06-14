@@ -16,8 +16,6 @@ class RoutersList extends Component {
         if(this.checkStorage) {
             this.updateRedux();
         }
-        console.log("aaaaaaaa", this.props);
-
         return (
             <div>
                 <Banner color={this.props.panel_color}/>
@@ -26,7 +24,7 @@ class RoutersList extends Component {
                         <Route path="/" exact component={() => <Redirect to="/login" />}/>
                         <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
                         <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <LoginPage history={browserHistory.history}/>} />
-                        <Route path="/restore-password" exact component={(browserHistory) => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage history={browserHistory}/>} />
+                        <Route path="/restore-password" exact component={(browserHistory) => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage history={browserHistory.history}/>} />
                         <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to="/login" />} />
                         <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
                     </Switch>
@@ -49,7 +47,6 @@ class RoutersList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         currLang: state.lang.currLang,
         panel_color: state.reducerA.panel_color

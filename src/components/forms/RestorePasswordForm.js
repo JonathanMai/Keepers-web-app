@@ -46,7 +46,7 @@ class RestoreForm extends Component {
     }
 
     isValidEmail(email){
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (email === "" || !re.test(email))
             return false;
         return true;
@@ -67,6 +67,8 @@ class RestoreForm extends Component {
                return this.props.currLang.code_warning;
             case "PASSWORD":
                 return this.props.currLang.password_warning;
+            default:
+                return "";
         }
     }
 
@@ -141,7 +143,7 @@ class RestoreForm extends Component {
                 resetSuccess: true
             });
             setTimeout(() => {
-                this.props.history.history.push("/login");   // Redirect to main menu.
+                this.props.history.push("/login");   // Redirect to main menu.
             }, 2000);
          }).catch(error => { // When respond package is with error status - 400 ...
              if(error.response.data.code === "825") {   // the code is not corrent
