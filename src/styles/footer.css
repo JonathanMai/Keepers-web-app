@@ -11,29 +11,31 @@
 .logo {
     display: inline-block;
     background-color: rgb(37, 185, 204);
-    border: 2px solid white;
+    border: 1px solid white;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-left: 3vw;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 150px;
+    top: 3px;
 }
 
 .logo2 {
-    margin-left: 13vw;
+    right: 120px;
 }
 
 .img_chat {
-    width: 33px;
-    height: 33px;
-    margin: 2px;
-    padding: 5px;
+    width: 23px;
+    height: 23px;
+    margin: 0px;
+    padding: 4px;
 }
 
 .img_share {
-    width: 33px;
-    height: 33px;
-    margin: 1px;
-    padding: 6px;
+    width: 25px;
+    height: 25px;
+    margin: -1px;
+    padding: 5px;
 }
 
 .logo:hover {
@@ -64,18 +66,18 @@
 
 .chat_frame {
     position: absolute;
-    top: 26px;
-    right: 0px;
-    width: 400px;
-    height: 70vh;
-    padding: 40px;
+    top: 45px;
+    right: 35px;
+    width: 316px;
+    height: 65vh;
     border: none;
+    z-index: 200;
 }
 
 .closeBtn {
-    top: 75px;
+    top: 56px;
     position: relative;
-    right: 322px;
-    z-index: 1;
+    right: 315px;
+    z-index: 201;
     cursor: pointer;
 }

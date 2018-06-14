@@ -176,6 +176,7 @@ class SignInForm extends React.Component {
                         />
                     </Button>
                 </Form>
+                <div className="loader inactive" ref="loader"></div>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
@@ -207,9 +208,9 @@ class SignInForm extends React.Component {
 
     signIn(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
+        this.refs.loader.className = "loader active";
         var email = this.state.email
         var password = this.state.password;
-        
         //    Sends package and handling the respond.
         Login(email, password).then(res => {  // When respond package is with status 200
             let token = res.data.authToken;
@@ -218,20 +219,25 @@ class SignInForm extends React.Component {
                 id: parentId,
                 authKey: token
             });
-            this.props.setShowLogoutIcon(true);
             localStorage._id = parentId;
             localStorage._token = token;
+            this.refs.loader.className = "loader inactive";
+            this.props.setShowLogoutIcon(true);
             this.props.history.push('/keepers-dashboard'); 
+            
         }).catch(error => { // When respond package is with error status - 400 ...
-            if(error.response.data.code === '994') {    // parent not exists
-                this.props.setShowModal(true);
-            } else if(error.response.data.code === '935') { // password is wrong
-                this.setState({
-                    ...this.state,
-                    showErrorMessage: true,
-                    errorMessage: this.props.currLang.error_935
-                });
-            }
+            setTimeout(() => {
+                this.refs.loader.className = "loader inactive";
+                if(error.response.data.code === '994') {    // parent not exists
+                    this.props.setShowModal(true);
+                } else if(error.response.data.code === '935') { // password is wrong
+                    this.setState({
+                        ...this.state,
+                        showErrorMessage: true,
+                        errorMessage: this.props.currLang.error_935
+                    });
+                }
+            }, 1000)
         });
     }
 

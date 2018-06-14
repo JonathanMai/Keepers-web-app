@@ -7,6 +7,7 @@ import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
 import '../../styles/card.css';
+import '../../styles/footer.css';
 
 class Dashboard extends Component {
     constructor(props){

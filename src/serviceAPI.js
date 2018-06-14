@@ -2,8 +2,10 @@ import axios from 'axios';
 import moment from 'moment';
 import store from './store';
 
-let parentId = store.getState().reducerAccountInfo.parentId;
-let auth = store.getState().reducerAccountInfo.auth
+console.log("in service API");
+
+let parentId = localStorage.getItem("_id");
+let auth = localStorage.getItem("_token");
 
 const url = "https://keepers-main-vodafone-prod.eu-de.mybluemix.net/keeper-server/";
 // const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
