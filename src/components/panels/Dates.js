@@ -12,7 +12,7 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 class Dates extends Component {
     constructor(props) {
         super(props);
-        moment.locale(props.lang.language);
+        //moment.locale(props.lang.language);
         this.handleDaySelect = this.handleDaySelect.bind(this);
         this.handleWeekSelect = this.handleWeekSelect.bind(this);
         this.handleMonthSelect = this.handleMonthSelect.bind(this);
@@ -21,7 +21,7 @@ class Dates extends Component {
     }
 
     componentWillReceiveProps(props){
-        moment.locale(props.lang.language);
+        //moment.locale(props.lang.language);
         if(this.props.lang.language !== props.lang.language) {
             props.startDate.locale(props.lang.language);
             props.endDate.locale(props.lang.language);
@@ -90,15 +90,19 @@ class Dates extends Component {
     }
 
     datepicker(ev, picker) { // TODO: fix two days pick logic.
+        if(ev.type === 'show') {
+            // picker.EndDate = this.props.endDate;
+            console.log(ev)
+        }
         if(ev.type === 'apply') {
             let textSet = false;
             
-            moment.locale(this.props.lang.language);
+            //moment.locale(this.props.lang.language);
 
             let pickerStartDate = moment(picker.startDate);
-            pickerStartDate.locale(this.props.lang.language);
-
             let pickerEndDate = moment(picker.endDate);
+            
+            pickerStartDate.locale(this.props.lang.language);
             pickerEndDate.locale(this.props.lang.language);
             
             this.props.startDate.locale(this.props.lang.language);
@@ -123,13 +127,17 @@ class Dates extends Component {
     }
 
     backDateOnClickListener(active) {
+        let start = this.props.startDate.format("MM/DD/YYYY");
+        let end = this.props.startDate.format("MM/DD/YYYY");;
 
+        console.log(start, end);
         switch(active) {
             case 0:
-                this.props.setDate([moment(this.props.startDate).subtract(1, 'days').startOf('day'), moment(this.props.startDate).subtract(1, 'days').startOf('day')]);
+                this.props.setDate([moment(start).subtract(1, 'days').startOf('day'), moment(end).subtract(1, 'days').startOf('day'),]);
+
                 break;
             case 1:
-                this.props.setDate([moment(this.props.startDate).subtract(1, 'week').startOf('week'), moment(this.props.startDate).startOf('day').subtract(1, 'week').endOf('week').startOf('day')]);
+                this.props.setDate([moment(this.props.startDate).subtract(1, 'week').startOf('week'), moment(this.props.startDate).startOf('day').subtract(1, 'week').endOf('week').subtract(1, 'day')]);
                 break;
             case 2:
                 this.props.setDate([moment(this.props.startDate).subtract(1, 'month').startOf('month'), moment(this.props.startDate).subtract(1, 'month').endOf('month').startOf('day')]);
@@ -149,6 +157,8 @@ class Dates extends Component {
     }
 
     render() {
+        let costumeEnd = this.props.endDate;
+        console.log(costumeEnd);
         let maxSpans = {
             "months": 1
         }
@@ -181,12 +191,12 @@ class Dates extends Component {
                                 "monthNames": this.props.lang.date_picker_months
                                 }}
                             dateLimit={maxSpans}
-                            startDate={this.props.startDate}
-                            endDate={this.props.endDate}
+                            // startDate={this.props.startDate}
                             opens={'left'}
+                            // endDate={moment(this.props.endDate).format("MM/DD/YYYY")}
                             // showDropdowns={true}
-                            maxDate={moment()}
-                            autoApply={true}
+                            // maxDate={moment()}
+                            // autoApply={true}
                             // autoUpdateInput={true}
                             onEvent={this.datepicker.bind(this)}
                         >
