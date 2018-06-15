@@ -28,22 +28,31 @@ class SignInForm extends React.Component {
             disableButton: true,
             showPassword: false,
             showErrorMessage: false,
-            errorMessage: ""
+            errorMessage: "",
+            emailOnFocus: false,
+            passwordOnFocus: false
         }
         if(this.props.history.location.pathname === "/register") {
             this.state["name"] = "";
             this.handleName = this.handleName.bind(this);
         }
+        console.log("sign in const");
     }
 
     isValidEmail(email){
+        if(!this.state.emailOnFocus) {
+            return true
+        }
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
             return false;
         return true;
     }
 
-    isValidPassword(password){       
+    isValidPassword(password){ 
+        if(!this.state.passwordOnFocus) {
+            return true
+        }      
         if(password.length < 6 || password.length > 15)
             return false;
         return true;
@@ -127,11 +136,21 @@ class SignInForm extends React.Component {
         });
     }
 
-    render() { 
-        // this.props.setUser({
-        //     id: null,
-        //     authKey: null
-        // });       
+    emailOnFocus() {
+        this.setState({
+            ...this.state,
+            emailOnFocus: true
+        });
+    }
+
+    passwordOnFocus() {
+        this.setState({
+            ...this.state,
+            passwordOnFocus: true
+        });
+    }
+
+    render() {      
         return(
             <div>
                 <Form onSubmit={this.state.name === undefined ? this.signIn.bind(this) : this.register.bind(this) }>
@@ -150,6 +169,7 @@ class SignInForm extends React.Component {
                             this.handleEmail(e.currentTarget.value)}}
                             name={"EMAIL"}
                             value={this.state.email} 
+                            onFocus={this.emailOnFocus.bind(this)}
                             isValid={this.isValidEmail(this.state.email)} 
                             errorMessage={this.getValidationMessages('EMAIL')} />
     
@@ -157,6 +177,7 @@ class SignInForm extends React.Component {
                             onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                             name={"PASSWORD"}
                             value={this.state.password} 
+                            onFocus={this.passwordOnFocus.bind(this)}
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
                             
