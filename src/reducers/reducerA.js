@@ -2,7 +2,8 @@ const initialState = {
     showModal: false,
     panel_color: "transparent",
     agreement: false,
-    showIcon: false
+    showIcon: false,
+    showLoadingModal: false
 };
 
 const reducerA = (state = initialState, action) => {
@@ -27,6 +28,11 @@ const reducerA = (state = initialState, action) => {
                 ...state,
                 showIcon: action.value
             }; 
+        case "SET_SHOW_LOADING_MODAL":
+            return {
+                ...state,
+                showLoadingModal: action.value
+            };
         default: 
             return state;
     }

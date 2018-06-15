@@ -10,6 +10,7 @@ import submitBtn from '../../assets/submit_ok.png';
 import disableSubmitBtn from '../../assets/submit_disabled.png';
 import openEye from '../../assets/open_eye.png';
 import closedEye from '../../assets/closed_eye.png';
+import { WaitingModal } from '../modals/WaitingModal';
 
 class SignInForm extends React.Component {
     constructor(props){
@@ -176,13 +177,16 @@ class SignInForm extends React.Component {
                         />
                     </Button>
                 </Form>
-                <div className="loader inactive" ref="loader"></div>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
                     registerUser={this.redirectToRegister.bind(this)}
                     currLang={this.props.currLang.modal}/>
 
+                 <WaitingModal
+                    showModal={this.props.waitingModal.showLoadingModal} 
+                    closeModal={this.closeWaitingModal.bind(this)}
+                    />
             </div>
         );
     }
@@ -201,6 +205,10 @@ class SignInForm extends React.Component {
         this.props.setShowModal(false);
     }
 
+    closeWaitingModal() {
+        this.props.setShowLoadingModal(false);
+    }
+
     redirectToRegister() {
         this.props.setShowModal(false);
         this.props.history.push("/register");
@@ -208,7 +216,7 @@ class SignInForm extends React.Component {
 
     signIn(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
-        this.refs.loader.className = "loader active";
+        this.props.setShowLoadingModal(true);
         var email = this.state.email
         var password = this.state.password;
         //    Sends package and handling the respond.
@@ -221,13 +229,12 @@ class SignInForm extends React.Component {
             });
             localStorage._id = parentId;
             localStorage._token = token;
-            this.refs.loader.className = "loader inactive";
+            this.props.setShowLoadingModal(false);
             this.props.setShowLogoutIcon(true);
             this.props.history.push('/keepers-dashboard'); 
             
         }).catch(error => { // When respond package is with error status - 400 ...
-            setTimeout(() => {
-                this.refs.loader.className = "loader inactive";
+                this.props.setShowLoadingModal(false);
                 if(error.response.data.code === '994') {    // parent not exists
                     this.props.setShowModal(true);
                 } else if(error.response.data.code === '935') { // password is wrong
@@ -237,7 +244,6 @@ class SignInForm extends React.Component {
                         errorMessage: this.props.currLang.error_935
                     });
                 }
-            }, 1000)
         });
     }
 
@@ -265,6 +271,7 @@ class SignInForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         registerModal: state.reducerA,
+        waitingModal: state.reducerA,
         wrongPassword: state.reducerA.wrongPassword,
         agreement: state.reducerA.agreement,
         currLang: state.lang.currLang.login_page,
@@ -277,6 +284,12 @@ const mapDispatchToProps = (dispatch) => {
         setShowModal: (val) => {
             dispatch({
                 type: "SET_SHOW_MODAL",
+                value: val
+            });
+        },
+        setShowLoadingModal: (val) => {
+            dispatch({
+                type: "SET_SHOW_LOADING_MODAL",
                 value: val
             });
         },
