@@ -30,13 +30,9 @@ class Dashboard extends Component {
             let childrens = [];
             let count = 0;
             res.data.map(obj => {
-                if(count !== 0 && count !== 2 && count !== 3) childrens.push(obj);
-                count++;
+                childrens.push(obj);
             });
-            let temp = childrens[0];
-            childrens[0] = childrens[2];
-            childrens[2] = childrens[1]
-            childrens[1] = temp;
+
             this.props.setChildrens(childrens);
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.response);
