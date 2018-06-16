@@ -45,7 +45,7 @@ const MyMapComponent = compose(
   }),
 )(props => {
   return (
-    <GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude } : { lat: 31.766572, lng: 35.200025}} >      {
+    <GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude + 0.001, lng: props.children[props.currTab].longitude} : { lat: 31.766572, lng: 35.200025}} >      {
           props.children[props.currTab] && 
           <Marker icon={markerIcon} onMouseOut={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onMouseOver={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onClick={props.onClikedToggle.bind(this, props.currTab)} position={{ lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude }} >
           {
