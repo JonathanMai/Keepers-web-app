@@ -34,7 +34,6 @@ class Dashboard extends Component {
         });
         // this.props.changePanelColor("rgba(37, 185, 204, 0.45)"); // TODO:: accure an error
         this.props.setShowLogoutIcon(true);
-        
     }
 
 

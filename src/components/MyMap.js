@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from "recompose";
 import { GetLocation } from '../serviceAPI';
@@ -13,11 +12,14 @@ import {
   InfoWindow
 } from "react-google-maps";
 
+var language = window.navigator.userLanguage || window.navigator.language;
+
 const MyMapComponent = compose(
   withProps({
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `26vh` }} />,
-    mapElement: <div style={{ height: `100%` }} />
+    mapElement: <div style={{ height: `100%` }} />,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`
   }),
   withScriptjs,
   withGoogleMap,
@@ -168,9 +170,7 @@ class MyMap extends Component {
 
 
   render() {
-    var language = window.navigator.userLanguage || window.navigator.language;
-    let url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`;
-    return (
+   return (
       // Important! Always set the container height explicitly
       <MyMapComponent 
         zoom={this.props.defaultZoom} 
@@ -178,7 +178,7 @@ class MyMap extends Component {
         children={this.state.kidsLocation} 
         currTab={this.props.currentTab} 
         childFocused={this.state.point} 
-        googleMapURL={url} />  
+        />  
     );
   }
 }

@@ -2,10 +2,17 @@ import axios from 'axios';
 import moment from 'moment';
 import store from './store';
 
-console.log("in service API");
+// console.log("in service API");
 
-let parentId = localStorage.getItem("_id");
-let auth = localStorage.getItem("_token");
+// console.log(store.getState());
+// store.subscribe(() => {
+//     console.log
+//     var parentId = store.getState()
+//     console.log("abc");
+// });
+let parentId = store.getState().reducerAccountInfo.parentId;
+
+let auth = store.getState().reducerAccountInfo.auth;
 
 const url = "https://keepers-main-vodafone-prod.eu-de.mybluemix.net/keeper-server/";
 // const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
@@ -22,18 +29,18 @@ export const GetById = () => {
 }
 
 export const GetProfileByID = () => {
-    return axios.get(url + "parents/profileById/" + parentId,{
+    return axios.get(url + "parents/profileById/" + store.getState().reducerAccountInfo.parentId,{
         headers: {
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
 
 export const GetAllChildren = () => {
-    return axios.get(url + "parents/getAllChildrenForParent/" + parentId,{
+    return axios.get(url + "parents/getAllChildrenForParent/" + store.getState().reducerAccountInfo.parentId,{
         headers: {
             'Content-Type': "text/plain",
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
@@ -41,7 +48,7 @@ export const GetAllChildren = () => {
 export const GetMessagesStatistics = (id, startTime, endTime) => {
     return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
@@ -51,7 +58,7 @@ export const GetUsageStatistics = (id, startTime, endTime) =>{
     let body = {childId: id};
     let headers = {headers: {
         'content-type': "application/json",
-        auth: auth
+        auth: store.getState().reducerAccountInfo.auth
     }};
 
     return axios.post(url + "appUsageTime/queryAllUsages", body, headers); 
@@ -61,7 +68,7 @@ export const GetMessagesHeads = (id, startTime, endTime, page) => {
     // console.log("id:",id,", start time:", startTime, ", end time:",endTime,", page:", page)
     return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
         headers: {
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
@@ -69,7 +76,7 @@ export const GetMessagesHeads = (id, startTime, endTime, page) => {
 export const GetEntireMessage = (id, msgId) => {
     return axios.get(url + "conversation/" + id + "/" + msgId + "/entire",{
         headers: {
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
@@ -77,7 +84,7 @@ export const GetEntireMessage = (id, msgId) => {
 export const GetBatteryLevel = (id) => {
     return axios.get(url + "devices/" + id + "/battery/level",{
         headers: {
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
@@ -90,12 +97,12 @@ export const GetCurrentLocation = (id) => {
     };
     let headers = {headers: {
         'content-type': "application/json",
-        auth: auth
+        auth: store.getState().reducerAccountInfo.auth
     }};
 
     return axios.post(url + "location/queryInRange",{
         headers: {
-            auth: auth
+            auth: store.getState().reducerAccountInfo.auth
         }
     });
 }
@@ -126,7 +133,7 @@ export const GetLocation = (id, fromDate, toDate) => {
     };
     let headers = {headers: {
         'content-type': "application/json",
-        auth: auth
+        auth: store.getState().reducerAccountInfo.auth
     }};
 
     return axios.post(url + "location/queryInRange",body, headers);

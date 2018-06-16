@@ -4,7 +4,6 @@ import RestartPasswordPage from './pages/RestartPasswordPage';
 import Dashboard from './pages/Dashboard';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Banner from '../components/panels/Banner';
 
 class RoutersList extends Component {
     constructor(props) {
@@ -12,24 +11,29 @@ class RoutersList extends Component {
         this.checkStorage.bind(this);
         this.updateRedux.bind(this);
     }
-    render() {
+
+    componentWillReceiveProps() {
         if(this.checkStorage) {
             this.updateRedux();
         }
+    }
+    
+    render() {
+        // if(this.checkStorage) {
+        //     this.updateRedux();
+        // }
+        // console.log("router render");
         return (
-            <div>
-                <Banner color={this.props.panel_color}/>
-                <Router>
-                    <Switch>
-                        <Route path="/" exact component={() => <Redirect to="/login" />}/>
-                        <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
-                        <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <LoginPage history={browserHistory.history}/>} />
-                        <Route path="/restore-password" exact component={(browserHistory) => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage history={browserHistory.history}/>} />
-                        <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to='/login' />} /> 
-                        <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
-                    </Switch>
-                </Router>
-            </div>
+            <Router>
+                <Switch>
+                    <Route path="/" exact component={() => <Redirect to="/login" />}/>
+                    <Route path="/login" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard" /> : <LoginPage history={browserHistory.history}/>} />
+                    <Route path="/register" exact component={(browserHistory) => this.checkStorage() ? <Redirect to="/keepers-dashboard"/> : <LoginPage history={browserHistory.history}/>} />
+                    <Route path="/restore-password" exact component={(browserHistory) => this.checkStorage() ? <Dashboard/> : <RestartPasswordPage history={browserHistory.history}/>} />
+                    <Route path="/keepers-dashboard" exact component={() => this.checkStorage() ? <Dashboard /> : <Redirect to='/login' />} /> 
+                    <Route render={() => <h1>{this.props.currLang.page_not_found}</h1>} />
+                </Switch>
+            </Router>
         );
     }
 

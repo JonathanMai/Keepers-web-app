@@ -118,15 +118,6 @@ class SignInForm extends React.Component {
         });
     }
 
-    passwordOnFocus() {
-        if(this.refs.password) {
-            this.setState({
-                ...this.state,
-                showErrorMessage: false
-            });
-        }
-    }
-
     handleName(name) {
         this.setState({
             ...this.state,
@@ -138,14 +129,23 @@ class SignInForm extends React.Component {
     emailOnFocus() {
         this.setState({
             ...this.state,
-            emailOnFocus: true
+            emailOnFocus: true,
+            showErrorMessage: false
         });
     }
 
     passwordOnFocus() {
+        // if(this.refs.password) {
+        //     this.setState({
+        //         ...this.state,
+        //         showErrorMessage: false
+        //     });
+        // }
         this.setState({
             ...this.state,
-            passwordOnFocus: true
+            passwordOnFocus: true,
+            showErrorMessage: false
+
         });
     }
 
@@ -247,25 +247,32 @@ class SignInForm extends React.Component {
                 id: parentId,
                 authKey: token
             });
-            localStorage._id = parentId;
-            localStorage._token = token;
-            this.props.setShowLoadingModal(false);
-            this.props.setShowLogoutIcon(true);
-            this.props.history.push('/keepers-dashboard'); 
+
+            setTimeout(() => {
+                localStorage._id = parentId;
+                localStorage._token = token;
+                this.props.setShowLoadingModal(false);
+                this.props.setShowLogoutIcon(true);
+                this.props.history.push('/keepers-dashboard'); 
+            }, 1000);
+           
             
         }).catch(error => { // When respond package is with error status - 400 ...
+            setTimeout(() => {
                 this.props.setShowLoadingModal(false);
                 if(error.response.data.code === '994') {    // parent not exists
                     this.props.setShowModal(true);
                 } else if(error.response.data.code === '935') { // password is wrong
                     this.setState({
-                        ...this.state,
+                    ...this.state,
                         showErrorMessage: true,
                         errorMessage: this.props.currLang.error_935
                     });
                 }
-        });
-    }
+            }, 1000);
+           
+    }); 
+}
 
     register(event) {
         event.preventDefault(); // cancel auto refresh.

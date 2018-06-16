@@ -4,6 +4,8 @@ import RoutersList from './RoutersList';
 import store from '../store';
 import { Provider } from 'react-redux';
 import './App.css';
+import Banner from '../components/panels/Banner';
+
 
 class App extends Component {
   
@@ -11,7 +13,10 @@ class App extends Component {
     return (
       <div className="App">
         <Provider store={store}>
-          <RoutersList />
+          <div>
+            <Banner />
+            <RoutersList />
+          </div>
         </Provider>
        </div>
     );
