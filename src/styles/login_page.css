@@ -17,7 +17,7 @@
 .intro_text {
     font-size: 9vh;
     text-align: left;
-    padding-left: 120px;
+    /* padding-left: 120px; */
 
     /* letter-spacing: -4px; */
     color: rgb(37, 185, 204);
@@ -28,7 +28,7 @@
 
 .terms {
     position: absolute;
-    bottom: 25px;
+    bottom: 20px;
     width: 20px;
     left: 60px;
 }
@@ -36,7 +36,7 @@
 .terms + span {
     font-size: 20px;
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     left: 80px;
     font-family: "OpenSans-Light";
 }
@@ -52,6 +52,8 @@
 
 .login_page_container {
     height: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
     display: table;
     margin :0 auto;
 }
@@ -70,6 +72,42 @@
     margin: 0px;
 }
 
+/* On screens that are 110px or less */
+@media screen and (max-height: 1200px) {
+    .invite {
+        left: 60px;
+        bottom: 2vw;
+        font-size: 3vw;
+    }
+
+    .sign_up {
+        font-size: 3vw;
+        bottom: 2vw;
+    }
+}
+
+/* On screens that are 110px or less */
+@media screen and (max-height: 1100px) {
+    .terms {
+        bottom: 15px;
+    }
+    
+    .terms + span {
+        bottom: 10px;
+    }
+}
+
+/* On screens that are 110px or less */
+@media screen and (max-height: 1020px) {
+    .terms {
+        bottom: 10px;
+    }
+    
+    .terms + span {
+        bottom: 5px;
+    }
+}
+
 /* On screens that are 992px or less */
 @media screen and (max-height: 664px) {
     .intro_text {
@@ -82,20 +120,29 @@
     .intro_text {
         font-size: 40px;
     }
+    .terms {
+        left: 20px;
+    }
+    
+    .terms + span {
+        left: 35px;
+    }
+
 }
 
   /* On screens that are 768px or less */
 @media screen and (max-width: 768px) {
     .intro_text {
         font-size: 48px;
+        text-align: center;
     }
     .login_page_container {
-        margin-top: 15px;
+        /* margin-top: 15px; */
         height: auto;
         width:100%;
         /* display: none; */
         position: relative;
-        padding-left: 0px;
+        /* padding-left: 0px; */
     }
 }
   
@@ -114,27 +161,52 @@
     }
 }
   
-@media screen and (max-width: 1000px) {
-    .intro_text {
-        padding-left: 100px;
-    }
-}
 
 @media screen and (max-width: 900px) {
-    .intro_text {
-        padding-left: 80px;
+    .terms {
+        left: 45px;
+        width: 16px;
+    }
+    
+    .terms + span {
+        left: 60px;
+        font-size: 16px;
     }
 }
 
 @media screen and (max-width: 690px) {
     .intro_text {
-        font-size: 43px;
+        font-size: 42px;
+    }
+    .wave {
+        height: 20%;
+    }
+    .terms {
+        left: 25px;
+        width: 16px;
+    }
+    
+    .terms + span {
+        left: 40px;
+        font-size: 16px;
+    }
+
+    .invite {
+        left: 5vw;
+        bottom: 2vw;
+        font-size: 3vw;
+    }
+
+    .sign_up {
+        font-size: 3vw;
+        bottom: 2vw;
+        right: 5vw;
     }
 }
 
 @media screen and (max-width: 620px) {
     .intro_text {
-        font-size: 42px;
+        font-size: 41px;
     }
 }
 
@@ -143,7 +215,42 @@
     .intro_text {
         font-size: 40px;
     }
+    .invite {
+        left: 5vw;
+        bottom: 2vw;
+        font-size: 18px;
+    }
+
+    .sign_up {
+        font-size: 18px;
+        bottom: 2vw;
+        right: 5vw;
+    }
+    
+    .modal_arrow {
+        width: 12px;
+    }
 }
+
+/* On screens that are 600px or less*/
+@media screen and (max-width: 540px) {
+    .invite {
+        left: 2vw;
+        bottom: 2vw;
+        font-size: 15px;
+    }
+
+    .sign_up {
+        font-size: 15px;
+        bottom: 2vw;
+        right: 2vw;
+    }
+    
+    .modal_arrow {
+        width: 8px;
+    }
+}
+
 
 /* On screens that are 768px or less */
 @media screen and (max-aspect-ratio: 1/1) and (min-height:640px){
@@ -154,7 +261,7 @@
     }
     
     .login_page_container {
-        height: 40%;
+        /* height: 40%; */
         display: table;
         margin :0 auto;
     }
@@ -200,11 +307,9 @@ span.has-error-text {
 }
 
 .link {
+    position: absolute;
+    right: 30px;
     color: rgb(37, 185, 204);
-    display: block;
-    float: right;
-    position: relative;
-    top: 0px;
     font-family: "OpenSans-Regular";
 }
 

@@ -81,7 +81,7 @@ const languages = {
             modal: {
                 new_user: "Мы заметели, что вы новый пользователь,",
                 create: "давайте создадим новую учетную запись!",
-                sign_up: "Зарегистрироваться"
+                sign_up: "Вперед"
             }
         },
         password_recovery: {

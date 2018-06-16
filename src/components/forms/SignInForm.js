@@ -184,9 +184,9 @@ class SignInForm extends React.Component {
                         src={!this.state.showPassword ? closedEye : openEye} 
                             circle
                         />
-                        {
-                         this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
-                        }
+                    {
+                        this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
+                    }
 
                     {
                        this.state.name === undefined && <Link className="link" to={"/restore-password"}>{this.props.currLang.forgot_password}</Link>
