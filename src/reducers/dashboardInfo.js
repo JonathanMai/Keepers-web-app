@@ -9,7 +9,7 @@ const initialState = {
     datesText: "",
     activeDates: 0,
     isOneDay: true,
-    defaultZoom: 15
+    defaultZoom: 16
 };
 
 const dashboardInfo = (state = initialState, action) => {
