@@ -18,7 +18,7 @@ class LoginPage extends Component {
         return (
         <div>
             <Grid fluid={true}>
-                <Row className="justify-content-center" style={{"marginTop": 15, "height": "80vh"}}>
+                <Row className="justify-content-center" style={{"marginTop": 25, "height": "80vh"}}>
                     <Col className="login_page_container text-center" sm={2} md={2} lg={2}>
                         <p className="intro_text login_page_mid "> {this.props.currLang.key_child_safety} </p>
                     </Col>

@@ -79,7 +79,7 @@ class BarChart extends Component {
                 // return({appName: item.appName, [item.appName]: item.count})}
                 // return;
         });
-        console.log(dataSet)
+        // console.log(dataSet)
         this.setState({
             ...this.state,
             labels: labels,

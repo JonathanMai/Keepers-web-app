@@ -11,11 +11,13 @@ export const RegisterModal = (props) => {
                 show={props.showModal}
                 onHide={props.closeModal}
                 aria-labelledby="contained-modal-title">
+                <Modal.Body>
                 <Image className="wave" src={wave} />
                 <div className="modal_info">
                     <span className="invite">{props.currLang.new_user} <br/>{props.currLang.create}</span>
                     <p className="sign_up" onClick={props.registerUser} >{props.currLang.sign_up} <Image className="modal_arrow" src={arrow} /></p>
                 </div>
+                </Modal.Body>
             </Modal>
         );
 };

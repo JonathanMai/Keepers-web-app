@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from "recompose";
 import { GetLocation } from '../serviceAPI';
@@ -13,11 +12,14 @@ import {
   InfoWindow
 } from "react-google-maps";
 
+var language = window.navigator.userLanguage || window.navigator.language;
+
 const MyMapComponent = compose(
   withProps({
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `26vh` }} />,
-    mapElement: <div style={{ height: `100%` }} />
+    mapElement: <div style={{ height: `100%` }} />,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`
   }),
   withScriptjs,
   withGoogleMap,
@@ -71,35 +73,38 @@ class MyMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      kidsLocation: []
+      kidsLocation: [],
+      point: {}
     };
     setInterval(this.getKidsCurrLocation.bind(this), 60000 * 5);
+  }
+
+  componentWillMount() {
     this.getKidsCurrLocation();
   }
 
   getKidsCurrLocation() {
 		let curr =  moment().subtract(3, 'hours');
 
-		for(let i = 0; i < this.props.childrens.length; i++){
+    for(let i = 0; i < this.props.childrens.length; i++){ // for each kid 
 		// while(this.getCurrentLocation(this.props.childrens[i].id,) === -1){ 
 			// if(curr < moment().subtract(day)) {
       // curr = curr.subtract(1, 'day');
-      if(i === 0)
+      // if(i === 0)
         this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
       
-      else {
-        let kidsLocation = this.state.kidsLocation;
-        kidsLocation[i] =  {address: "הכתובת לא קיימת", childId: 841, dateCreated: 1528975592000, latitude: 31.7692, longitude: 35.1937}
-        this.setState({
-          ...this.state,
-          kidsLocation: kidsLocation,
-          point: {
-            lat: 31.7692,
-            lon: 35.1937
-          }
-
-        });
-      }
+      // else {
+      //   let kidsLocation = this.state.kidsLocation;
+      //   kidsLocation[i] =  {address: "הכתובת לא קיימת", childId: 841, dateCreated: 1528975592000, latitude: 31.7692, longitude: 35.1937}
+      //     this.setState({
+      //       ...this.state,
+      //       kidsLocation: kidsLocation,
+      //       point: {
+      //         lat: 31.7692,
+      //         lon: 35.1937
+      //       }
+      //     });
+      //   }
 
 			// if(data === -1 && data === undefined) {
 			//     i = i-1;
@@ -124,23 +129,20 @@ class MyMap extends Component {
   
   getCurrentLocation(id, from, index) {
 		GetLocation(id, from, moment()).then(res => {  // When respond package is with status 200
-      // console.log(res)
-      if(res.data.length === 0) {
-			// this.getCurrentLocation(id, from.subtract(3, 'hours'))
-			return -1;
-		}
-		if(res.data === -1 && res.data === undefined) {
-		}
-		else {
-      console.log(res.data[res.data.length - 1])
-			let kidsLocation = this.state.kidsLocation;
-			let markers = this.state.markers;
+      if(res.data.length === 0) { // no data from server
+			  return -1;
+		  }
+		  else {
+      // console.log(res.data[res.data.length - 1])
+      let kidsLocation = this.state.kidsLocation;
+      // console.log("kids location", kidsLocation);
+			// let markers = this.state.markers;
 			kidsLocation[index] = res.data[res.data.length - 1];
 			let newLocation = {
 				lat: res.data[res.data.length - 1].latitude,
 				lon: res.data[res.data.length - 1].longitude
       };
-      console.log(newLocation)
+      // console.log("new location", newLocation)
 
 			this.setState({
 				...this.state,
@@ -168,9 +170,7 @@ class MyMap extends Component {
 
 
   render() {
-    var language = window.navigator.userLanguage || window.navigator.language;
-    let url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`;
-    return (
+   return (
       // Important! Always set the container height explicitly
       <MyMapComponent 
         zoom={this.props.defaultZoom} 
@@ -178,7 +178,7 @@ class MyMap extends Component {
         children={this.state.kidsLocation} 
         currTab={this.props.currentTab} 
         childFocused={this.state.point} 
-        googleMapURL={url} />  
+        />  
     );
   }
 }

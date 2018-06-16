@@ -91,7 +91,7 @@ class Dates extends Component {
     datepicker(ev, picker) { // TODO: fix two days pick logic.
         if(ev.type === 'show') {
             // picker.EndDate = this.props.endDate;
-            console.log(ev)
+            // console.log(ev)
         }
         if(ev.type === 'apply') {
             let textSet = false;
@@ -129,7 +129,7 @@ class Dates extends Component {
         let start = this.props.startDate.format("MM/DD/YYYY");
         let end = this.props.startDate.format("MM/DD/YYYY");;
 
-        console.log(start, end);
+        // console.log(start, end);
         switch(active) {
             case 0:
                 this.props.setDate([moment(start).subtract(1, 'days').startOf('day'), moment(end).subtract(1, 'days').startOf('day'),]);
@@ -155,9 +155,14 @@ class Dates extends Component {
         }
     }
 
+    componentWillMount() {
+        this.props.setActive(0);
+        this.props.setText("");
+    }
+
     render() {
         let costumeEnd = this.props.endDate;
-        console.log(costumeEnd);
+        // console.log(costumeEnd);
         let maxSpans = {
             "months": 1
         }

@@ -10,6 +10,7 @@ import submitBtn from '../../assets/submit_ok.png';
 import disableSubmitBtn from '../../assets/submit_disabled.png';
 import openEye from '../../assets/open_eye.png';
 import closedEye from '../../assets/closed_eye.png';
+import { WaitingModal } from '../modals/WaitingModal';
 
 class SignInForm extends React.Component {
     constructor(props){
@@ -27,7 +28,9 @@ class SignInForm extends React.Component {
             disableButton: true,
             showPassword: false,
             showErrorMessage: false,
-            errorMessage: ""
+            errorMessage: "",
+            emailOnFocus: false,
+            passwordOnFocus: false
         }
         if(this.props.history.location.pathname === "/register") {
             this.state["name"] = "";
@@ -36,13 +39,19 @@ class SignInForm extends React.Component {
     }
 
     isValidEmail(email){
+        if(!this.state.emailOnFocus) {
+            return null
+        }
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
             return false;
         return true;
     }
 
-    isValidPassword(password){       
+    isValidPassword(password){ 
+        if(!this.state.passwordOnFocus) {
+            return null
+        }      
         if(password.length < 6 || password.length > 15)
             return false;
         return true;
@@ -109,15 +118,6 @@ class SignInForm extends React.Component {
         });
     }
 
-    passwordOnFocus() {
-        if(this.refs.password) {
-            this.setState({
-                ...this.state,
-                showErrorMessage: false
-            });
-        }
-    }
-
     handleName(name) {
         this.setState({
             ...this.state,
@@ -126,11 +126,30 @@ class SignInForm extends React.Component {
         });
     }
 
-    render() { 
-        // this.props.setUser({
-        //     id: null,
-        //     authKey: null
-        // });       
+    emailOnFocus() {
+        this.setState({
+            ...this.state,
+            emailOnFocus: true,
+            showErrorMessage: false
+        });
+    }
+
+    passwordOnFocus() {
+        // if(this.refs.password) {
+        //     this.setState({
+        //         ...this.state,
+        //         showErrorMessage: false
+        //     });
+        // }
+        this.setState({
+            ...this.state,
+            passwordOnFocus: true,
+            showErrorMessage: false
+
+        });
+    }
+
+    render() {      
         return(
             <div>
                 <Form onSubmit={this.state.name === undefined ? this.signIn.bind(this) : this.register.bind(this) }>
@@ -149,6 +168,7 @@ class SignInForm extends React.Component {
                             this.handleEmail(e.currentTarget.value)}}
                             name={"EMAIL"}
                             value={this.state.email} 
+                            onFocus={this.emailOnFocus.bind(this)}
                             isValid={this.isValidEmail(this.state.email)} 
                             errorMessage={this.getValidationMessages('EMAIL')} />
     
@@ -156,6 +176,7 @@ class SignInForm extends React.Component {
                             onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
                             name={"PASSWORD"}
                             value={this.state.password} 
+                            onFocus={this.passwordOnFocus.bind(this)}
                             isValid={this.isValidPassword(this.state.password)} 
                             errorMessage={this.getValidationMessages('PASSWORD')}/>
                             
@@ -176,13 +197,16 @@ class SignInForm extends React.Component {
                         />
                     </Button>
                 </Form>
-                <div className="loader inactive" ref="loader"></div>
                 <RegisterModal 
                     showModal={this.props.registerModal.showModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
                     registerUser={this.redirectToRegister.bind(this)}
                     currLang={this.props.currLang.modal}/>
 
+                 <WaitingModal
+                    showModal={this.props.waitingModal.showLoadingModal} 
+                    closeModal={this.closeWaitingModal.bind(this)}
+                    />
             </div>
         );
     }
@@ -201,6 +225,10 @@ class SignInForm extends React.Component {
         this.props.setShowModal(false);
     }
 
+    closeWaitingModal() {
+        this.props.setShowLoadingModal(false);
+    }
+
     redirectToRegister() {
         this.props.setShowModal(false);
         this.props.history.push("/register");
@@ -208,7 +236,7 @@ class SignInForm extends React.Component {
 
     signIn(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
-        this.refs.loader.className = "loader active";
+        this.props.setShowLoadingModal(true);
         var email = this.state.email
         var password = this.state.password;
         //    Sends package and handling the respond.
@@ -219,27 +247,32 @@ class SignInForm extends React.Component {
                 id: parentId,
                 authKey: token
             });
-            localStorage._id = parentId;
-            localStorage._token = token;
-            this.refs.loader.className = "loader inactive";
-            this.props.setShowLogoutIcon(true);
-            this.props.history.push('/keepers-dashboard'); 
+
+            setTimeout(() => {
+                localStorage._id = parentId;
+                localStorage._token = token;
+                this.props.setShowLoadingModal(false);
+                this.props.setShowLogoutIcon(true);
+                this.props.history.push('/keepers-dashboard'); 
+            }, 1000);
+           
             
         }).catch(error => { // When respond package is with error status - 400 ...
             setTimeout(() => {
-                this.refs.loader.className = "loader inactive";
+                this.props.setShowLoadingModal(false);
                 if(error.response.data.code === '994') {    // parent not exists
                     this.props.setShowModal(true);
                 } else if(error.response.data.code === '935') { // password is wrong
                     this.setState({
-                        ...this.state,
+                    ...this.state,
                         showErrorMessage: true,
                         errorMessage: this.props.currLang.error_935
                     });
                 }
-            }, 1000)
-        });
-    }
+            }, 1000);
+           
+    }); 
+}
 
     register(event) {
         event.preventDefault(); // cancel auto refresh.
@@ -265,6 +298,7 @@ class SignInForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         registerModal: state.reducerA,
+        waitingModal: state.reducerA,
         wrongPassword: state.reducerA.wrongPassword,
         agreement: state.reducerA.agreement,
         currLang: state.lang.currLang.login_page,
@@ -277,6 +311,12 @@ const mapDispatchToProps = (dispatch) => {
         setShowModal: (val) => {
             dispatch({
                 type: "SET_SHOW_MODAL",
+                value: val
+            });
+        },
+        setShowLoadingModal: (val) => {
+            dispatch({
+                type: "SET_SHOW_LOADING_MODAL",
                 value: val
             });
         },
