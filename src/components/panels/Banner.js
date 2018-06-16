@@ -84,6 +84,7 @@ class Banner extends Component {
             localStorage.removeItem("_token");
             this.props.setPanelColor("transparent");
             this.props.setShowLogoutIcon(false);
+            window.location.reload();
         }).catch(error => {
             console.log(error.response)
         });

@@ -10,11 +10,6 @@ import '../../styles/card.css';
 import '../../styles/footer.css';
 
 class Dashboard extends Component {
-    constructor(props){
-        super(props);
-        props.changePanelColor("rgba(37, 185, 204, 0.45)");
-        props.setShowLogoutIcon(true);
-    }
 
     handleTabSelect(key) {
         this.props.setCurrTab(key);
@@ -37,6 +32,9 @@ class Dashboard extends Component {
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error.response);
         });
+        // this.props.changePanelColor("rgba(37, 185, 204, 0.45)"); // TODO:: accure an error
+        this.props.setShowLogoutIcon(true);
+        
     }
 
 

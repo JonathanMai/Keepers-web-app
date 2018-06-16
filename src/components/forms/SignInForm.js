@@ -36,12 +36,11 @@ class SignInForm extends React.Component {
             this.state["name"] = "";
             this.handleName = this.handleName.bind(this);
         }
-        console.log("sign in const");
     }
 
     isValidEmail(email){
         if(!this.state.emailOnFocus) {
-            return true
+            return null
         }
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
@@ -51,7 +50,7 @@ class SignInForm extends React.Component {
 
     isValidPassword(password){ 
         if(!this.state.passwordOnFocus) {
-            return true
+            return null
         }      
         if(password.length < 6 || password.length > 15)
             return false;
