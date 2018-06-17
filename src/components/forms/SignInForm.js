@@ -26,9 +26,9 @@ class SignInForm extends React.Component {
             email: "",
             password: "",
             disableButton: true,
-            showPassword: false,
-            showErrorMessage: false,
-            errorMessage: "",
+            emailValidation: [true, "empty"],
+            passwordValidation: [true, "empty"],
+            nameValidation: [true, "empty"],
             emailOnFocus: false,
             passwordOnFocus: false
         }
@@ -37,24 +37,39 @@ class SignInForm extends React.Component {
             this.handleName = this.handleName.bind(this);
         }
     }
+    isValidName(name) {
+        if(!this.state.nameOnFocus) {
+            return [true, "empty"];
+        }
+        else if(name.length > 0) {
+            return [true, "valid"];
+        }
+        return [false, "empty"];
+    }
 
-    isValidEmail(email){
+    isValidEmail(email) {
         if(!this.state.emailOnFocus) {
-            return null
+            return [true, "empty"]
         }
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
-            return false;
-        return true;
+            return [false, this.props.currLang.invalid_email];
+        else if (this.state.emailValidation[0] === false)
+            return [true, "valid"];
+        return this.state.emailValidation;
     }
 
     isValidPassword(password){ 
         if(!this.state.passwordOnFocus) {
-            return null
+            return [true, "empty"]
         }      
-        if(password.length < 6 || password.length > 15)
-            return false;
-        return true;
+        if(password.length < 6 || password.length > 15) {
+            return [false, this.props.currLang.password_warning]
+        }
+        else if(!this.state.passwordValidation[0]) {
+            return [true, "valid"]
+        }
+        return this.state.passwordValidation;
     }
 
     getValidationMessages(key){
@@ -103,17 +118,22 @@ class SignInForm extends React.Component {
     }
     
     handleEmail(email){
+        let newValidationEmail = this.isValidEmail(email);
+        console.log(newValidationEmail);
         this.setState({
             ...this.state,
             email: email,
+            emailValidation: newValidationEmail,
             disableButton: this.enableButton('email', email)
         });
     }
 
     handlePassword(password){ 
+        console.log(password)
         this.setState({
             ...this.state,
             password: password,
+            passwordValidation: this.isValidPassword(password),
             disableButton: this.enableButton('password', password)
         });
     }
@@ -122,15 +142,21 @@ class SignInForm extends React.Component {
         this.setState({
             ...this.state,
             name: name,
-            disableButton: this.enableButton('name', name)
+            nameValidation: this.isValidName(name)
+        });
+    }
+
+    nameOnFocus() {
+        this.setState({
+            ...this.state,
+            nameOnFocus: true
         });
     }
 
     emailOnFocus() {
         this.setState({
             ...this.state,
-            emailOnFocus: true,
-            showErrorMessage: false
+            emailOnFocus: true
         });
     }
 
@@ -157,41 +183,44 @@ class SignInForm extends React.Component {
                         this.state.name !== undefined && <FloatingLabelInput type={"text"} labelName={this.props.currLang.parents_name}
                         onChange={(e) => {e.preventDefault();
                         this.handleName(e.currentTarget.value)}}
+                        onFocus={this.nameOnFocus.bind(this)}
                         name={"NAME"}
                         value={this.state.name} 
-                        isValid={this.state.name !== ""} 
+                        isValid={this.state.nameValidation[0]} 
                         errorMessage={this.props.currLang.name_warning} /> 
                     }
                         
                     <FloatingLabelInput type={"email"} labelName={this.props.currLang.parents_email} 
-                            onChange={(e) => {e.preventDefault();
-                            this.handleEmail(e.currentTarget.value)}}
-                            name={"EMAIL"}
-                            value={this.state.email} 
-                            onFocus={this.emailOnFocus.bind(this)}
-                            isValid={this.isValidEmail(this.state.email)} 
-                            errorMessage={this.getValidationMessages('EMAIL')} />
+                        onChange={(e) => {e.preventDefault();
+                        this.handleEmail(e.currentTarget.value)}}
+                        name={"EMAIL"}
+                        value={this.state.email} 
+                        onFocus={this.emailOnFocus.bind(this)}
+                        isValid={this.state.emailValidation[0]} 
+                        errorMessage={this.state.emailValidation[1]} />
     
-                    <FloatingLabelInput onFocus={this.passwordOnFocus.bind(this)} ref="password" type={"password"} labelName={this.props.currLang.parents_password} 
-                            onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
-                            name={"PASSWORD"}
-                            value={this.state.password} 
-                            onFocus={this.passwordOnFocus.bind(this)}
-                            isValid={this.isValidPassword(this.state.password)} 
-                            errorMessage={this.getValidationMessages('PASSWORD')}/>
+                    <FloatingLabelInput ref="password" type={"password"} labelName={this.props.currLang.parents_password} 
+                        onFocus={this.passwordOnFocus.bind(this)}
+                        onChange={(e) => {
+                            e.preventDefault();
+                            this.handlePassword(e.currentTarget.value);
+                        }}
+                        name={"PASSWORD"}
+                        value={this.state.password} 
+                        isValid={this.state.passwordValidation[0]} 
+                        errorMessage={this.state.passwordValidation[1]}/>
+                    {/* {
+                        this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
+                    } */}
                             
                     <Image onClick={this.changePasswordEye} className={!this.state.showPassword ? "eyes closed_eye" : "eyes open_eye"}
                         src={!this.state.showPassword ? closedEye : openEye} 
                             circle
                         />
                     {
-                        this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
-                    }
-
-                    {
                        this.state.name === undefined && <Link className="link" to={"/restore-password"}>{this.props.currLang.forgot_password}</Link>
                     }
-                    <Button className="btn_submit" disabled={this.state.disableButton || !this.props.agreement} type="submit"> 
+                    <Button className="btn_submit" disabled={!((this.state.emailValidation[1] === "valid") && (this.state.passwordValidation[1] === "valid") && (this.state.name === undefined || this.state.nameValidation[1] === "valid") && this.props.agreement)} type="submit"> 
                         <Image style={{width: 70 + 'px'}} src={this.state.disableButton || !this.props.agreement ? disableSubmitBtn : submitBtn} 
                             circle
                         />
@@ -265,8 +294,9 @@ class SignInForm extends React.Component {
                 } else if(error.response.data.code === '935') { // password is wrong
                     this.setState({
                     ...this.state,
-                        showErrorMessage: true,
-                        errorMessage: this.props.currLang.error_935
+                    // ...this.state,
+                    // showErrorMessage: true,
+                        passwordValidation: [false, this.props.currLang.error_935]
                     });
                 }
             }, 1000);
@@ -287,8 +317,9 @@ class SignInForm extends React.Component {
             if(error.response.data.code === "993") {
                 this.setState({
                     ...this.state,
-                    showErrorMessage: true,
-                    errorMessage: this.props.currLang.error_993
+                    emailValidation: [false, this.props.currLang.error_993]
+                    // showErrorMessage: true,
+                    // errorMessage: this.props.currLang.error_993
                 });
             }
         });
