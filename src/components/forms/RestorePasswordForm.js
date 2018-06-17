@@ -18,7 +18,6 @@ class RestoreForm extends Component {
     constructor(props) {
         super(props);
         this.isValidEmail = this.isValidEmail.bind(this);
-        this.getValidationMessages = this.getValidationMessages.bind(this);
         this.resetPassword = this.resetPassword.bind(this);
         this.restartPassword = this.restartPassword.bind(this);
         this.fieldOnFocus = this.fieldOnFocus.bind(this);
@@ -27,14 +26,63 @@ class RestoreForm extends Component {
             email: "",
             code: "",
             password: "",
-            disableButton: true,
-            showError: false,
-            errorMessage: "",
+            emailValidation: [true, "empty"],
+            passwordValidation: [true, "empty"],
+            codeValidation: [true, "empty"],
             showPassword: false,
             resetSuccess: false
         }
     }
 
+    render() {
+        return(
+            <Grid className="reset_password_container" >
+                <p className="intro_text">{this.props.currLang.into_password_text}</p>
+                <Form onSubmit={this.resetPassword}>                    
+                        
+                    <FloatingLabelInput type={"text"} labelName={this.props.currLang.enter_code}
+                        onChange={(e) => {e.preventDefault();
+                        this.handleCode(e.currentTarget.value)}}
+                        onFocus={this.codeOnFocus.bind(this)}
+                        name={"CODE"}
+                        value={this.state.code} 
+                        isValid={this.state.codeValidation[0]} 
+                        errorMessage={this.state.codeValidation[1]} /> 
+
+                    <FloatingLabelInput type={"email"} labelName={this.props.currLang.email} 
+                        onChange={(e) => {e.preventDefault();
+                        this.handleEmail(e.currentTarget.value)}}
+                        name={"EMAIL"}
+                        value={this.state.email} 
+                        onFocus={this.emailOnFocus.bind(this)}
+                        isValid={this.state.emailValidation[0]} 
+                        errorMessage={this.state.emailValidation[1]} />
+    
+                    <FloatingLabelInput ref="password" type={"password"} labelName={this.props.currLang.password} 
+                        onFocus={this.passwordOnFocus.bind(this)}
+                        onChange={(e) => {
+                            e.preventDefault();
+                            this.handlePassword(e.currentTarget.value);
+                        }}
+                        name={"PASSWORD"}
+                        value={this.state.password} 
+                        isValid={this.state.passwordValidation[0]} 
+                        errorMessage={this.state.passwordValidation[1]}/>
+
+                    <Image onClick={this.changePasswordEye} className={!this.state.showPassword ? "eyes closed_eye" : "eyes open_eye"}
+                        src={!this.state.showPassword ? closedEye : openEye} 
+                            circle />
+
+                    <Button className="btn_submit" type="submit" disabled={this.disableButton()}>
+                        <Image style={{width: 70 + 'px'}} src={this.disableButton() ? disableSubmitBtn : submitBtn} 
+                            circle={true}
+                        />
+                    </Button>                
+                </Form>
+            </Grid>
+        );
+    }
+    
     changePasswordEye() {
         let type = "";
         this.setState({
@@ -45,78 +93,54 @@ class RestoreForm extends Component {
         this.refs.password.inputs.type = type;
     }
 
-    isValidEmail(email){
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    isValidCode(code) {
+        if(!this.state.codeOnFocus) {
+            return [true, "empty"];
+        }
+        else if(code.length === 5) {
+            return [true, "valid"];
+        }
+        return [false,  this.props.currLang.code_warning];
+    }
+
+    isValidEmail(email) {
+        if(!this.state.emailOnFocus) {
+            return [true, "empty"]
+        }
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email === "" || !re.test(email))
-            return false;
-        return true;
+            return [false, this.props.currLang.invalid_email];
+        else if (this.state.emailValidation[0] === false || this.state.emailValidation[1] === "empty")
+            return [true, "valid"];
+        return this.state.emailValidation;
     }
 
-    isValidPassword(password){
-        if(password.length < 6 || password.length > 15)
-            return false;
-
-        return true;
-    }
-
-    getValidationMessages(key){
-        switch(key) {
-            case "EMAIL":
-               return this.props.currLang.invalid_email;
-            case "CODE":
-               return this.props.currLang.code_warning;
-            case "PASSWORD":
-                return this.props.currLang.password_warning;
-            default:
-                return "";
+    isValidPassword(password){ 
+        if(!this.state.passwordOnFocus) {
+            return [true, "empty"]
+        }      
+        if(password.length < 6 || password.length > 15) {
+            return [false, this.props.currLang.password_warning]
         }
-    }
-
-    enableButton(type, input) {
-        let emailIsValid, codeIsValid, passwordIsValid;
-        switch(type){
-            case 'email':
-                emailIsValid = this.isValidEmail(input);
-                codeIsValid = this.state.code;
-                passwordIsValid = this.isValidPassword(this.state.password);
-                break;
-            case 'code':
-                emailIsValid = this.isValidEmail(this.state.email);
-                codeIsValid = input;
-                passwordIsValid = this.isValidPassword(this.state.password);
-                break;
-            case 'password':
-                emailIsValid = this.isValidEmail(this.state.email);
-                codeIsValid = this.state.code;
-                passwordIsValid = this.isValidPassword(input);
-                break;
-            default:
-                emailIsValid = this.isValidEmail(this.state.email);
-                codeIsValid = this.state.code;
-                passwordIsValid = this.isValidPassword(this.state.password);
-        } 
-        if(this.state.disableButton && emailIsValid && codeIsValid !== "" && passwordIsValid){
-            return false;
+        else if(!this.state.passwordValidation[0]) {
+            return [true, "valid"]
         }
-        else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid || codeIsValid === "")){
-            return true;
-        }
-        return this.state.disableButton;
+        return this.state.passwordValidation;
     }
     
+    handleCode(code) {
+        this.setState({
+            ...this.state,
+            code: code,
+            codeValidation: this.isValidCode(code)
+        });
+    }
+
     handleEmail(email){
         this.setState({
             ...this.state,
             email: email,
-            disableButton: this.enableButton('email', email)
-        });
-    }
-
-    handleCode(code){
-        this.setState({
-            ...this.state,
-            code: code,
-            disableButton: this.enableButton('code', code)
+            emailValidation: this.isValidEmail(email)
         });
     }
 
@@ -124,9 +148,31 @@ class RestoreForm extends Component {
         this.setState({
             ...this.state,
             password: password,
-            disableButton: this.enableButton('password', password)
+            passwordValidation: this.isValidPassword(password)
         });
     }
+
+    codeOnFocus() {
+        this.setState({
+            ...this.state,
+            codeOnFocus: true
+        });
+    }
+
+    emailOnFocus() {
+        this.setState({
+            ...this.state,
+            emailOnFocus: true
+        });
+    }
+
+    passwordOnFocus() {
+        this.setState({
+            ...this.state,
+            passwordOnFocus: true
+        });
+    }
+
 
     resetPassword(event) {
         event.preventDefault(); // prevent auto refresh the page after submit.
@@ -149,15 +195,13 @@ class RestoreForm extends Component {
              if(error.response.data.code === "825") {   // the code is not corrent
                 this.setState({
                     ...this.state,
-                    errorMessage: this.props.currLang.error_825,
-                    showError: true
+                    codeValidation: [false, this.props.currLang.error_825]
                 });
              }
              else if(error.response.data.code === "827") {   // for that email you didnt ask for reset password
                 this.setState({
                     ...this.state,
-                    errorMessage: this.props.currLang.error_827,
-                    showError: true
+                    emailValidation: [false, this.props.currLang.error_827]
                 });
              }
          });
@@ -170,55 +214,8 @@ class RestoreForm extends Component {
         });
     }
 
-    render() {
-        return(
-            <Grid className="reset_password_container" >
-                <p className="intro_text">{this.props.currLang.into_password_text}</p>
-                <Form onSubmit={this.resetPassword}>
-                
-                <FloatingLabelInput onFocus={this.fieldOnFocus} type={"code"} labelName={this.props.currLang.enter_code} 
-                        onChange={(e) => {e.preventDefault();
-                        this.handleCode(e.currentTarget.value)}}
-                        name={"CODE"}
-                        value={this.state.code} 
-                        isValid={this.state.code !== ""} 
-                        errorMessage={this.getValidationMessages('CODE')}/>
-
-                    {' '}
-
-                    <FloatingLabelInput onFocus={this.fieldOnFocus} type={"email"} labelName={this.props.currLang.email} 
-                        onChange={(e) => {e.preventDefault();
-                        this.handleEmail(e.currentTarget.value)}}
-                        name={"EMAIL"}
-                        value={this.state.email} 
-                        isValid={this.isValidEmail(this.state.email)} 
-                        errorMessage={this.getValidationMessages('EMAIL')} />
-                   
-                    {' '}
-
-                    <FloatingLabelInput ref="password" onFocus={this.fieldOnFocus} type={"password"} labelName={this.props.currLang.password} 
-                        onChange={(e) => {e.preventDefault();this.handlePassword(e.currentTarget.value)}}
-                        name={"PASSWORD"}
-                        value={this.state.password} 
-                        isValid={this.isValidPassword(this.state.password)} 
-                        errorMessage={this.getValidationMessages('PASSWORD')}/>
-
-                    <Image onClick={this.changePasswordEye} className={!this.state.showPassword ? "eyes closed_eye" : "eyes open_eye"}
-                        src={!this.state.showPassword ? closedEye : openEye} 
-                            circle />
-
-                    {this.state.showError && 
-                        (!this.state.resetSuccess ? <span className="error_message"> {this.state.errorMessage} </span> : <span className="error_message" style={{color: "green"}}> {this.state.errorMessage} </span>)
-                    }
-
-                    <Button className="btn_submit" type="submit" disabled={this.state.disableButton}>
-                        <Image style={{width: 70 + 'px'}} src={this.state.disableButton ? disableSubmitBtn : submitBtn} 
-                            circle={true}
-                        />
-                    </Button>                
-                </Form>
-            </Grid>
-        );
+    disableButton() {
+        return !((this.state.emailValidation[1] === "valid") && (this.state.passwordValidation[1] === "valid") && (this.state.codeValidation[1] === "valid"))
     }
 }
 

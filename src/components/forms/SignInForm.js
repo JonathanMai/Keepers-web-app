@@ -19,13 +19,11 @@ class SignInForm extends React.Component {
         this.handlePassword = this.handlePassword.bind(this);
         this.isValidEmail = this.isValidEmail.bind(this);
         this.isValidPassword = this.isValidPassword.bind(this);
-        this.getValidationMessages = this.getValidationMessages.bind(this);
-        this.enableButton = this.enableButton.bind(this);
         this.changePasswordEye = this.changePasswordEye.bind(this);
+        this.disableButton = this.disableButton.bind(this);
         this.state = {
             email: "",
             password: "",
-            disableButton: true,
             emailValidation: [true, "empty"],
             passwordValidation: [true, "empty"],
             nameValidation: [true, "empty"],
@@ -36,143 +34,6 @@ class SignInForm extends React.Component {
             this.state["name"] = "";
             this.handleName = this.handleName.bind(this);
         }
-    }
-    isValidName(name) {
-        if(!this.state.nameOnFocus) {
-            return [true, "empty"];
-        }
-        else if(name.length > 0) {
-            return [true, "valid"];
-        }
-        return [false, "empty"];
-    }
-
-    isValidEmail(email) {
-        if(!this.state.emailOnFocus) {
-            return [true, "empty"]
-        }
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (email === "" || !re.test(email))
-            return [false, this.props.currLang.invalid_email];
-        else if (this.state.emailValidation[0] === false)
-            return [true, "valid"];
-        return this.state.emailValidation;
-    }
-
-    isValidPassword(password){ 
-        if(!this.state.passwordOnFocus) {
-            return [true, "empty"]
-        }      
-        if(password.length < 6 || password.length > 15) {
-            return [false, this.props.currLang.password_warning]
-        }
-        else if(!this.state.passwordValidation[0]) {
-            return [true, "valid"]
-        }
-        return this.state.passwordValidation;
-    }
-
-    getValidationMessages(key){
-        switch(key) {
-            case "PASSWORD":
-                return this.props.currLang.password_warning;
-            case "EMAIL":
-               return this.props.currLang.invalid_email;
-        }
-    }
-
-    enableButton(type, input) {
-        let emailIsValid, passwordIsValid;
-        switch(type){
-            case 'email':
-                emailIsValid = this.isValidEmail(input);
-                passwordIsValid = this.isValidPassword(this.state.password);
-                break;
-            case 'password':
-                emailIsValid = this.isValidEmail(this.state.email);
-                passwordIsValid = this.isValidPassword(input);
-                break;
-            default:
-                emailIsValid = this.isValidEmail(this.state.email);
-                passwordIsValid = this.isValidPassword(this.state.password);
-        } 
-        if(this.state.name === undefined) { // login page
-            if(this.state.disableButton && emailIsValid && passwordIsValid){
-                return false;
-            }
-            else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid)){
-                return true;
-            }
-            return this.state.disableButton;
-        } else {    // register page
-            let nameIsValid =  (type === "name" ? input : this.state.name) !== "";
-            if(this.state.disableButton && emailIsValid && passwordIsValid && nameIsValid){
-                return false;
-            }
-            else if(!this.state.disableButton  && (!emailIsValid || !passwordIsValid || !nameIsValid)){
-                return true;
-            }
-            return this.state.disableButton;
-        }
-      
-    }
-    
-    handleEmail(email){
-        let newValidationEmail = this.isValidEmail(email);
-        console.log(newValidationEmail);
-        this.setState({
-            ...this.state,
-            email: email,
-            emailValidation: newValidationEmail,
-            disableButton: this.enableButton('email', email)
-        });
-    }
-
-    handlePassword(password){ 
-        console.log(password)
-        this.setState({
-            ...this.state,
-            password: password,
-            passwordValidation: this.isValidPassword(password),
-            disableButton: this.enableButton('password', password)
-        });
-    }
-
-    handleName(name) {
-        this.setState({
-            ...this.state,
-            name: name,
-            nameValidation: this.isValidName(name)
-        });
-    }
-
-    nameOnFocus() {
-        this.setState({
-            ...this.state,
-            nameOnFocus: true
-        });
-    }
-
-    emailOnFocus() {
-        this.setState({
-            ...this.state,
-            emailOnFocus: true
-        });
-    }
-
-    passwordOnFocus() {
-        // if(this.refs.password) {
-        //     this.setState({
-        //         ...this.state,
-        //         showErrorMessage: false
-        //     });
-        // }
-        this.setState({
-            ...this.state,
-            passwordOnFocus: true,
-            showErrorMessage: false
-
-        });
     }
 
     render() {      
@@ -209,9 +70,6 @@ class SignInForm extends React.Component {
                         value={this.state.password} 
                         isValid={this.state.passwordValidation[0]} 
                         errorMessage={this.state.passwordValidation[1]}/>
-                    {/* {
-                        this.state.showErrorMessage ? (<span className="error_message">{this.state.errorMessage}</span>) : ""
-                    } */}
                             
                     <Image onClick={this.changePasswordEye} className={!this.state.showPassword ? "eyes closed_eye" : "eyes open_eye"}
                         src={!this.state.showPassword ? closedEye : openEye} 
@@ -220,8 +78,8 @@ class SignInForm extends React.Component {
                     {
                        this.state.name === undefined && <Link className="link" to={"/restore-password"}>{this.props.currLang.forgot_password}</Link>
                     }
-                    <Button className="btn_submit" disabled={!((this.state.emailValidation[1] === "valid") && (this.state.passwordValidation[1] === "valid") && (this.state.name === undefined || this.state.nameValidation[1] === "valid") && this.props.agreement)} type="submit"> 
-                        <Image style={{width: 70 + 'px'}} src={this.state.disableButton || !this.props.agreement ? disableSubmitBtn : submitBtn} 
+                    <Button className="btn_submit" disabled={this.disableButton()} type="submit"> 
+                        <Image style={{width: 70 + 'px'}} src={this.disableButton() ? disableSubmitBtn : submitBtn} 
                             circle
                         />
                     </Button>
@@ -238,6 +96,90 @@ class SignInForm extends React.Component {
                     />
             </div>
         );
+    }
+
+    isValidName(name) {
+        if(!this.state.nameOnFocus) {
+            return [true, "empty"];
+        }
+        else if(name.length > 0) {
+            return [true, "valid"];
+        }
+        return [false, "empty"];
+    }
+
+    isValidEmail(email) {
+        if(!this.state.emailOnFocus) {
+            return [true, "empty"]
+        }
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (email === "" || !re.test(email))
+            return [false, this.props.currLang.invalid_email];
+        else if (this.state.emailValidation[0] === false || this.state.emailValidation[1] === "empty")
+            return [true, "valid"];
+        return this.state.emailValidation;
+    }
+
+    isValidPassword(password){ 
+        if(!this.state.passwordOnFocus) {
+            return [true, "empty"]
+        }      
+        if(password.length < 6 || password.length > 15) {
+            return [false, this.props.currLang.password_warning]
+        }
+        else if(!this.state.passwordValidation[0]) {
+            return [true, "valid"]
+        }
+        return this.state.passwordValidation;
+    }
+
+    handleEmail(email){
+        this.setState({
+            ...this.state,
+            email: email,
+            emailValidation: this.isValidEmail(email)
+        });
+    }
+
+    handlePassword(password){ 
+        this.setState({
+            ...this.state,
+            password: password,
+            passwordValidation: this.isValidPassword(password)
+        });
+    }
+
+    handleName(name) {
+        this.setState({
+            ...this.state,
+            name: name,
+            nameValidation: this.isValidName(name)
+        });
+    }
+
+    nameOnFocus() {
+        this.setState({
+            ...this.state,
+            nameOnFocus: true
+        });
+    }
+
+    emailOnFocus() {
+        this.setState({
+            ...this.state,
+            emailOnFocus: true
+        });
+    }
+
+    passwordOnFocus() {
+        this.setState({
+            ...this.state,
+            passwordOnFocus: true
+        });
+    }
+
+    disableButton() {
+        return !((this.state.emailValidation[1] === "valid") && (this.state.passwordValidation[1] === "valid") && (this.state.name === undefined || this.state.nameValidation[1] === "valid") && this.props.agreement)
     }
 
     changePasswordEye() {
@@ -299,10 +241,9 @@ class SignInForm extends React.Component {
                         passwordValidation: [false, this.props.currLang.error_935]
                     });
                 }
-            }, 1000);
-           
-    }); 
-}
+            }, 1000); 
+        }); 
+    }
 
     register(event) {
         event.preventDefault(); // cancel auto refresh.
@@ -318,8 +259,6 @@ class SignInForm extends React.Component {
                 this.setState({
                     ...this.state,
                     emailValidation: [false, this.props.currLang.error_993]
-                    // showErrorMessage: true,
-                    // errorMessage: this.props.currLang.error_993
                 });
             }
         });

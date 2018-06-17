@@ -12,27 +12,42 @@ class EnterEmailForm extends Component {
     constructor(props) {
         super(props);
         this.isValidEmail = this.isValidEmail.bind(this);
-        this.getValidationMessages = this.getValidationMessages.bind(this);
-        this.enableButton = this.enableButton.bind(this);
         this.sendCode = this.sendCode.bind(this);
         this.emailOnFocus = this.emailOnFocus.bind(this);
+        this.disableButton = this.disableButton.bind(this);
         this.state = {
             email: "",
-            disableButton: true,
-            showError: false,
-            errorMessage: ""
+            emailValidation: [true, "empty"],
+            emailOnFocus: false
         }
     }
 
-    isValidEmail(email){
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (email === "" || !re.test(email))
-            return false;
-        return true;
+    render() {
+        return(
+            <Grid className="reset_password_container">
+                <p className="forgot_pass_text">{this.props.currLang.intro}</p>
+                <Form onSubmit={this.sendCode}>
+                    <FloatingLabelInput ref="email" type={"email"} labelName={ this.props.currLang.email} 
+                        onFocus={this.emailOnFocus}
+                        onChange={(e) => {e.preventDefault();
+                        this.handleEmail(e.currentTarget.value)}}
+                        name={"EMAIL"}
+                        value={this.state.email} 
+                        isValid={this.state.emailValidation[0]} 
+                        errorMessage={this.state.emailValidation[1]} />
+
+                        <Button className="btn_submit" type="submit" disabled={this.disableButton()}>
+                            <Image style={{width: 70 + 'px'}} src={this.disableButton() ? disableSubmitBtn : submitBtn} 
+                                circle={true}
+                            />
+                        </Button>
+                </Form>
+            </Grid> 
+        );
     }
 
-    getValidationMessages(){
-        return this.props.currLang.invalid_email;
+    disableButton() {  
+        return this.state.emailValidation[1] !== "valid";
     }
 
     enableButton(input) {
@@ -46,11 +61,25 @@ class EnterEmailForm extends Component {
         return this.state.disableButton;
     }
 
+    isValidEmail(email) {
+        if(!this.state.emailOnFocus) {
+            return [true, "empty"]
+        }
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (email === "" || !re.test(email))
+            return [false, this.props.currLang.invalid_email];
+        else if (this.state.emailValidation[0] === false || this.state.emailValidation[1] === "empty")
+            return [true, "valid"];
+        return this.state.emailValidation;
+    }
+
     handleEmail(email){
+        console.log(this.state)
+
         this.setState({
-        ...this.state,
-          email: email,
-          disableButton: this.enableButton(email)
+            ...this.state,
+            email: email,
+            emailValidation: this.isValidEmail(email)
         });
     }
 
@@ -67,8 +96,7 @@ class EnterEmailForm extends Component {
                  if(error.response.data.code === "994") {   // parent was not found
                     this.setState({
                         ...this.state,
-                        errorMessage: this.props.currLang.error_994,
-                        showError: true
+                        emailValidation: [false, this.props.currLang.error_994]
                     });
                  }
              }
@@ -76,33 +104,11 @@ class EnterEmailForm extends Component {
      }
 
     emailOnFocus() {
+        console.log(this.state)
         this.setState({
             ...this.state,
-            showError: false
+            emailOnFocus: true
         });
-    }
-
-    render() {
-        return(
-            <Grid className="reset_password_container">
-                <p className="forgot_pass_text">{this.props.currLang.intro}</p>
-                <Form onSubmit={this.sendCode}>
-                    <FloatingLabelInput ref="email" onFocus={this.emailOnFocus} type={"email"} labelName={ this.props.currLang.email} 
-                        onChange={(e) => {e.preventDefault();
-                        this.handleEmail(e.currentTarget.value)}}
-                        name={"EMAIL"}
-                        value={this.state.email} 
-                        isValid={this.isValidEmail(this.state.email)} 
-                        errorMessage={this.getValidationMessages()} />
-                        {this.state.showError && <span className="error_message"> {this.state.errorMessage} </span>}
-                        <Button className="btn_submit" type="submit" disabled={this.state.disableButton}>
-                            <Image style={{width: 70 + 'px'}} src={this.state.disableButton ? disableSubmitBtn : submitBtn} 
-                                circle={true}
-                            />
-                        </Button>
-                </Form>
-            </Grid> 
-        );
     }
 }
 
