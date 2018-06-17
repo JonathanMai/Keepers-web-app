@@ -5,7 +5,7 @@ import moment from 'moment/min/moment-with-locales';
 import AbusiveConversationsChart from '../charts/AbusiveConversationsChart.js'
 import { GetMessagesStatistics } from '../../serviceAPI';
 
-export class LineChart extends Component {
+export class LineChartPanel extends Component {
 
     constructor(props) {
         super(props);
@@ -101,7 +101,7 @@ export class LineChart extends Component {
                 this.insertTickVal(tickVals, label, range, i);
                 //  (range <= 1 && i !== ) ? moment(tempDay).add(i, 'hours').valueOf() :.valueOf();
                 // (range <= 1) ? moment(tempDay).add(i+1, 'hours').valueOf() :.valueOf();
-                GetMessagesStatistics(props.child.id, startTime, endTime).then(res => {  // When respond package is with status 200
+                GetMessagesStatistics(props.childrens[props.childIndex].id, startTime, endTime).then(res => {  // When respond package is with status 200
                     let result = res.data;
                     countEasy[i] = parseInt(result.easyCount); // easy count.
                     countMedium[i] = parseInt(result.mediumCount); // medium count.
@@ -181,10 +181,10 @@ export class LineChart extends Component {
 
 
 
-function LineChartPanel(props) {
-    // console.log(props);
-    return <LineChart style={{height: 'inherit'}} child={props.childrens[props.childIndex]} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} lang={props.lang}/>
-}
+// function LineChartPanel(props) {
+//     // console.log(props);
+//     return <LineChart style={{height: 'inherit'}} child={props.childrens[props.childIndex]} startDate={props.startDate} range={props.range} isOneDay={props.isOneDay} lang={props.lang}/>
+// }
 
 const mapStateToProps = (state) => {
     return {

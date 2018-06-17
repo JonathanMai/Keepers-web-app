@@ -25,17 +25,17 @@ const dashboardInfo = (state = initialState, action) => {
                 currTab: action.value
             }
         case "SET_DATES":
-            // console.log(action.value);
+            console.log(action.value);
             let difference = moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days');
-            let isSame = action.value[0].startOf('day').isSame(action.value[1].startOf('day'));
+            let isSame = moment(action.value[0]).startOf('day').isSame(moment(action.value[1]).startOf('day'));
             // if(!action.value[0].isSame(action.value[1]) && difference === 1)
             //     difference += 1;
             // console.log(moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days'));
 
             return {
                 ...state,
-                startDate: action.value[0],
-                endDate: action.value[1],
+                startDate: moment(action.value[0]).startOf('day'),
+                endDate: moment(action.value[1]).endOf('day'),
                 datesRange: difference,
                 isOneDay: isSame
             };

@@ -11,6 +11,10 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 class Dates extends Component {
     constructor(props) {
         super(props);
+        this.state = ({
+            datePickerStart: this.props.startDate,
+            datePickerEnd: this.props.endDate
+        });
         //moment.locale(props.lang.language);
         this.handleDaySelect = this.handleDaySelect.bind(this);
         this.handleWeekSelect = this.handleWeekSelect.bind(this);
@@ -18,16 +22,31 @@ class Dates extends Component {
         this.backDateOnClickListener = this.backDateOnClickListener.bind(this);
         this.forwardDateOnClickListener = this.forwardDateOnClickListener.bind(this);
     }
+    componentWillMount() {
+        this.props.startDate.locale(this.props.lang.language);
+        this.props.endDate.locale(this.props.lang.language);
+        this.props.setDate([moment(this.props.startDate), moment(this.props.endDate)]);
+    }
+
+    componentDidMount() {
+        // console.log("HEREERERER MFFF")
+
+        if(this.props.activeDate > 2) {
+            this.props.setText(moment(this.props.startDate).format("MMM DD, YYYY") + " - " + moment(this.props.endDate).format("MMM DD, YYYY"));
+        }
+        this.handleButtons(this.props.activeDate);
+    }
 
     componentWillReceiveProps(props){
         //moment.locale(props.lang.language);
+        this.setState({
+            datePickerStart: props.startDate,
+            datePickerEnd: props.endDate
+        })
+        // console.log("HEREERERER MFFF")
+        console.log(this.props,props)
         if(this.props.lang.language !== props.lang.language) {
-            props.startDate.locale(props.lang.language);
-            props.endDate.locale(props.lang.language);
-            this.props.setDate([moment(props.startDate), moment(props.endDate)]);
-            if(props.activeDate === 3) {
-                this.props.setText(moment(props.startDate).format("MMM DD, YYYY") + " - " + moment(props.endDate).format("MMM DD, YYYY"));
-            }
+
         }
         this.handleButtons(props.activeDate);
     }
@@ -90,11 +109,14 @@ class Dates extends Component {
 
     datepicker(ev, picker) { // TODO: fix two days pick logic.
         if(ev.type === 'show') {
-            // picker.EndDate = this.props.endDate;
-            // console.log(ev)
+            console.log(picker)
         }
+        picker.endDate = this.props.endDate;
+        console.log(picker)
+
         if(ev.type === 'apply') {
             let textSet = false;
+            
             
             //moment.locale(this.props.lang.language);
 
@@ -120,47 +142,63 @@ class Dates extends Component {
                     let text = pickerStartDate.format("MMM DD, YYYY") + " - " + pickerEndDate.format("MMM DD, YYYY");
                     this.props.setText(text);
                 }
-                this.props.setDate([pickerStartDate, pickerEndDate.startOf('day')]);
+                this.props.setDate([pickerStartDate, pickerEndDate]);
             }
         }
     }
 
     backDateOnClickListener(active) {
         let start = this.props.startDate.format("MM/DD/YYYY");
-        let end = this.props.startDate.format("MM/DD/YYYY");;
+        let end = this.props.startDate.format("MM/DD/YYYY");
 
         // console.log(start, end);
         switch(active) {
             case 0:
-                this.props.setDate([moment(start).subtract(1, 'days').startOf('day'), moment(end).subtract(1, 'days').startOf('day'),]);
-
+                this.props.setDate([moment(this.props.startDate).subtract(1, 'days'), moment(this.props.endDate).subtract(1, 'days')]);
                 break;
             case 1:
-                this.props.setDate([moment(this.props.startDate).subtract(1, 'week').startOf('week'), moment(this.props.startDate).startOf('day').subtract(1, 'week').endOf('week').subtract(1, 'day')]);
+                this.props.setDate([moment(this.props.startDate).subtract(1, 'week').startOf('week'), moment(this.props.endDate).subtract(1, 'week')]);
                 break;
             case 2:
-                this.props.setDate([moment(this.props.startDate).subtract(1, 'month').startOf('month'), moment(this.props.startDate).subtract(1, 'month').endOf('month').startOf('day')]);
+                this.props.setDate([moment(this.props.startDate).subtract(1, 'month').startOf('month'), moment(this.props.endDate).subtract(1, 'month')]);
                 break;
         }
     }
 
     forwardDateOnClickListener(active) {
         // console.log("forward");
-        if (!this.props.endDate.endOf('day').isSame(moment().endOf('day'))) {
+        let start = moment(this.props.startDate);
+        let end = moment(this.props.endDate).endOf('day');
+        let currDate = moment().endOf('day');
+        let newStart;
+        if(!end.isSame(currDate)) {
             switch(active) {
-                case 0:
-                case 1:
-                case 2:
+                case 0:                
+                console.log("here")
+                this.props.setDate([moment(start).add(1, 'days').startOf('day'), moment(end).add(1, 'days').startOf('day')]);
+                break;
+            case 1:
+                newStart = start.add(1, 'week');
+                // let newEnd = newStart.endOf('week');
+                if(currDate.diff(newStart) >= 0)
+                    this.props.setDate([newStart, currDate.diff(moment(newStart).endOf('week').endOf('day')) > 0 ? moment(newStart).endOf('week').endOf('day') : currDate]);
+                break;
+            case 2:
+                newStart = start.add(1, 'month');
+                if(currDate.diff(newStart) >= 0)
+                    this.props.setDate([newStart, currDate.diff(moment(newStart).endOf('month').endOf('day')) > 0 ? moment(newStart).endOf('month').endOf('day') : currDate]);
+                break;
             }
         }
     }
 
-    componentWillMount() {
-        this.props.setActive(0);
-        this.props.setText("");
-    }
+    // componentWillMount() {
+    //     this.props.setActive(0);
+    //     this.props.setText("");
+    // }
 
     render() {
+        console.log(this.props)
         let costumeEnd = this.props.endDate;
         // console.log(costumeEnd);
         let maxSpans = {
@@ -195,12 +233,13 @@ class Dates extends Component {
                                 "monthNames": this.props.lang.date_picker_months
                                 }}
                             dateLimit={maxSpans}
-                            // startDate={this.props.startDate}
+                            startDate={moment(this.props.startDate).format("MM/DD/YYYY")}
+                            endDate={moment(this.props.endDate).startOf('day')}
+                            autoUpdateInput={false}
                             opens={'left'}
-                            // endDate={moment(this.props.endDate).format("MM/DD/YYYY")}
                             // showDropdowns={true}
-                            // maxDate={moment()}
-                            // autoApply={true}
+                            maxDate={moment()}
+                            autoApply={true}
                             // autoUpdateInput={true}
                             onEvent={this.datepicker.bind(this)}
                         >
@@ -222,7 +261,7 @@ class Dates extends Component {
 
 function Arrows(props) {
     props.startDate.locale(props.lang);
-    props.endDate.locale(props.lang);
+    moment(props.endDate).locale(props.lang);
     let text = moment(props.startDate).format("MMM") + " - " + moment(props.startDate).format("ddd DD");
     if(!props.isOneDay) {
         text += " - " + moment(props.endDate).format("ddd DD");
@@ -231,7 +270,7 @@ function Arrows(props) {
         <div>
             <span className="btn_left" onClick={props.rewind.bind(this, props.active)} >&#10094;</span>
                 {text}
-            <span className="btn_right" >&#10095;</span>
+            <span className="btn_right" onClick={props.forward.bind(this, props.active)} >&#10095;</span>
         </div>
     );
 }
