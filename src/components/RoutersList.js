@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import LoginPage from './pages/LoginPage';
 import RestartPasswordPage from './pages/RestartPasswordPage';
 import Dashboard from './pages/Dashboard';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 class RoutersList extends Component {
     constructor(props) {

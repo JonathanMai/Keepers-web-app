@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import RoutersList from './RoutersList';
 import store from '../store';
 import { Provider } from 'react-redux';
-import './App.css';
 import Banner from '../components/panels/Banner';
+import './App.css';
 
-
+// This is the main component called once from index.js
 class App extends Component {
-  
   render() {
     return (
       <div className="App">
         <Provider store={store}>
           <div>
-            <Banner />
+            <Banner /> 
             <RoutersList />
           </div>
         </Provider>
        </div>
     );
   }
-
 }
+
 export default App;

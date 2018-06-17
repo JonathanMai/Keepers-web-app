@@ -1,3 +1,4 @@
+/* Set the background image for all browsers */
 body {
   background: url("../assets/Background.png") no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -17,21 +18,21 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  /* border: 1px solid black; */
   -webkit-text-fill-color: black;
   -webkit-box-shadow: 0 0 0px 1000px #5a171700 inset;
   box-shadow: 0 0 0px 1000px #5a171700 inset;
-  transition: background-color 5000s ease-in-out 0s;
+  transition: transparent 5000s ease-in-out 0s;
 }
 
-/*  Remove the blue border after click */
+/*  Removes the blue border after click on select, button, textarea or input */
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
+/* Change the cursor on disabled button */
 button:disabled {
   cursor: auto !important;
 }
