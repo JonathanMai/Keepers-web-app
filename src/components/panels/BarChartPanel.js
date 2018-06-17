@@ -4,26 +4,26 @@ import moment from 'moment';
 import { GetUsageStatistics } from '../../serviceAPI';
 import UsageTimeChart from '../charts/UsageTimeChart';
 
-class BarChart extends Component {
+class BarChartPanel extends Component {
 
     
     constructor(props) {
         super(props);
-        // console.log(this.props.data);
-        
         this.state = {
             dataAssigned: false,
             labels: [],
             dataSet: [],
             timeType: 'm'
         }
-        // var colors = {}
         this.getUsageStatistics(this.props);
-        // this.buildChart = this.buildChart.bind(this);
     }
 
     componentWillReceiveProps(props) {
-        this.getUsageStatistics(this.props);
+        this.getUsageStatistics(props);
+    }
+
+    render() {
+        return (this.state.dataAssigned && <UsageTimeChart style={{height: 'inherit'}} labels={this.state.labels} data={this.state.dataSet} type={this.state.timeType}/>);
     }
 
     // Gets the child usage data - how many hours he spent and in what.
@@ -40,9 +40,7 @@ class BarChart extends Component {
     buildChartData(data) {
         let type = 'm';
         let apps = []
-        // let keys = [];
         data.map((usageData) => {
-            // console.log(usageData);
             let difference = moment(usageData.endTime).diff(moment(usageData.startTime), 'minutes');
             if(difference >= 60) type = 'h';
             let appName = usageData.appName;
@@ -50,23 +48,14 @@ class BarChart extends Component {
                 apps[appName] = 0
             }
             apps[appName] += difference;
-            // return;
-            // labels.push(usageData.appName);
-            // dataSet.push(differnece);
-            // return;
-            // newData.push({appName: appName, [appName]: difference});
         }) ;
 
         let tempData = [];
-
         Object.keys(apps).map((appName) => {
             console.log(apps[appName])
             let difference = apps[appName];
             tempData.push({appName: appName, count: difference});
-        });
-
-        // console.log(tempData)
-        
+        });        
         let dataSet = [];
         let labels = [];
         [].concat(tempData)
@@ -75,11 +64,7 @@ class BarChart extends Component {
             console.log(item)
                 labels.push(item.appName);
                 dataSet.push(type === "m" ? item.count : item.count/60);
-                // <div key={i}> {item.matchID} {item.timeM}{item.description}</div>
-                // return({appName: item.appName, [item.appName]: item.count})}
-                // return;
         });
-        // console.log(dataSet)
         this.setState({
             ...this.state,
             labels: labels,
@@ -88,16 +73,6 @@ class BarChart extends Component {
             dataAssigned: true
         });
     }
-
-    render() {
-        return (this.state.dataAssigned && <UsageTimeChart style={{height: 'inherit'}} labels={this.state.labels} data={this.state.dataSet} type={this.state.timeType}/>);
-        // return (this.state.data !== undefined && <UsageTimeChart data={this.state.data} />);
-    }
-}
-
-function BarChartPanel(props) {
-    // console.log(props);
-    return <BarChart style={{height: 'inherit'}} childId={props.childrens[props.childIndex].id} startDate={props.startDate} range={props.range} />
 }
 
 const mapStateToProps = (state) => {
