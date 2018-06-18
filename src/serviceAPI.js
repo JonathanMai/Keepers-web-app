@@ -2,32 +2,10 @@ import axios from 'axios';
 import moment from 'moment';
 import store from './store';
 
-// console.log("in service API");
-
-// console.log(store.getState());
-// store.subscribe(() => {
-//     console.log
-//     var parentId = store.getState()
-//     console.log("abc");
-// });
-let parentId = store.getState().reducerAccountInfo.parentId;
-
-let auth = store.getState().reducerAccountInfo.auth;
-
 const url = "https://keepers-main-vodafone-prod.eu-de.mybluemix.net/keeper-server/";
-// const auth = "72d4444e-6f10-4b88-91eb-0fadf1ce511d";
-// const parentId = 11;
 
-
-export const GetById = () => {
-
-    // return axios.get(url + "parents/getById/" + parentId,{
-    //     headers: {
-    //         auth: auth
-    //     }
-    // });
-}
-
+// Async server call to get the parent profile using parent id and auth key.
+// Return promise of server response.
 export const GetProfileByID = () => {
     return axios.get(url + "parents/profileById/" + store.getState().reducerAccountInfo.parentId,{
         headers: {
@@ -36,6 +14,8 @@ export const GetProfileByID = () => {
     });
 }
 
+// Async server call to get all the children for specific parent using parent id and auth key.
+// Return promise of server response.
 export const GetAllChildren = () => {
     return axios.get(url + "parents/getAllChildrenForParent/" + store.getState().reducerAccountInfo.parentId,{
         headers: {
@@ -45,6 +25,10 @@ export const GetAllChildren = () => {
     });
 }
 
+ 
+// Async server call to get all messages statistics of child with id 
+// between startTime and endTime using auth key of the parent.
+// Return promise of server response.
 export const GetMessagesStatistics = (id, startTime, endTime) => {
     return axios.get(url + "children/" + id + "/statistics?startTime=" + startTime + "&endTime=" + endTime,{
         headers: {
@@ -53,7 +37,10 @@ export const GetMessagesStatistics = (id, startTime, endTime) => {
     });
 }
 
-//TODO: ADD start and end times.
+// TODO: ADD start and end times.
+// Async server call to get all usage time of the children with id 
+// between startTIme and endTime using auth key of the parent.
+// Return promise of the server response.
 export const GetUsageStatistics = (id, startTime, endTime) =>{
     let body = {childId: id};
     let headers = {headers: {
@@ -64,8 +51,10 @@ export const GetUsageStatistics = (id, startTime, endTime) =>{
     return axios.post(url + "appUsageTime/queryAllUsages", body, headers); 
 }
 
+// Async server call to get all message's headers of child with id 
+// between startTime and endTime and the number of page of headers using parent auth key.
+// Return promise of the server response.
 export const GetMessagesHeads = (id, startTime, endTime, page) => {
-    // console.log("id:",id,", start time:", startTime, ", end time:",endTime,", page:", page)
     return axios.get(url + "devices/" + id + "/heads?startTime=" + startTime + "&endTime=" + endTime + "&page=" + page,{
         headers: {
             auth: store.getState().reducerAccountInfo.auth
@@ -73,6 +62,9 @@ export const GetMessagesHeads = (id, startTime, endTime, page) => {
     });
 }
 
+// Async server call to get a specific message using child id
+// and msgId with auth parent key.  
+// Return promise of the server response.
 export const GetEntireMessage = (id, msgId) => {
     return axios.get(url + "conversation/" + id + "/" + msgId + "/entire",{
         headers: {
@@ -81,6 +73,9 @@ export const GetEntireMessage = (id, msgId) => {
     });
 }
 
+
+// Async server call to get the battery level using child id and parent auth key.
+// Return promise of the server response.
 export const GetBatteryLevel = (id) => {
     return axios.get(url + "devices/" + id + "/battery/level",{
         headers: {
@@ -89,25 +84,8 @@ export const GetBatteryLevel = (id) => {
     });
 }
 
-export const GetCurrentLocation = (id) => {
-    let body = {
-        childId: id,
-        fromDate: moment().startOf('day'),
-        toDate: moment()
-    };
-    let headers = {headers: {
-        'content-type': "application/json",
-        auth: store.getState().reducerAccountInfo.auth
-    }};
-
-    return axios.post(url + "location/queryInRange",{
-        headers: {
-            auth: store.getState().reducerAccountInfo.auth
-        }
-    });
-}
-
-// Register api - register new user using name, email and password.
+// Register new user with name, email and password.
+// Return promise of the server response.
 export const Register = (name, email, password) => {
     return axios.post(url + "parents/createVodafoneAccount", {
         "name": name,
@@ -117,7 +95,8 @@ export const Register = (name, email, password) => {
     });
 };
 
-// Login api - login to user using email and password.
+// Login to the user using email and password.
+// Return promise of the server response contain user id and user auth.
 export const Login = (email, password) => {
     return axios.post(url + "parents/login",{
         "email": email,
@@ -125,7 +104,9 @@ export const Login = (email, password) => {
     });
 };
 
-export const GetLocation = (id, fromDate, toDate) => {
+// Async server call to get the location of the child using child id, and parent auth key.
+// Return promise of the server response.
+export const GetLocation = (id) => {
     let body = {
         childId: id,
         fromDate: moment().startOf('day'),
@@ -139,14 +120,8 @@ export const GetLocation = (id, fromDate, toDate) => {
     return axios.post(url + "location/queryInRange",body, headers);
 }
 
-
-// ------------------------------------------------------------------------------------------------------------------------------
-//      Old method and api calls(Login and user related calls) - not used for now.
-// const url = "https://keepers-server-develop-features.eu-gb.mybluemix.net/keeper-server/"
-
-
-
-// Request a code to restart password using email.
+// Async server call to get the code after restart password request,
+// the code sends to the user email.
 export const SendRestartCode = (email) => {
     let body = {
         email: email
@@ -158,8 +133,10 @@ export const SendRestartCode = (email) => {
     return axios.post(url + "passwordReset/requestPasswordReset", body, headers);
 };
 
-// Restart password using code sent to email.
-export const ResetPassword = (email, code, password ) => {
+// Async server call to change the user password.
+// Email - the user email, code - the code user gets to the email, password - new password.
+// Returns promise from the server response.
+export const ResetPassword = (email, code, password) => {
     let body = {
         email: email,
         passwordFromEmail: code,
@@ -172,6 +149,8 @@ export const ResetPassword = (email, code, password ) => {
     return axios.post(url + "passwordReset/applyPasswordReset", body, headers);
 };  
 
+// Async server call to logout from the server,
+// using parent id and parent auth key.
 export const LogOut = () => {
     let body = {
         parentId: store.getState().reducerAccountInfo.parentId
