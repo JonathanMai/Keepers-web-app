@@ -7,6 +7,7 @@ import moment from 'moment';
 // Initial state
 const initialState = {
     childrens: [],                          // children of the parent
+    kidsLocation: [],                       // childrens location.
     currTab: 0,                             // current active child
     startDate: moment().startOf('day'),     // start date default today
     endDate: moment().endOf('day'),         // end date defualt today
@@ -19,6 +20,7 @@ const initialState = {
 };
 
 const dashboardInfo = (state = initialState, action) => {
+    let newUpdateData;
     switch(action.type) {
         // set the array of children from ajax call
         case "SET_CHILDRENS":
@@ -26,18 +28,28 @@ const dashboardInfo = (state = initialState, action) => {
                 ...state,
                 childrens: action.value,
             };
+        // set the array of children from ajax call
+        case "SET_LOCATIONS":
+        return {
+            ...state,
+            kidsLocation: action.value,
+        };
         // set the current tab and update all the components inside the dashboard
         case "SET_TAB":
+            newUpdateData = state.updateData;
+            newUpdateData[0] = false;
+            newUpdateData[1] = false;
+            newUpdateData[2] = false;
             return{
                 ...state,
                 currTab: action.value,
-                updateData: [false, false, false]   // if false then needs to be updated
+                updateData: newUpdateData   // if false then needs to be updated
             }
         // set the startDate, endDate, datesRange, isOneDay, and update the components inside the dashboard.
         case "SET_DATES":
             let difference = moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days');
             let isSame = moment(action.value[0]).startOf('day').isSame(moment(action.value[1]).startOf('day'));
-            let newUpdateData = state.updateData;
+            newUpdateData = state.updateData;
             newUpdateData[0] = false;
             newUpdateData[1] = false;
             newUpdateData[2] = false;

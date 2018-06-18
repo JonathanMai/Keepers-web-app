@@ -22,7 +22,7 @@ class BarChartPanel extends Component {
     }
 
     componentDidUpdate() {
-        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[1]){
+        if(this.props.childIndex === this.props.currChild && this.props.update != undefined && !this.props.update[1]){
             this.props.setUpdate(1);
             this.getUsageStatistics();
         }
