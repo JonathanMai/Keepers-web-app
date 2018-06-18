@@ -5,24 +5,26 @@ import Dashboard from './pages/Dashboard';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
+/* Router list class responsible for changing the page path and to load the component for specific path */
 class RoutersList extends Component {
     constructor(props) {
         super(props);
+        this.bindFunction();
+    }
+
+    // bind all the functions to the class
+    bindFunction() {
         this.checkStorage.bind(this);
         this.updateRedux.bind(this);
     }
 
-    componentWillReceiveProps() {
-        if(this.checkStorage) {
+    componentDidMount() {
+        if(this.checkStorage) { // if the user already login update the redux
             this.updateRedux();
         }
     }
     
     render() {
-        // if(this.checkStorage) {
-        //     this.updateRedux();
-        // }
-        // console.log("router render");
         return (
             <Router>
                 <Switch>
@@ -37,10 +39,12 @@ class RoutersList extends Component {
         );
     }
 
-    checkStorage() {    // if true already logged in
+    // return true if user already login else return false
+    checkStorage() { 
         return localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null;
     }
 
+    // set the user in redux
     updateRedux() {
         let user = {
           id: localStorage.getItem("_id"),
@@ -50,15 +54,18 @@ class RoutersList extends Component {
     }
 }
 
+// variables used from redux.
 const mapStateToProps = (state) => {
     return {
-        currLang: state.lang.currLang,
-        panel_color: state.reducerA.panel_color
+        currLang: state.lang.currLang,  // current language of the application
+        panel_color: state.reducerA.panel_color // current banner background color
     };
 };
 
+// functions used from redux.
 const mapDispatchToProps = (dispatch) => {
     return {
+        // set the user in redux -> val is object {key:value}
         setUser: (val) => {    
             dispatch({
                 type: "SET_USER",
@@ -66,6 +73,6 @@ const mapDispatchToProps = (dispatch) => {
             });
         }
     };
-  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoutersList);
