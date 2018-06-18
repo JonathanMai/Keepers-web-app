@@ -22,6 +22,11 @@ class LoginPage extends Component {
         this.props.setAgreement(false); // set the checkbox to be unchecked.
     }
 
+        // checkbox on change event occur
+        changeTerms() {
+            this.props.setAgreement(!this.props.agreement); // if was checked -> uncheck it, else check it
+        }
+
     render() {
         return (
         <div>
@@ -45,11 +50,6 @@ class LoginPage extends Component {
                 </div>
             </div>
         </div>);
-    }
-
-    // checkbox on change event occur
-    changeTerms() {
-        this.props.setAgreement(!this.props.agreement); // if was checked -> uncheck it, else check it
     }
 }
 

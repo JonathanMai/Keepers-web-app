@@ -28,24 +28,6 @@ class Chat extends Component {
             </ul>);
     }
 
-    render() {
-        this.removeScrollFromPanel();   // removes the scroll bar from the panel
-        return(
-            <div>
-                <div className="title">
-                    <div> <div className="title_text">{this.props.chatTitle}</div>
-                        <button type="button" className="close" aria-label="Close" onClick={this.closeBtnHandler.bind(this)}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </div>
-                <div className="main">
-                    {this.createChatBubbles()}
-                </div>
-            </div>
-        );
-    }
-
     // removes the scroll bar from the panel 
     removeScrollFromPanel() { 
         var panel = document.getElementsByClassName("messagePanel");
@@ -68,7 +50,26 @@ class Chat extends Component {
     closeBtnHandler() {
         this.getScrollToPanel()
         this.props.close();
-    }   
+    }  
+    
+    
+    render() {
+        this.removeScrollFromPanel();   // removes the scroll bar from the panel
+        return(
+            <div>
+                <div className="title">
+                    <div> <div className="title_text">{this.props.chatTitle}</div>
+                        <button type="button" className="close" aria-label="Close" onClick={this.closeBtnHandler.bind(this)}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div className="main">
+                    {this.createChatBubbles()}
+                </div>
+            </div>
+        );
+    }
 }
 
 /* 

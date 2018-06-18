@@ -18,6 +18,15 @@ class RestartPasswordPage extends React.Component {
         this.goToNextPage = this.goToNextPage.bind(this);
     }
 
+    // get called from the EnterEmailFrom component if the user enter corrent email 
+    // he get redirected to the next page to the RestoreForm.
+    goToNextPage() {
+        this.setState({
+            ...this.state,
+            page: this.state.page + 1
+        });
+    }
+
     render() {
         let renderPage;
         if(this.state.page === 1) { // still not asked for password recovery
@@ -30,15 +39,6 @@ class RestartPasswordPage extends React.Component {
                 <Image className="wave" src={wave} />  
             </div>
         );    
-    }
-
-    // get called from the EnterEmailFrom component if the user enter corrent email 
-    // he get redirected to the next page to the RestoreForm.
-    goToNextPage() {
-        this.setState({
-            ...this.state,
-            page: this.state.page + 1
-        });
     }
 }
 

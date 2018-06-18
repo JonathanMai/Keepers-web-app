@@ -10,8 +10,28 @@ import { Bar } from 'react-chartjs-2';
 class UsageTimeChart extends Component {
     constructor(props) {
         super(props);
-        // Bind functions.
+        this.bindFunctions();
+    }
+
+    // bind all functioon to work with "this".
+    bindFunctions() {
         this.getTooltipLabel = this.getTooltipLabel.bind(this);
+    }
+    
+    // Tooltip label - returns the tooltip label content.
+    // Gets the tooltip item and returns the new label.
+    getTooltipLabel(tooltipItem) {
+        let label = "";
+         // Data shown in hours.
+        if(this.props.type === "h") {
+            let time = tooltipItem.yLabel * 60;
+            label = Math.ceil(tooltipItem.yLabel) + " Hours and " + Math.ceil(time % 60) + " Minutes"
+        }
+        // Data shown in minutes.
+        else {
+            label += tooltipItem.yLabel + " Minutes"
+        }
+        return label;
     }
 
     render() {
@@ -66,22 +86,6 @@ class UsageTimeChart extends Component {
             </div>
         );
 
-    }
-
-    // Tooltip label - returns the tooltip label content.
-    // Gets the tooltip item and returns the new label.
-    getTooltipLabel(tooltipItem) {
-        let label = "";
-         // Data shown in hours.
-        if(this.props.type === "h") {
-            let time = tooltipItem.yLabel * 60;
-            label = Math.ceil(tooltipItem.yLabel) + " Hours and " + Math.ceil(time % 60) + " Minutes"
-        }
-        // Data shown in minutes.
-        else {
-            label += tooltipItem.yLabel + " Minutes"
-        }
-        return label;
     }
 }
 

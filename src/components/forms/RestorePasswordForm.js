@@ -9,7 +9,6 @@ import openEye from '../../assets/login/open_eye.png';
 import closedEye from '../../assets/login/closed_eye.png';
 import { connect } from 'react-redux';
 
-
 /* 
     Restore password form.
     Redirected to this form after enter email form.
