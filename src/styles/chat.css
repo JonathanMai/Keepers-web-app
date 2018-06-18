@@ -51,7 +51,6 @@
     list-style: none;
 }
 
-
 .sender-left {
     color: rgb(33, 170, 170);
     font-weight: bold;
@@ -69,6 +68,7 @@
     float: left;
     text-align: left;
 }
+
 .message-right {
     float: right;
     text-align: right;
@@ -85,16 +85,12 @@
 }
     
 .message-left .message-text {
-
-    /* font-weight: bold;   */
-    /* font-family: "OpenSans-Regular"; */
     background: rgb(222, 245, 248);
     border: rgba(172, 172, 172) solid 1px;
 }
-.message-right .message-text {
 
+.message-right .message-text {
     background:rgba(241, 241, 241, 0.7);
-    /* text-align: left; */
     border: rgba(172, 172, 172) solid 1px;
 }
 
@@ -107,7 +103,7 @@
     transform: rotate(18deg);
 }
 
-.message-left  .message-text:after {  
+.message-left .message-text:after {  
 	border: 8px solid transparent;
     border-bottom-color: rgb(222, 245, 248);
 	bottom: 5px; 
@@ -122,7 +118,7 @@
     font-size: 12px;
 }
 
-.message-text:before, .message-text:after{
+.message-text:before, .message-text:after {
     border-radius: 20px / 10px;
     content: '';
     position: absolute;
