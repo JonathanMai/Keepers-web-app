@@ -9,38 +9,41 @@ import '../../styles/dashboard.css';
 import '../../styles/card.css';
 import '../../styles/footer.css';
 
+/*
+    The dashboard component, it contain the line graphs, bar graphs, chat, choose dates,
+    children tabs, google maps, battery indicator, etc...
+    It is the heart of the application and from here we control everything inside it.
+*/
 class Dashboard extends Component {
-
     componentDidMount() {
-        if(this.props.parentId !== null) {
-            GetAllChildren().then(res => {  // When respond package is with status 200
-                let childrens = [];
-                res.data.map(obj => {
-                    childrens.push(obj);
+        if(this.props.parentId !== null) {  // if parent id is null skip
+            GetAllChildren().then(res => {  // server call to get all the children from the server
+                let childrens = [];         // childrens array
+                res.data.map(obj => {       // run on each object we get from the server
+                    childrens.push(obj);    // push it to the child array
                 });
 
-                this.props.setChildrens(childrens);
-            }).catch(error => { // When respond package is with error status - 400 ...
+                this.props.setChildrens(childrens); // update redux childrens
+            }).catch(error => { // when respond package is with error status - 400 ...
                 console.log(error.response);
             });
         }
-            // this.props.changePanelColor("rgba(37, 185, 204, 0.45)"); // TODO:: accure an error
-        this.props.setShowLogoutIcon(true);
+        this.props.setShowLogoutIcon(true); // set the logout logo to be visible
     }
 
+    // on tab change event
     handleTabSelect(key) {
-        this.props.setCurrTab(key);
+        this.props.setCurrTab(key); // set the current tab in redux
         let zoom;
         this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
-        this.props.setZoom(zoom);
+        this.props.setZoom(zoom);   // change the zoom of map component
     } 
 
     render() {
         return  (             
             <div>
                 <Grid fluid={true} className="grid">
-                        <ul className="tabs-nav nav navbar-nav navbar-left" >
-                        </ul>
+                        <ul className="tabs-nav nav navbar-nav navbar-left"></ul>
                         <Tabs defaultActiveKey={this.props.currTab} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} mountOnEnter={false} unmountOnExit={true}>
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index} className="card">
@@ -57,48 +60,52 @@ class Dashboard extends Component {
                 </Grid>
             </div>
         );
-    }
-
-    
+    } 
 }
 
+// variable of redux
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,
-        zoom: state.dashboardInfo.defaultZoom,
-        currLang: state.lang.currLang,
-        parentId: state.reducerAccountInfo.parentId,
-        currTab: state.dashboardInfo.currTab
+        childrens: state.dashboardInfo.childrens,   // childrens
+        zoom: state.dashboardInfo.defaultZoom,      // map zoom
+        currLang: state.lang.currLang,              // current application language
+        parentId: state.reducerAccountInfo.parentId,    // parent id
+        currTab: state.dashboardInfo.currTab        // current tab of the child
     };
 };
 
+// functions of redux
 const mapDispatchToProps = (dispatch) => {
-    // if(dispatch.)
     return {
+        // update array of all the childrens
         setChildrens: (val) => {    
             dispatch({
                 type: "SET_CHILDRENS",
                 value: val
             });
         },
+        // update the current tab
         setCurrTab: (val) => {
             dispatch({
                 type: "SET_TAB",
                 value: val
             });
         },
+        // update the google maps zoom
         setZoom: (val) => {
             dispatch({
                 type: "SET_ZOOM",
                 value: val
             });
         },
+        // update the panel color
         changePanelColor: (val) => {
             dispatch({
                 type: "CHANGE_PANEL_COLOR",
                 value: val
             });
         },
+        // update the visibility of the logout icon
         setShowLogoutIcon: (val) => {
             dispatch({
                 type: "SET_ICON_VISIBILITY",
@@ -107,4 +114,5 @@ const mapDispatchToProps = (dispatch) => {
         }
     };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -26,6 +26,7 @@ class SignInForm extends React.Component {
             password: "", // holds the user password from input field. 
             
             // email/password validations: first cell holds if the field is valid format and second cell holds information if its an error.
+            emailValidation: [true, "empty"],
             passwordValidation: [true, "empty"],
             nameValidation: [true, "empty"],
 

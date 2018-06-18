@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import '../../styles/chat.css';
 import moment from 'moment';
+import '../../styles/chat.css';
 
+var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "heavy_message"};   // object of strength classes
+
+/*
+    Chat component that create a chat view of ChatBubble components,
+    runs through all the messages we get from the server and create a ChatBubble
+    of the message with message, sentBy, side, strength and meta data.
+*/
 class Chat extends Component {   
-
     createChatBubbles() {
-        // let appName = this.props.chatMessages.app_name;
-        let chat =
-        (<ul>
+        return (
+            <ul>
                 {this.props.chatMessages.messages.map((message, index) => {
                     if(message.text !== "") {
                         return (<ChatBubble
@@ -21,11 +26,10 @@ class Chat extends Component {
                     }
                 })}
             </ul>);
-        return (chat);
     }
 
     render() {
-        this.removeScrollFromPanel();
+        this.removeScrollFromPanel();   // removes the scroll bar from the panel
         return(
             <div>
                 <div className="title">
@@ -42,43 +46,52 @@ class Chat extends Component {
         );
     }
 
-    removeScrollFromPanel() {   // remove scroll from panel
+    // removes the scroll bar from the panel 
+    removeScrollFromPanel() { 
         var panel = document.getElementsByClassName("messagePanel");
-        for (var i = 0; i < panel.length; i++) { // todo::need to find the right index of the tab instead for loop
+        for (var i = 0; i < panel.length; i++) { 
             panel[i].scrollTop = 0;
             panel[i].style = "overflow-y: hidden";
         }
     }
 
-    getScrollToPanel() {      // put the scroll to the panel
+    // set the scroll bar to the panel
+    getScrollToPanel() {      
         var panel = document.getElementsByClassName("messagePanel");
-        for (var i = 0; i < panel.length; i++) { // todo::need to find the right index of the tab instead for loop
+        for (var i = 0; i < panel.length; i++) {
             panel[i].scrollTop = 0;
             panel[i].style = "overflow-y: scroll";
         }
     }
 
+    // close button handler
     closeBtnHandler() {
         this.getScrollToPanel()
         this.props.close();
     }   
 }
 
-var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "heavy_message"}
-
+/* 
+    Stateless component that set the chat bubble message - it has color
+    depends on the strength of the message and side, left or right
+    depends on who wrote that message the child or he get the message from a friend.
+*/
 const ChatBubble = function(props){
-    let strength = strengthClass[props.strength];
-    let opositeSide = props.side === "right" ? "left" : "right"; 
-    let bubble = (
+    let strength = strengthClass[props.strength];   // get the class message depend on the level strength 
+    let opositeSide = props.side === "right" ? "left" : "right";    // oposite side of the message 
+    return (
         <li className={"message message-" + props.side}> 
             <div className={(strength !== undefined ? strength : "") + " message-text"}>
-                <div className={"sender-" + props.side}>{props.sentBy} <div className={"msg-metadata  message-" + opositeSide}>{props.metaData}</div></div>
+                <div className={"sender-" + props.side}>
+                    {props.sentBy} 
+                    <div className={"msg-metadata  message-" + opositeSide}>
+                        {props.metaData}
+                    </div>
+                </div>
                 <div className="msg_context" dangerouslySetInnerHTML={{ __html: props.message}} />
-                
             </div>
         </li>
     );
-    return bubble;
 }
 
 export default Chat;
