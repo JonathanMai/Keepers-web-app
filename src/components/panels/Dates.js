@@ -33,61 +33,6 @@ class Dates extends Component {
         this.handleButtons(this.props.activeDate);
     }
 
-    render() {
-        let maxSpans = {
-            "months": 1
-        }
-        let panel = 
-            (<div>
-                <div className="choose_dates">
-                    <div className="date_title">&#128065; {this.props.lang.title} </div>
-                    <div className="dates">
-                            <div ref="day" className="date_active"> 
-                                <span ref="date1" className="span_date tiny" onClick={this.handleDaySelect}>{this.props.lang.day}</span>
-                                <br/>
-                                {this.props.activeDate === 0 && <Arrows active={0} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay={this.props.isOneDay} lang={this.props.lang.language} />}
-                            </div>
-                            <span className="c">|</span>
-                            <div ref="week" className="date_button"> 
-                                <span ref="date2" className="span_date" onClick={this.handleWeekSelect}>{this.props.lang.week}</span>
-                                <br/>
-                                {this.props.activeDate === 1 && <Arrows active={1} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay={this.props.isOneDay} lang={this.props.lang.language} />}
-                            </div>
-                            <span className="c">|</span>
-                            <div ref="month" className="date_button">
-                                <span ref="date3" className="span_date" onClick={this.handleMonthSelect}> {this.props.lang.month} </span> 
-                                <br/>
-                                {this.props.activeDate === 2 && <Arrows active={2} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay={this.props.isOneDay} lang={this.props.lang.language} />}
-                            </div>
-            
-                        <DateRangePicker
-                            locale={{        
-                                "daysOfWeek": this.props.lang.date_picker_days,
-                                "monthNames": this.props.lang.date_picker_months
-                                }}
-                            dateLimit={maxSpans}
-                            startDate={moment(this.props.startDate).format("MM/DD/YYYY")}
-                            endDate={moment(this.props.endDate).startOf('day')}
-                            autoUpdateInput={false}
-                            opens={'left'}
-                            maxDate={moment()}
-                            autoApply={true}
-                            onEvent={this.datepicker.bind(this)}
-                        >
-                            <div className="relative">
-                                <input  className="choose_date_input" readOnly placeholder={this.props.lang.date_picker_placeholder} value={this.props.text}/>
-                                <span className="arrow_down"> &#10095; </span>
-                            </div>
-                        </DateRangePicker>
-                        
-
-                    </div>
-                </div>
-                <hr className="line_hr"/>
-            </div>);
-        return (panel);
-    }
-
     handleDaySelect() {
         this.props.setDate([moment().startOf('day'), moment()]);
         this.props.setText("");
@@ -145,10 +90,6 @@ class Dates extends Component {
     }
 
     datepicker(ev, picker) {
-        if(ev.type === 'show') {
-        }
-        picker.endDate = this.props.endDate;
-
         if(ev.type === 'apply') {
             let textSet = false;
             let pickerStartDate = moment(picker.startDate);
@@ -214,6 +155,61 @@ class Dates extends Component {
                 break;
             }
         }
+    }
+
+    render() {
+        let maxSpans = {
+            "months": 1
+        }
+        let panel = 
+            (<div>
+                <div className="choose_dates">
+                    <div className="date_title">&#128065; {this.props.lang.title} </div>
+                    <div className="dates">
+                            <div ref="day" className="date_active"> 
+                                <span ref="date1" className="span_date tiny" onClick={this.handleDaySelect}>{this.props.lang.day}</span>
+                                <br/>
+                                {this.props.activeDate === 0 && <Arrows active={0} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay={this.props.isOneDay} lang={this.props.lang.language} />}
+                            </div>
+                            <span className="c">|</span>
+                            <div ref="week" className="date_button"> 
+                                <span ref="date2" className="span_date" onClick={this.handleWeekSelect}>{this.props.lang.week}</span>
+                                <br/>
+                                {this.props.activeDate === 1 && <Arrows active={1} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay={this.props.isOneDay} lang={this.props.lang.language} />}
+                            </div>
+                            <span className="c">|</span>
+                            <div ref="month" className="date_button">
+                                <span ref="date3" className="span_date" onClick={this.handleMonthSelect}> {this.props.lang.month} </span> 
+                                <br/>
+                                {this.props.activeDate === 2 && <Arrows active={2} rewind={this.backDateOnClickListener} forward={this.forwardDateOnClickListener} startDate={this.props.startDate} endDate={this.props.endDate} isOneDay={this.props.isOneDay} lang={this.props.lang.language} />}
+                            </div>
+            
+                        <DateRangePicker
+                            locale={{        
+                                "daysOfWeek": this.props.lang.date_picker_days,
+                                "monthNames": this.props.lang.date_picker_months
+                                }}
+                            dateLimit={maxSpans}
+                            startDate={this.props.startDate}
+                            endDate={this.props.endDate}
+                            autoUpdateInput={false}
+                            opens={'left'}
+                            maxDate={moment()}
+                            autoApply={true}
+                            onEvent={this.datepicker.bind(this)}
+                        >
+                            <div className="relative">
+                                <input  className="choose_date_input" readOnly placeholder={this.props.lang.date_picker_placeholder} value={this.props.text}/>
+                                <span className="arrow_down"> &#10095; </span>
+                            </div>
+                        </DateRangePicker>
+                        
+
+                    </div>
+                </div>
+                <hr className="line_hr"/>
+            </div>);
+        return (panel);
     }
 }
 
