@@ -244,7 +244,9 @@ class Dates extends Component {
                     </div>
                 </div>
                 <hr className="line_hr"/>
-            </div>);
+            </div>
+        );
+
         return (panel);
     }
 }
@@ -269,13 +271,13 @@ function Arrows(props) {
 
 const mapStateToProps = (state) => {
     return {
-        startDate: state.dashboardInfo.startDate,       // gets the start date the user looking for the information to start from throguh redux.
-        endDate: state.dashboardInfo.endDate,           // gets the end date the user looking for the information to end using redux.
-        range: state.dashboardInfo.datesRange,          // gets the range of the dates the user picked to see the data.
-        text: state.dashboardInfo.datesText,            // date picker text.
-        isOneDay: state.dashboardInfo.isOneDay,         // gets the boolean to indicate if the data is for one day.
-        activeDate: state.dashboardInfo.activeDates,    // active dates indicate which button user clicked.
-        lang: state.lang.currLang                       // use language from redux - here lets the texts the option to change all page languages.
+        startDate: state.DashboardInfo.startDate,       // gets the start date the user looking for the information to start from throguh redux.
+        endDate: state.DashboardInfo.endDate,           // gets the end date the user looking for the information to end using redux.
+        range: state.DashboardInfo.datesRange,          // gets the range of the dates the user picked to see the data.
+        text: state.DashboardInfo.datesText,            // date picker text.
+        isOneDay: state.DashboardInfo.isOneDay,         // gets the boolean to indicate if the data is for one day.
+        activeDate: state.DashboardInfo.activeDates,    // active dates indicate which button user clicked.
+        lang: state.DisplayLanguage.currLang                       // use language from redux - here lets the texts the option to change all page languages.
     };
 };
 

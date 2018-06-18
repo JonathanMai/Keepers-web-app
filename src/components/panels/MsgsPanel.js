@@ -34,15 +34,6 @@ class MsgsPanel extends Component {
         }
     }
 
-    render() {
-        return (
-            this.state.messagesHeads !== undefined &&   // if messages heads are defined build message panel
-            <div className="messagePanel" ref="messagePanel">
-                {this.buildMsgPanel()}
-            </div>
-        );
-    }
-
     // get the message heads from the server
     getMessagesHeads(props) {
         let messagesHeads = [];     // empty array
@@ -118,16 +109,25 @@ class MsgsPanel extends Component {
     buildMessageBox(childId, message, index) {
         return <Box key={index} childId={childId} onClick={this.state.showEntireMessage === false ? this.handleMessageSelect : undefined} message={message}/>
     }
+
+    render() {
+        return (
+            this.state.messagesHeads !== undefined &&   // if messages heads are defined build message panel
+            <div className="messagePanel" ref="messagePanel">
+                {this.buildMsgPanel()}
+            </div>
+        );
+    }
 }
 
 // variables of redux
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,   // all the children array
-        startDate: state.dashboardInfo.startDate,   // start date
-        endDate: state.dashboardInfo.endDate,       // end date
-        update: state.dashboardInfo.updateData,     // check if we need to upate the component
-        currChild: state.dashboardInfo.currTab      // current child tab
+        childrens: state.DashboardInfo.childrens,   // all the children array
+        startDate: state.DashboardInfo.startDate,   // start date
+        endDate: state.DashboardInfo.endDate,       // end date
+        update: state.DashboardInfo.updateData,     // check if we need to upate the component
+        currChild: state.DashboardInfo.currTab      // current child tab
     };
   };
 

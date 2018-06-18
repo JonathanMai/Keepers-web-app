@@ -260,7 +260,7 @@ class RestoreForm extends Component {
 // Variables used from redux.
 const mapStateToProps = (state) => {
     return {
-        currLang: state.lang.currLang.password_recovery // Use language from redux - here lets the texts the option to change all page languages.
+        currLang: state.DisplayLanguage.currLang.password_recovery // Use language from redux - here lets the texts the option to change all page languages.
     };
 }; 
 

@@ -22,10 +22,10 @@ class LoginPage extends Component {
         this.props.setAgreement(false); // set the checkbox to be unchecked.
     }
 
-        // checkbox on change event occur
-        changeTerms() {
-            this.props.setAgreement(!this.props.agreement); // if was checked -> uncheck it, else check it
-        }
+    // checkbox on change event occur
+    changeTerms() {
+        this.props.setAgreement(!this.props.agreement); // if was checked -> uncheck it, else check it
+    }
 
     render() {
         return (
@@ -56,8 +56,8 @@ class LoginPage extends Component {
 // variables from redux
 const mapStateToProps = (state) => {
     return {
-        agreement: state.reducerA.agreement,        // set the checkbox state checked or unchecked
-        currLang: state.lang.currLang.login_page    // the current language of the application
+        agreement: state.Modal.agreement,        // set the checkbox state checked or unchecked
+        currLang: state.DisplayLanguage.currLang.login_page    // the current language of the application
     };
 };
 

@@ -109,13 +109,13 @@ export class LineChartPanel extends Component {
 // redux variables
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,       // gets information of all childrens of the user through redux.
-        startDate: state.dashboardInfo.startDate,       // gets the start date the user looking for the information to start from throguh redux.
-        range: state.dashboardInfo.datesRange,          // gets the range of the dates the user picked to see the data.
-        isOneDay: state.dashboardInfo.isOneDay,         // gets the boolean to indicate if the data is for one day - for one day show statistics in hours, else show in days.
-        lang: state.lang.currLang,                      // use language from redux - here lets the texts the option to change all page languages.
-        update: state.dashboardInfo.updateData,         // gets the state of the component - if need to get the data.
-        currChild: state.dashboardInfo.currTab          // gets the current children tab user at.
+        childrens: state.DashboardInfo.childrens,       // gets information of all childrens of the user through redux.
+        startDate: state.DashboardInfo.startDate,       // gets the start date the user looking for the information to start from throguh redux.
+        range: state.DashboardInfo.datesRange,          // gets the range of the dates the user picked to see the data.
+        isOneDay: state.DashboardInfo.isOneDay,         // gets the boolean to indicate if the data is for one day - for one day show statistics in hours, else show in days.
+        update: state.DashboardInfo.updateData,         // gets the state of the component - if need to get the data.
+        currChild: state.DashboardInfo.currTab,         // gets the current children tab user at.
+        lang: state.DisplayLanguage.currLang            // use language from redux - here lets the texts the option to change all page languages.
     };
   };
 

@@ -308,14 +308,14 @@ class SignInForm extends React.Component {
 
                 {/* register modal, pops up when the email doesn't exist. */}
                 <RegisterModal 
-                    showModal={this.props.registerModal.showModal} 
+                    showModal={this.props.showRegisterModal} 
                     closeModal={this.closeRegisterModal.bind(this)}
                     registerUser={this.redirectToRegister.bind(this)}
                     currLang={this.props.currLang.modal}/>
 
                 {/* loading modal. */}
                  <WaitingModal
-                    showModal={this.props.waitingModal.showLoadingModal} 
+                    showModal={this.props.showWaitingModal} 
                     closeModal={this.closeWaitingModal.bind(this)}
                     />
             </div>
@@ -326,9 +326,9 @@ class SignInForm extends React.Component {
 // variables used from redux.
 const mapStateToProps = (state) => {
     return {
-        registerModal: state.reducerA, // register modal - popup with register option when email entered doesn't exist.
-        waitingModal: state.reducerA, // loading modal.
-        agreement: state.reducerA.agreement, // agreement checkbox
+        showRegisterModal: state.Modal.showModal, // register modal - popup with register option when email entered doesn't exist.
+        showWaitingModal: state.Modal.showLoadingModal, // loading modal.
+        agreement: state.Modal.agreement, // agreement checkbox
         currLang: state.lang.currLang.login_page, // use language from redux - here lets the texts the option to change all page languages.
     };
 };

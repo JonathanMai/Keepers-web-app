@@ -66,11 +66,11 @@ class Dashboard extends Component {
 // variable of redux
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,   // childrens
-        zoom: state.dashboardInfo.defaultZoom,      // map zoom
-        currLang: state.lang.currLang,              // current application language
-        parentId: state.reducerAccountInfo.parentId,    // parent id
-        currTab: state.dashboardInfo.currTab        // current tab of the child
+        childrens: state.DashboardInfo.childrens,       // childrens
+        zoom: state.DashboardInfo.defaultZoom,          // map zoom
+        currTab: state.DashboardInfo.currTab,           // current tab of the child
+        parentId: state.AccountInfo.parentId,           // parent id
+        currLang: state.DisplayLanguage.currLang       // current application language
     };
 };
 

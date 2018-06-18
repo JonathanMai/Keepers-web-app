@@ -4,61 +4,62 @@ import { compose, withProps, withStateHandlers } from "recompose";
 import { GetLocation } from '../serviceAPI';
 import markerIcon from'../assets/map/marker.png';
 import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-  InfoWindow
+	withScriptjs,
+	withGoogleMap,
+	GoogleMap,
+	Marker,
+	InfoWindow
 } from "react-google-maps";
 
 var language = window.navigator.userLanguage || window.navigator.language;
 
 // Sets the google map component.
 const MyMapComponent = compose(
-  withProps({
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `26vh` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`
-  }),
-  withScriptjs,
-  withGoogleMap,
-  withStateHandlers(() => ({
-    isOpen: {},
-    clicked: {},
+	withProps({
+		loadingElement: <div style={{ height: `100%` }} />,
+		containerElement: <div style={{ height: `26vh` }} />,
+		mapElement: <div style={{ height: `100%` }} />,
+		googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyAYR0U9ElfuNZrQky-zecksA7NdoNQQIlo&language=${language}&region=${language}&v=3.exp&libraries=geometry,drawing,places`
+	}),
+	withScriptjs,
+	withGoogleMap,
+	withStateHandlers(() => ({
+		isOpen: {},
+		clicked: {},
   }), {
     onToggleOpen: (state) => (index) => { // when opening the marker label in map.
-      let newIsOpen = Object.assign({}, state.isOpen);
-      newIsOpen[index] = !state.isOpen[index]
-      return { isOpen: newIsOpen }
+		let newIsOpen = Object.assign({}, state.isOpen);
+		newIsOpen[index] = !state.isOpen[index]
+		return { isOpen: newIsOpen }
     },
     onClikedToggle: (state) => (index) => { // open the marker label.
-      let newClicked = Object.assign({}, state.clicked);
-      newClicked[index] = !state.clicked[index];
-      return { clicked: newClicked }
+		let newClicked = Object.assign({}, state.clicked);
+		newClicked[index] = !state.clicked[index];
+		return { clicked: newClicked }
     },
     onCloseToggle: (state) => (index) => { // when closing the marker label.
-      let newIsOpen = Object.assign({}, state.isOpen);
-      let newClicked = Object.assign({}, state.clicked);
-      newIsOpen[index] = false;
-      newClicked[index] = false;
-      return { isOpen: newIsOpen, clicked: newClicked };
+		let newIsOpen = Object.assign({}, state.isOpen);
+		let newClicked = Object.assign({}, state.clicked);
+		newIsOpen[index] = false;
+		newClicked[index] = false;
+		return { isOpen: newIsOpen, clicked: newClicked };
     }
   }),
 )(props => {
   return (
-    <GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude + 0.001, lng: props.children[props.currTab].longitude} : { lat: 31.766572, lng: 35.200025}} >      {
-          props.children[props.currTab] && 
-          <Marker icon={markerIcon} onMouseOut={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onMouseOver={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onClick={props.onClikedToggle.bind(this, props.currTab)} position={{ lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude }} >
-          {
-            props.isOpen[props.currTab] && 
-            <InfoWindow onCloseClick={props.onCloseToggle.bind(this, props.currTab)}>
-			  <span>{props.names[props.currTab].name}</span>
-            </InfoWindow>
-          }
-          </Marker>
+	<GoogleMap zoom={props.zoom} center={props.children[props.currTab] ? { lat: props.children[props.currTab].latitude + 0.001, lng: props.children[props.currTab].longitude} : { lat: 31.766572, lng: 35.200025}} > 
+		{
+			props.children[props.currTab] && 
+			<Marker icon={markerIcon} onMouseOut={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onMouseOver={!props.clicked[props.currTab] ? props.onToggleOpen.bind(this, props.currTab) : null} onClick={props.onClikedToggle.bind(this, props.currTab)} position={{ lat: props.children[props.currTab].latitude, lng: props.children[props.currTab].longitude }} >
+			{
+				props.isOpen[props.currTab] && 
+				<InfoWindow onCloseClick={props.onCloseToggle.bind(this, props.currTab)}>
+				<span>{props.names[props.currTab].name}</span>
+				</InfoWindow>
+			}
+			</Marker>
         }
-  </GoogleMap>
+  	</GoogleMap>
 )});
 
 class MyMap extends Component {
@@ -109,11 +110,11 @@ class MyMap extends Component {
 // variables used from redux.
 const mapStateToProps = (state) => {
 	return {
-		childrens: state.dashboardInfo.childrens, // gets information of all childrens of the user through redux.
-		kidsLocation: state.dashboardInfo.kidsLocation, // gets the kids location information from redux.
-		currentTab: state.dashboardInfo.currTab, // get current tab kid.
-		defaultZoom: state.dashboardInfo.defaultZoom, // get default zoom.
-		update: state.dashboardInfo.updateData, // get update data, to see if need to update the map.
+		childrens: state.DashboardInfo.childrens, // gets information of all childrens of the user through redux.
+		kidsLocation: state.DashboardInfo.kidsLocation, // gets the kids location information from redux.
+		currentTab: state.DashboardInfo.currTab, // get current tab kid.
+		defaultZoom: state.DashboardInfo.defaultZoom, // get default zoom.
+		update: state.DashboardInfo.updateData, // get update data, to see if need to update the map.
 	};
 };
 

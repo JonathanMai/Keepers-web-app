@@ -1,4 +1,4 @@
-import languages from '../lang/lang';
+import Languages from '../lang/Languages';
 
 /* 
     This redux reducer save the information about languages of the application.
@@ -7,8 +7,8 @@ import languages from '../lang/lang';
 
 // Initial state
 const initialState = {
-    lang: languages,    // all the languages objects
-    currLang: languages.eng // the current language object
+    lang: Languages,    // all the languages objects
+    currLang: Languages.eng // the current language object
 };
 
 const language = (state = initialState, action) => {

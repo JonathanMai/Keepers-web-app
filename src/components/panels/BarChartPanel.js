@@ -89,11 +89,11 @@ class BarChartPanel extends Component {
 // redux variables.
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,    // gets information of all childrens of the user through redux.
-        startDate: state.dashboardInfo.startDate,    // gets the start date the user looking for the information to start from throguh redux.
-        range: state.dashboardInfo.datesRange,       // gets the range of the dates the user picked to see the data.
-        update: state.dashboardInfo.updateData,      // gets the state of the component - if need to get the data.
-        currChild: state.dashboardInfo.currTab       // gets the current children tab user at.
+        childrens: state.DashboardInfo.childrens,    // gets information of all childrens of the user through redux.
+        startDate: state.DashboardInfo.startDate,    // gets the start date the user looking for the information to start from throguh redux.
+        range: state.DashboardInfo.datesRange,       // gets the range of the dates the user picked to see the data.
+        update: state.DashboardInfo.updateData,      // gets the state of the component - if need to get the data.
+        currChild: state.DashboardInfo.currTab       // gets the current children tab user at.
     };
 };
 

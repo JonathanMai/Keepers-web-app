@@ -10,24 +10,6 @@ var strengthClass = {easy: "easy_message", medium: "medium_message", heavy: "hea
     of the message with message, sentBy, side, strength and meta data.
 */
 class Chat extends Component {   
-    createChatBubbles() {
-        return (
-            <ul>
-                {this.props.chatMessages.messages.map((message, index) => {
-                    if(message.text !== "") {
-                        return (<ChatBubble
-                            key={index} 
-                            sentBy={message.name}
-                            message={message.text}
-                            metaData={(moment(message.time).format("HH:mm A"))}
-                            side={(message.is_outgoing ? "right" : "left")}
-                            strength={message.strength}
-                        />);
-                    }
-                })}
-            </ul>);
-    }
-
     // removes the scroll bar from the panel 
     removeScrollFromPanel() { 
         var panel = document.getElementsByClassName("messagePanel");
@@ -52,7 +34,24 @@ class Chat extends Component {
         this.props.close();
     }  
     
-    
+    createChatBubbles() {
+        return (
+            <ul>
+                {this.props.chatMessages.messages.map((message, index) => {
+                    if(message.text !== "") {
+                        return (<ChatBubble
+                            key={index} 
+                            sentBy={message.name}
+                            message={message.text}
+                            metaData={(moment(message.time).format("HH:mm A"))}
+                            side={(message.is_outgoing ? "right" : "left")}
+                            strength={message.strength}
+                        />);
+                    }
+                })}
+            </ul>);
+    }
+
     render() {
         this.removeScrollFromPanel();   // removes the scroll bar from the panel
         return(

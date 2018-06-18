@@ -14,13 +14,6 @@ const Data = function(props) {
 
 /* State component responsible to show the message box of the chat */
 class Box extends Component {
-    render() {
-        return (
-        <div level={this.getStrength()} className={this.getClassName()} onClick={this.props.onClick !== undefined ? this.clickHandleEvent.bind(this) : undefined}>
-            <Data message={this.getQuote()} metaData={this.getMetaData()}/>
-        </div>
-    )}
-
     // returns the level of the message
     getStrength() {
         switch(this.props.message.strength) {
@@ -65,6 +58,13 @@ class Box extends Component {
     clickHandleEvent() {
         this.props.onClick(this.props.childId, this.props.message);
     }
+
+    render() {
+        return (
+        <div level={this.getStrength()} className={this.getClassName()} onClick={this.props.onClick !== undefined ? this.clickHandleEvent.bind(this) : undefined}>
+            <Data message={this.getQuote()} metaData={this.getMetaData()}/>
+        </div>
+    )}
 }
 
 export default Box;

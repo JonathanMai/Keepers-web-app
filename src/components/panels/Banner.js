@@ -7,6 +7,7 @@ import logoShare from '../../assets/banner/Share-icon.png';
 import logoChat from '../../assets/banner/Home-icon.png'; 
 import closeBtn from '../../assets/banner/close.png'; 
 import '../../styles/banner.css';
+
 /*
     Banner component - in login screen it contains only choose language option.
     In dashboard screen it contains the share button, button to open chatbot, 
@@ -14,13 +15,56 @@ import '../../styles/banner.css';
     In login screen it's background is transparent and
     in dashboard screen it has keeper's color - light blue. 
 */
-
 class Banner extends Component {
     constructor(props){
         super(props);
         this.state = {
             chat_is_shown: false    // holds chatbot state - screen is open or not.
         };
+    }
+
+    // open and close the consultant center
+    open_close_consultant() {
+        if(this.state.chat_is_shown) {  // if the consultant center is visible set it to invisible
+            this.refs.chat_screen.style = "display: none;"
+        } else {                        // consultant center is invisible set it to visible
+            this.refs.chat_screen.style = "display: initial;"
+        }
+        this.setState({                 // change the state
+            chat_is_shown: !this.state.chat_is_shown
+        });
+    }
+
+    // share function after the user push on the share icon button in the banner
+    share() {
+        if(!window.navigator.share) {   // This will work on pc, opens the main program to send emails
+            window.location.href = "mailto:?subject=Protect%20Your%20Kid%20With%20Keeper's%20Application&body=You%20must%20have%20this%20tool%20to%20help%20protect%20your%20child.%20%0AThe%20link%20to%20the%20application: %20https://www.keeperschildsafety.net/%0ACya%20there%20=)";
+        } else {    // This will work on mobile platforms, ask from user to open messaging application for sending texts
+            navigator.share({
+                title: "Protect Your Kid With Keeper's Application",
+                text: 'You must have this tool to help protect your child.',
+                url: 'https://www.keeperschildsafety.net/',
+            });
+        }
+    }
+
+    // logout function - redirects the user to login page and logout from the server
+    logout() {
+        LogOut().then(res => {  // the server returns response code of 200
+            localStorage.removeItem("_id");     // removes the parent id from local storage
+            localStorage.removeItem("_token");  // removes the parent auth from local storage
+            this.props.setPanelColor("transparent");    // set the panel to be transparent
+            this.props.setShowLogoutIcon(false);    // set the icon visibility
+        }).catch(error => {     // the server returns response code of 400
+            console.error(error.response)
+        });
+    }
+
+    // change the language of the application
+    changeLanguage(e) {
+        let language = e.target.value;  // get the language from the select tag
+        let languageObj = this.props.allLang[language]; // get the object from redux
+        this.props.setLang(languageObj);    // set the new language
     }
 
     render() {
@@ -55,65 +99,22 @@ class Banner extends Component {
                         </div>
                     }
                 </div>
-            </div>);
-    }
-
-    // Open and close the consultant center
-    open_close_consultant() {
-        if(this.state.chat_is_shown) {  // if the consultant center is visible set it to invisible
-            this.refs.chat_screen.style = "display: none;"
-        } else {                        // consultant center is invisible set it to visible
-            this.refs.chat_screen.style = "display: initial;"
-        }
-        this.setState({                 // change the state
-            chat_is_shown: !this.state.chat_is_shown
-        });
-    }
-
-    // Share function after the user push on the share icon button in the banner
-    share() {
-        if(!window.navigator.share) {   // This will work on pc, opens the main program to send emails
-            window.location.href = "mailto:?subject=Protect%20Your%20Kid%20With%20Keeper's%20Application&body=You%20must%20have%20this%20tool%20to%20help%20protect%20your%20child.%20%0AThe%20link%20to%20the%20application: %20https://www.keeperschildsafety.net/%0ACya%20there%20=)";
-        } else {    // This will work on mobile platforms, ask from user to open messaging application for sending texts
-            navigator.share({
-                title: "Protect Your Kid With Keeper's Application",
-                text: 'You must have this tool to help protect your child.',
-                url: 'https://www.keeperschildsafety.net/',
-            });
-        }
-    }
-
-    // Logout function - redirects the user to login page and logout from the server
-    logout() {
-        LogOut().then(res => {  // the server returns response code of 200
-            localStorage.removeItem("_id");     // removes the parent id from local storage
-            localStorage.removeItem("_token");  // removes the parent auth from local storage
-            this.props.setPanelColor("transparent");    // set the panel to be transparent
-            this.props.setShowLogoutIcon(false);    // set the icon visibility
-        }).catch(error => {     // the server returns response code of 400
-            console.error(error.response)
-        });
-    }
-
-    // Change the language of the application
-    changeLanguage(e) {
-        let language = e.target.value;  // get the language from the select tag
-        let languageObj = this.props.allLang[language]; // get the object from redux
-        this.props.setLang(languageObj);    // set the new language
+            </div>
+        );
     }
 }
 
-// Redux variables to props
+// redux variables
 const mapStateToProps = (state) => {
     return {
-        allLang: state.lang.lang,   // all the available languages from lang.js saves as { key: value }
-        currLang: state.lang.currLang,  // object of the current choosen language
-        panel_color: state.reducerA.panel_color,    // the current panel color of the application
-        showIcon: state.reducerA.showIcon   // the current state of show logout icon
+        panel_color: state.Modal.panel_color,    // the current panel color of the application
+        showIcon: state.Modal.showIcon,   // the current state of show logout icon
+        currLang: state.DisplayLanguage.currLang,  // object of the current choosen language
+        allLang: state.DisplayLanguage.lang   // all the available languages from lang.js saves as { key: value }
     };
 };
 
-// Redux functions to change redux states
+//redux functions
 const mapDispatchToProps = (dispatch) => {
     return {
         // Set the language of the application

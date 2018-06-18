@@ -1,15 +1,15 @@
 import { createStore, combineReducers } from 'redux';
-import reducerA from './reducers/reducerA';
-import reducerAccountInfo from './reducers/reducerAccountInfo';
-import dashboardInfo from './reducers/dashboardInfo';
-import language from './reducers/language';
+import Modal from './reducers/Modal';
+import AccountInfo from './reducers/AccountInfo';
+import DashboardInfo from './reducers/DashboardInfo';
+import DisplayLanguage from './reducers/DisplayLanguage';
 
 // Create global store for redux
 const store = createStore(combineReducers({
-    reducerA: reducerA,
-    reducerAccountInfo: reducerAccountInfo,
-    dashboardInfo: dashboardInfo,
-    lang: language
+    Modal: Modal,
+    AccountInfo: AccountInfo,
+    DashboardInfo: DashboardInfo,
+    DisplayLanguage: DisplayLanguage
 }),
 {},
 window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

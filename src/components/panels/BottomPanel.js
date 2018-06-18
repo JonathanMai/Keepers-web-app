@@ -12,7 +12,7 @@ import b15 from '../../assets/battery/15%.png';
 
 /*
     Bottom panel component, It has google maps component inside it and battery level indicator. 
- */
+*/
 class BottomPanel extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +23,21 @@ class BottomPanel extends Component {
             bIndex: [this.getBatteryImageIndex(initBatteryLevel[0]), this.getBatteryImageIndex(initBatteryLevel[1]), this.getBatteryImageIndex(initBatteryLevel[2])]
         }
         this.getBatteryImageIndex = this.getBatteryImageIndex.bind(this);
+    }
+
+    // returns the index of the images that describes the battery level
+    getBatteryImageIndex(level) {
+        if(level > 95 && level <= 100) {
+            return 0;
+        } else if(level > 70 && level <= 95) {
+            return 1;
+        } else if(level > 50 && level <= 70) {
+            return 2;
+        } else if(level > 15 && level <= 50) {
+            return 3;
+        } else {    // level <= 15
+            return 4;
+        }
     }
 
     render(){
@@ -47,28 +62,13 @@ class BottomPanel extends Component {
             </div>
         );
     }
-
-    // returns the index of the images that describes the battery level
-    getBatteryImageIndex(level) {
-        if(level > 95 && level <= 100) {
-            return 0;
-        } else if(level > 70 && level <= 95) {
-            return 1;
-        } else if(level > 50 && level <= 70) {
-            return 2;
-        } else if(level > 15 && level <= 50) {
-            return 3;
-        } else {    // level <= 15
-            return 4;
-        }
-    }
 }
 
 // variable from redux
 const mapStateToProps = (state) => {
     return {
-        currKid: state.dashboardInfo.currTab,   // current child active tab
-        currLang: state.lang.currLang           // current language of the application
+        currKid: state.DashboardInfo.currTab,   // current child active tab
+        currLang: state.DisplayLanguage.currLang           // current language of the application
     };
 };
 

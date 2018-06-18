@@ -35,15 +35,16 @@ class TopPanel extends Component {
                 <Col xs={4} md={3} lg={3} style={{'paddingRight': 0 + 'px', height: 'inherit'}}> 
                     {this.props.range !== undefined && <MsgsPanel childIndex={this.props.childIndex} />}
                 </Col>
-            </Row>);
+            </Row>
+        );
     }
 }
 
 // variable of redux
 const mapStateToProps = (state) => {
     return {
-        range: state.dashboardInfo.datesRange,  // the range of dates between startDate and endDate
-        currLang: state.lang.currLang           // current language of the application
+        range: state.DashboardInfo.datesRange,      // the range of dates between startDate and endDate
+        currLang: state.DisplayLanguage.currLang    // current language of the application
     };
 };
 

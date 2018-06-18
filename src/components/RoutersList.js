@@ -24,6 +24,20 @@ class RoutersList extends Component {
         }
     }
     
+    // return true if user already login else return false
+    checkStorage() { 
+        return localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null;
+    }
+
+    // set the user in redux
+    updateRedux() {
+        let user = {
+          id: localStorage.getItem("_id"),
+          authKey: localStorage.getItem("_token")
+        }
+        this.props.setUser(user);
+    }
+
     render() {
         return (
             <Router>
@@ -38,27 +52,13 @@ class RoutersList extends Component {
             </Router>
         );
     }
-
-    // return true if user already login else return false
-    checkStorage() { 
-        return localStorage.getItem("_id") !== null && localStorage.getItem("_token") !== null;
-    }
-
-    // set the user in redux
-    updateRedux() {
-        let user = {
-          id: localStorage.getItem("_id"),
-          authKey: localStorage.getItem("_token")
-        }
-        this.props.setUser(user);
-    }
 }
 
 // variables used from redux.
 const mapStateToProps = (state) => {
     return {
-        currLang: state.lang.currLang,  // current language of the application
-        panel_color: state.reducerA.panel_color // current banner background color
+        panel_color: state.Modal.panel_color,       // current banner background color
+        currLang: state.DisplayLanguage.currLang    // current language of the application
     };
 };
 
