@@ -53,7 +53,7 @@ const MyMapComponent = compose(
           {
             props.isOpen[props.currTab] && 
             <InfoWindow onCloseClick={props.onCloseToggle.bind(this, props.currTab)}>
-              <ChildName name={props.names[props.currTab].name}/>
+			  <span>{props.names[props.currTab].name}</span>
             </InfoWindow>
           }
           </Marker>
@@ -61,64 +61,35 @@ const MyMapComponent = compose(
   </GoogleMap>
 )});
 
-class ChildName extends Component {
-  render() {
-    return(<span>{this.props.name}</span>);
-  }
-}
-
 class MyMap extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			firstTime: true, // boolean that indicates if location data of all childrens was called.
-			kidsLocation: [], // holds all kids locations.
-			point: {} // the curr kid tab location. 
-		};
-	}
-
 	componentDidUpdate() {
-		if(this.state.firstTime && this.props.update != undefined && !this.props.update[3]){
+		if(this.props.update != undefined && !this.props.update[3]){
 			this.getKidsCurrLocation();
 		}
 	}
 
 	// gets all kids locations.
 	getKidsCurrLocation() {
-		this.setState({
-			...this.state,
-			firstTime: false // got data - not first time any more, dependent on interval.
-		});
+		this.props.setUpdate(3);
 		setInterval(this.getKidsCurrLocation.bind(this), 60000 * 5); // sets interval - every 5 minutes checks where are the childrens.
+		let kidsLocation = [];
 		for(let i = 0; i < this.props.childrens.length; i++){ // iterates through each kid.
-			this.getCurrentLocation(this.props.childrens[i].id, i);
+			this.getCurrentLocation(this.props.childrens[i].id, kidsLocation, i);
 		}
 	}
   
 	// send packet to get kids current location.
 	// gets the kid id and his index.
-  	getCurrentLocation(id, index) {
+  	getCurrentLocation(id, kidsLocation, index) {
 		GetLocation(id).then(res => {  // when respond package is with status 200
-			if(res.data.length === 0) { // no data from server
-				return -1;
-			}
-			else {
-				let kidsLocation = this.state.kidsLocation;
+			if(res.data.length !== 0) { // no data from server
 				kidsLocation[index] = res.data[res.data.length - 1]; // adds the new data.
-				let newLocation = {
-					lat: res.data[res.data.length - 1].latitude,
-					lon: res.data[res.data.length - 1].longitude
-				};
-				this.setState({
-					...this.state,
-					kidsLocation: kidsLocation,
-					point: newLocation
-				});
-    		}
+			}
+			this.props.setLocations(kidsLocation);
+		
 		}).catch(error => { // When respond package is with error status - 400 ...
 			console.log(error);
-			return -1;
 		});
   	}
 
@@ -128,9 +99,8 @@ class MyMap extends Component {
 		<MyMapComponent 
 			zoom={this.props.defaultZoom} 
 			names={this.props.childrens}
-			children={this.state.kidsLocation} 
+			children={this.props.kidsLocation} 
 			currTab={this.props.currentTab} 
-			childFocused={this.state.point} 
 			/>  
 		);
   	}
@@ -140,10 +110,28 @@ class MyMap extends Component {
 const mapStateToProps = (state) => {
 	return {
 		childrens: state.dashboardInfo.childrens, // gets information of all childrens of the user through redux.
+		kidsLocation: state.dashboardInfo.kidsLocation, // gets the kids location information from redux.
 		currentTab: state.dashboardInfo.currTab, // get current tab kid.
 		defaultZoom: state.dashboardInfo.defaultZoom, // get default zoom.
 		update: state.dashboardInfo.updateData, // get update data, to see if need to update the map.
 	};
 };
 
-export default connect(mapStateToProps)(MyMap);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUpdate: (val) => {
+            dispatch({
+                type: "SET_UPDATE",
+                value: val
+            });
+		},
+		setLocations: (val) => {
+            dispatch({
+                type: "SET_LOCATIONS",
+                value: val
+            });
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyMap);
