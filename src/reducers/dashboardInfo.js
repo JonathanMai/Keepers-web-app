@@ -15,7 +15,7 @@ const initialState = {
     activeDates: 0,                         // day = 0, week = 1, month = 2, default = 3 , active tab for date picker.
     isOneDay: true,                         // true if startDate is equals endDate else false 
     defaultZoom: 16,                        // the default zoom in map component
-    updateData: [false, false, false]       // [line chart, bar chart, msg heads]
+    updateData: [false, false, false, false]       // [line chart, bar chart, msg heads]
 };
 
 const dashboardInfo = (state = initialState, action) => {
@@ -31,7 +31,7 @@ const dashboardInfo = (state = initialState, action) => {
             return{
                 ...state,
                 currTab: action.value,
-                updateData: [false, false, false]   // if false then needs to be updated
+                updateData: [false, false, false, false]   // if false then needs to be updated
             }
         // set the startDate, endDate, datesRange, isOneDay, and update the components inside the dashboard.
         case "SET_DATES":

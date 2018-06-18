@@ -37,7 +37,7 @@ class SignInForm extends React.Component {
             this.state["name"] = "";
             this.handleName = this.handleName.bind(this);
         }
-        bindFunctions();
+        this.bindFunctions();
     }
 
     // bind all functioon to work with "this".
