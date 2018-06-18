@@ -44,6 +44,9 @@ class UsageTimeChart extends Component {
                             yAxes: [{
                                 ticks: {
                                     beginAtZero: true
+                                    // callback: function(value, index, values) {
+                                    //     return '$' + value;
+                                    // }
                                 }
                             }],
                             xAxes: [{

@@ -11,34 +11,27 @@ export class LineChartPanel extends Component {
         super(props);
         this.state = {
             data: {}, // {"18-05-18" : {***}, "19-05-18": {***}}
-            // useData: [],
-            // dateLabels: [],
             labels: [],
-            // tickValues: []
         }
-        // this.buildChart = this.buildChart.bind(this);
-        // moment.locale(props.lang.map_lang)
-        this.getChildMessagesStatisticsByRange(this.props);
+        this.getChildMessagesStatisticsByRange();
     }
     
-    componentWillReceiveProps(props){
-        // this.setState({
-        //     ...this.state,
-        //     useData: []
-        // });
-        // moment.locale(props.lang.map_lang)
-        
-        this.getChildMessagesStatisticsByRange(props);
+    componentDidUpdate(){
+        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[0]){
+            this.props.setUpdate(0);
+            this.getChildMessagesStatisticsByRange();
+        }
+    }
+
+    render() {
+        return (this.state.useData !== undefined && <AbusiveConversationsChart style={{height: 'inherit'}} data={this.state.useData} labels={this.state.labels} />);
     }
 
     // Gets the child statistics and sets data using it.
-    getChildMessagesStatisticsByRange(props) {
-        // console.log(props);
-        // console.log(props.dates[0],props.dates[1],props.dates[0].isSame(props.dates[1]));
-        let day = moment(props.startDate); // Creates a moment object from the first day.
-        // let newData = [];
-        let range = props.isOneDay ? 24 : props.range;
-        let addBy = props.isOneDay ? 'hours' : 'day';
+    getChildMessagesStatisticsByRange(childIndex) {
+        let day = moment(this.props.startDate); // Creates a moment object from the first day.
+        let range = this.props.isOneDay ? 24 : this.props.range;
+        let addBy = this.props.isOneDay ? 'hours' : 'day';
         let tempDay =  moment(day);
         let labels = new Array(range + 1);
         let tickVals = new Array((range > 7) ? range/5 | 0 : range);
@@ -47,23 +40,8 @@ export class LineChartPanel extends Component {
         let countHard = new Array(range+1);
         let newData = this.state.data;
         let flag = 0;
-        // let insertToData = false;
-        // console.log(this.state);
-        // console.log((range > 7 || range <= 1)? "YEAHH" : "NOOOOOOO");
         for(let i=0; i<=range;  i++, tempDay=moment(day).add(i,addBy)) {
-
-            // datesLabel.push(moment(day).format("MMMM DD"));
-            // day=moment(day).add(1,'days').format("MMMM D");
-            // if(i ===2 | i === 3) {
-            //     console.log(child, moment(tempDay).startOf('day').valueOf(),"and", moment(tempDay).endOf('day').valueOf())
-            //     console.log(child, moment.utc(tempDay).startOf('day').valueOf(),"and", moment.utc(tempDay).add(1,'days').startOf('day').valueOf())
-            // }
-            // Checks if data is available in array.
-            // console.log(newData);
-            // console.log(objectNames);
-            // console.log(!props.isOneDay && this.state.data !== undefined && this.state.data[tempDay.format("YY-MM-DD")] !== undefined);
-
-            if(!props.isOneDay && this.state.data !== undefined && newData[tempDay.format("YY-MM-DD")] !== undefined) {
+            if(!this.props.isOneDay && this.state.data !== undefined && newData[tempDay.format("YY-MM-DD")] !== undefined) {
                 let format = tempDay.format("YY-MM-DD");
                 this.insertTickVal(tickVals, newData[format][0]["x"], range, i);
                 labels[i] = moment(tempDay).format("MMM Do").toString();
@@ -77,11 +55,9 @@ export class LineChartPanel extends Component {
             }
             // If data wasnt called before - fetch data from server.
             else {
-
-                // insertToData = true;
                 let startTime;
                 let endTime;
-                if(props.isOneDay) {
+                if(this.props.isOneDay) {
                     startTime = moment(tempDay);
                     endTime = moment(tempDay).add(1, 'hours');
                 } 
@@ -89,9 +65,8 @@ export class LineChartPanel extends Component {
                     startTime = moment(tempDay).startOf('day');
                     endTime =  moment(tempDay).endOf('day');
                 }
-                // console.log(tempDay);
                 let label =  "";
-                if(props.isOneDay) {
+                if(this.props.isOneDay) {
                     label += moment(tempDay).format("Ha").toString();
                 }
                 else {
@@ -99,31 +74,16 @@ export class LineChartPanel extends Component {
                 }
                 labels[i] = label; 
                 this.insertTickVal(tickVals, label, range, i);
-                //  (range <= 1 && i !== ) ? moment(tempDay).add(i, 'hours').valueOf() :.valueOf();
-                // (range <= 1) ? moment(tempDay).add(i+1, 'hours').valueOf() :.valueOf();
-                GetMessagesStatistics(props.childrens[props.childIndex].id, startTime, endTime).then(res => {  // When respond package is with status 200
+                GetMessagesStatistics(this.props.childrens[this.props.childIndex].id, startTime, endTime).then(res => {  // When respond package is with status 200
                     let result = res.data;
                     countEasy[i] = parseInt(result.easyCount); // easy count.
                     countMedium[i] = parseInt(result.mediumCount); // medium count.
                     countHard[i] = parseInt(result.heavyCount); // heavy count.
-    
-                    // this.createStatisticObject(label, dayStatistics); 
-                    if(!props.isOneDay)
+                        if(!this.props.isOneDay)
                         newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHard[i]];
                     flag++;
                     if(flag > range)
                         this.insertNewData(newData, [countEasy, countMedium, countHard], labels);
-
-                // if(this.state.draw[0] == false){
-                //     let tempDraw = this.state.draw;
-                //     tempDraw[0] = true;
-                //     this.setState({
-                //         ...this.state,
-                //         draw: tempDraw
-                //     });
-                //     console.log(this.state.draw);
-                // }
-
                 }).catch(error => { // When respond package is with error status - 400 ...
                     console.log(error);
                 });
@@ -132,32 +92,17 @@ export class LineChartPanel extends Component {
     }
 
     insertNewData(newData, useData, labels) {
-        // let data = this.state.data;
-        // if (insertToData) data.push(newData);
-        // console.log(tempData, newData);
         this.setState({
             ...this.state,
             data: newData,
             useData: useData,
             labels: labels
         });
-
-        // let tempData = [];
-        // tempData.push(countEasy);
-        // tempData.push(countMedium);
-        // tempData.push(countHard);
-        // let data = this.state.data;
-        // if(insertToData)
-        //     data.push(newData);
-
-        // this.createStatisticsDataset(tempData);
-            // console.log(this.state);
     }
 
     insertTickVal(tickVals, label, range, index) {
         if(range > 7 && (index%5 === 0 || index === range)) {
-            // if(i === range && range%8 !== 0)
-                tickVals[index/5 | 0] = label;
+            tickVals[index/5 | 0] = label;
         }
         else if(range <= 7)
             tickVals[index] = label;
@@ -169,13 +114,6 @@ export class LineChartPanel extends Component {
             "label": date,
             "data": count
         });
-    }
-
-
-    render() {
-        // this.getChildMessagesStatistics();
-        // return <div>ok</div>
-        return (this.state.useData !== undefined && <AbusiveConversationsChart style={{height: 'inherit'}} data={this.state.useData} labels={this.state.labels} />);
     }
 }
 
@@ -192,8 +130,21 @@ const mapStateToProps = (state) => {
         startDate: state.dashboardInfo.startDate,
         range: state.dashboardInfo.datesRange,
         isOneDay: state.dashboardInfo.isOneDay,
-        lang: state.lang.currLang
+        lang: state.lang.currLang,
+        update: state.dashboardInfo.updateData,
+        currChild: state.dashboardInfo.currTab
     };
   };
 
-export default connect(mapStateToProps)(LineChartPanel);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUpdate: (val) => {
+            dispatch({
+                type: "SET_UPDATE",
+                value: val
+            });
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LineChartPanel);

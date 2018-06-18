@@ -7,26 +7,32 @@ import { connect } from 'react-redux';
 import Chat from '../pages/Chat';
 import '../../styles/messagesPanel.css';
 
-class Msgs extends Component {
+class MsgsPanel extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             showEntireMessage: false,
             messagesHeads: [],
-            childId: this.props.childId
+            childId: this.props.childrens[this.props.childIndex].id
         }
-        this.getMessagesHeads(this.props);
         this.buildMsgPanel = this.buildMsgPanel.bind(this);
         this.handleMessageSelect = this.handleMessageSelect.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        this.setState({
-            ...this.state,
-            messagesHeads: []
-        });
-        this.getMessagesHeads(props);
+    componentDidMount() {
+        this.getMessagesHeads(this.props);
+    }
+
+    componentDidUpdate() {
+        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[2]){
+            this.props.setUpdate(2);
+            this.getMessagesHeads(this.props);
+        }
+    }
+
+    render() {
+        return (this.state.messagesHeads !== undefined && <div className="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
     }
 
     getMessagesHeads(props) {
@@ -54,8 +60,7 @@ class Msgs extends Component {
         });
     }
         
-
-    handleMessageSelect(childId, message) {
+    handleMessageSelect(message) {
         GetEntireMessage(this.state.childId, message.id).then(res => {  // When respond package is with status 200
             this.setState({
                 ...this.state,
@@ -78,7 +83,6 @@ class Msgs extends Component {
             );
         }
 
-                // <Box childId={this.state.childrens[index].id} msgId={message.id} onClick={this.handleMessageSelect} message={message.quote} level={message.strength} metaData={message.chat_title + ", " + message.app_name + ", " + moment(message.time).add(parseInt(moment().format("Z")), 'hours').format("MMM D")}/>
         else if(this.state.showEntireMessage) {
             messagePanel = (
                 <div>
@@ -88,10 +92,6 @@ class Msgs extends Component {
         }
         return messagePanel;
     }
-
-    // componentDidMount() {
-    //     setTimeout(() => { this.setState({...this.state, renderFade: true}); }, 3000);
-    // }
 
     handleSelect() {
         this.setState({
@@ -105,14 +105,6 @@ class Msgs extends Component {
     buildMessageBox(childId, message, index) {
         return <Box key={index} childId={childId} onClick={this.state.showEntireMessage === false ? this.handleMessageSelect : undefined} message={message}/>
     }
-
-    render() {
-        return (this.state.messagesHeads !== undefined && <div className="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
-    }
-}
-
-function MsgsPanel(props) {
-    return <Msgs childId={props.childrens[props.childIndex].id} startDate={props.startDate} endDate={props.endDate} range={props.range} />
 }
 
 const mapStateToProps = (state) => {
@@ -120,8 +112,21 @@ const mapStateToProps = (state) => {
         childrens: state.dashboardInfo.childrens,
         startDate: state.dashboardInfo.startDate,
         endDate: state.dashboardInfo.endDate,
-        range: state.dashboardInfo.datesRange
+        range: state.dashboardInfo.datesRange,
+        update: state.dashboardInfo.updateData,
+        currChild: state.dashboardInfo.currTab
     };
   };
 
-export default connect(mapStateToProps)(MsgsPanel);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUpdate: (val) => {
+            dispatch({
+                type: "SET_UPDATE",
+                value: val
+            });
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MsgsPanel);

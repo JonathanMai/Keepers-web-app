@@ -22,7 +22,28 @@ class BottomPanel extends Component {
             batteryImages: [b100, b95, b70, b40, b15],
             bIndex: [this.getBatteryImageIndex(initBatteryLevel[0]), this.getBatteryImageIndex(initBatteryLevel[1]), this.getBatteryImageIndex(initBatteryLevel[2])]
         }
+    }
 
+    render(){
+        return(
+            <div className="card" style={{height: 29 + 'vh', padding: 10, marginTop: 10}}>
+                <Col xs={10} style={{padding: 0, height: 'auto'}}>
+                    <MyMap />
+                </Col>   
+                <Col xs={2} style={{ padding: 0, height: '-webkit-fill-available'}}>
+                    <div style={{height: '-webkit-fill-available', marginLeft: 10, padding: 5, textAlign: "center"}}>
+                        <p style={{color: this.state.color}} className="battery_usage"> {this.props.currLang.batteryState} </p>
+                        <div className="bImage">
+                            <Image src={this.state.batteryImages[this.state.bIndex[this.props.currKid]]} />
+                        </div>
+                        <div style={{color: this.state.color, fontSize: 30, marginTop: 10, fontWeight: "bold"}}>
+                            {this.state.batteryLevel[this.props.currKid]}%
+                        </div>
+                    </div>
+                </Col>
+            </div>
+        );
+    }
         
 
         // setInterval(() => {
@@ -39,7 +60,7 @@ class BottomPanel extends Component {
         //         bIndex: index
         //     });
         // }, 2000);
-    }
+    
 
     getBatteryImageIndex(level) {
         if(level > 95 && level <= 100) {
@@ -66,26 +87,7 @@ class BottomPanel extends Component {
             return "red";
         }
     }
-    render(){
-        return(
-            <div className="card" style={{height: 29 + 'vh', padding: 10, marginTop: 10}}>
-                <Col xs={10} style={{padding: 0, height: 'auto'}}>
-                    <MyMap />
-                </Col>   
-                <Col xs={2} style={{ padding: 0, height: '-webkit-fill-available'}}>
-                    <div style={{height: '-webkit-fill-available', marginLeft: 10, padding: 5, textAlign: "center"}}>
-                        <p style={{color: this.state.color}} className="battery_usage"> {this.props.currLang.batteryState} </p>
-                        <div className="bImage">
-                            <Image src={this.state.batteryImages[this.state.bIndex[this.props.currKid]]} />
-                        </div>
-                        <div style={{color: this.state.color, fontSize: 30, marginTop: 10, fontWeight: "bold"}}>
-                            {this.state.batteryLevel[this.props.currKid]}%
-                        </div>
-                    </div>
-                </Col>
-            </div>
-        );
-    }
+
 }
 
 const mapStateToProps = (state) => {

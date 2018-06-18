@@ -16,23 +16,22 @@ class Dashboard extends Component {
         let zoom;
         this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
         this.props.setZoom(zoom);
-        // console.log("ZOOM", this.props.zoom);
-        // console.log(this.props.setCurrTab);
     }
 
-    componentWillMount() {
-        GetAllChildren().then(res => {  // When respond package is with status 200
-            let childrens = [];
-            let count = 0;
-            res.data.map(obj => {
-                childrens.push(obj);
-            });
+    componentDidMount() {
+        if(this.props.parentId !== null) {
+            GetAllChildren().then(res => {  // When respond package is with status 200
+                let childrens = [];
+                res.data.map(obj => {
+                    childrens.push(obj);
+                });
 
-            this.props.setChildrens(childrens);
-        }).catch(error => { // When respond package is with error status - 400 ...
-            console.log(error.response);
-        });
-        // this.props.changePanelColor("rgba(37, 185, 204, 0.45)"); // TODO:: accure an error
+                this.props.setChildrens(childrens);
+            }).catch(error => { // When respond package is with error status - 400 ...
+                console.log(error.response);
+            });
+        }
+            // this.props.changePanelColor("rgba(37, 185, 204, 0.45)"); // TODO:: accure an error
         this.props.setShowLogoutIcon(true);
     }
 
@@ -43,7 +42,7 @@ class Dashboard extends Component {
                 <Grid fluid={true} className="grid">
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
-                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} >
+                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} mountOnEnter={false} unmountOnExit={true}>
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index} className="card">
                                     <Row padding={'0px 10px 0px 10px'}>
@@ -66,7 +65,8 @@ const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
         zoom: state.dashboardInfo.defaultZoom,
-        currLang: state.lang.currLang
+        currLang: state.lang.currLang,
+        parentId: state.reducerAccountInfo.parentId
     };
 };
 

@@ -8,11 +8,6 @@ import BarChartPanel from './BarChartPanel';
 
 // TODO: in top panel there supposed to be date state that will change the data for all sub components.
 class TopPanel extends Component {
-        //Gets all the labels.
-    constructor(props) {
-        super(props);
-        // this.props.setDate([1524472883410, 1525166748869]);
-    }
     render(){
         return(
             <Row style={{height: 54 + 'vh'}}>

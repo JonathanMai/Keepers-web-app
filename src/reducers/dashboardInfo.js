@@ -9,35 +9,42 @@ const initialState = {
     datesText: "",
     activeDates: 0,
     isOneDay: true,
-    defaultZoom: 16
+    defaultZoom: 16,
+    updateData: [] // [line chart, bar chart, msg heads, map, battery]
 };
 
 const dashboardInfo = (state = initialState, action) => {
+    let newUpdateData;
     switch(action.type) {
         case "SET_CHILDRENS":
             return {
                 ...state,
-                childrens: action.value
+                childrens: action.value,
+                updateDate: [new Array(action.value.length), new Array(action.value.length), new Array(action.value.length), false, false]
             };
         case "SET_TAB":
             return{
                 ...state,
-                currTab: action.value
+                currTab: action.value,
+                updateData: [false, false, false, false, false]
             }
         case "SET_DATES":
-            console.log(action.value);
             let difference = moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days');
             let isSame = moment(action.value[0]).startOf('day').isSame(moment(action.value[1]).startOf('day'));
-            // if(!action.value[0].isSame(action.value[1]) && difference === 1)
-            //     difference += 1;
-            // console.log(moment(action.value[1]).startOf('day').diff(moment(action.value[0]).startOf('day'), 'days'));
-
+            let newUpdateData = state.updateData;
+            newUpdateData[0] = false;
+            newUpdateData[1] = false;
+            newUpdateData[2] = false;
+            // for(let i = 0; i < state.childrens.length; i++) {
+            //     newUpdateData[0][i] = newUpdateData[1][i] = newUpdateData[2][i] = false;
+            // }
             return {
                 ...state,
                 startDate: moment(action.value[0]).startOf('day'),
                 endDate: moment(action.value[1]).endOf('day'),
                 datesRange: difference,
-                isOneDay: isSame
+                isOneDay: isSame,
+                updateData: newUpdateData
             };
         case "SET_TEXT":
             return {
@@ -53,6 +60,13 @@ const dashboardInfo = (state = initialState, action) => {
             return {
                 ...state,
                 defaultZoom: action.value
+            };
+        case "SET_UPDATE":
+            let update = state.updateData;
+            update[action.value] = true;
+            return {
+                ...state,
+                updateData: update
             };
         default: 
             return state;

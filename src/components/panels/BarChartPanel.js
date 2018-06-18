@@ -8,18 +8,24 @@ class BarChartPanel extends Component {
 
     
     constructor(props) {
-        super(props);
+        super(props);        
         this.state = {
             dataAssigned: false,
             labels: [],
             dataSet: [],
             timeType: 'm'
         }
+    }
+
+    componentDidMount() {
         this.getUsageStatistics(this.props);
     }
 
-    componentWillReceiveProps(props) {
-        this.getUsageStatistics(props);
+    componentDidUpdate() {
+        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[1]){
+            this.props.setUpdate(1);
+            this.getUsageStatistics();
+        }
     }
 
     render() {
@@ -28,8 +34,7 @@ class BarChartPanel extends Component {
 
     // Gets the child usage data - how many hours he spent and in what.
     getUsageStatistics(props) {
-        // let child = props.childId; // Gets the child id.
-        GetUsageStatistics(props.childId).then(res => {  // When respond package is with status 200
+        GetUsageStatistics(this.props.childrens[this.props.childIndex].id).then(res => {  // When respond package is with status 200
             this.buildChartData(res.data);
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error);
@@ -51,19 +56,19 @@ class BarChartPanel extends Component {
         }) ;
 
         let tempData = [];
+
         Object.keys(apps).map((appName) => {
-            console.log(apps[appName])
             let difference = apps[appName];
             tempData.push({appName: appName, count: difference});
-        });        
+        });
+
         let dataSet = [];
         let labels = [];
         [].concat(tempData)
         .sort((a, b) => a.count === b.count ? a.appName > b.appName  : a.count < b.count)
         .map((item, i) => {
-            console.log(item)
-                labels.push(item.appName);
-                dataSet.push(type === "m" ? item.count : item.count/60);
+            labels.push(item.appName);
+            dataSet.push(type === "m" ? item.count : item.count/60);
         });
         this.setState({
             ...this.state,
@@ -79,8 +84,22 @@ const mapStateToProps = (state) => {
     return {
         childrens: state.dashboardInfo.childrens,
         startDate: state.dashboardInfo.startDate,
-        range: state.dashboardInfo.datesRange
+        range: state.dashboardInfo.datesRange,
+        update: state.dashboardInfo.updateData,
+        currChild: state.dashboardInfo.currTab
     };
-  };
+};
 
-export default connect(mapStateToProps)(BarChartPanel);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUpdate: (val) => {
+            dispatch({
+                type: "SET_UPDATE",
+                value: val
+            });
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BarChartPanel);
+

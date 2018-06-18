@@ -11,9 +11,12 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.changeTerms = this.changeTerms.bind(this);
-        props.setAgreement(false);
-
     }
+    
+    componentDidMount() {
+        this.props.setAgreement(false);
+    }
+
     render() {
         return (
         <div>

@@ -76,54 +76,17 @@ class MyMap extends Component {
       kidsLocation: [],
       point: {}
     };
-    setInterval(this.getKidsCurrLocation.bind(this), 60000 * 5);
   }
-
+  
   componentWillMount() {
+    setInterval(this.getKidsCurrLocation.bind(this), 60000 * 5);
     this.getKidsCurrLocation();
   }
 
   getKidsCurrLocation() {
 		let curr =  moment().subtract(3, 'hours');
-
     for(let i = 0; i < this.props.childrens.length; i++){ // for each kid 
-		// while(this.getCurrentLocation(this.props.childrens[i].id,) === -1){ 
-			// if(curr < moment().subtract(day)) {
-      // curr = curr.subtract(1, 'day');
-      // if(i === 0)
-        this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
-      
-      // else {
-      //   let kidsLocation = this.state.kidsLocation;
-      //   kidsLocation[i] =  {address: "הכתובת לא קיימת", childId: 841, dateCreated: 1528975592000, latitude: 31.7692, longitude: 35.1937}
-      //     this.setState({
-      //       ...this.state,
-      //       kidsLocation: kidsLocation,
-      //       point: {
-      //         lat: 31.7692,
-      //         lon: 35.1937
-      //       }
-      //     });
-      //   }
-
-			// if(data === -1 && data === undefined) {
-			//     i = i-1;
-			// }
-			// else {
-			//     kidsLocation[i] = data[0];
-			//     let newLocation = {
-			//         lat: data[0].latitude,
-			//         lon: data[0].longitude
-			//     };
-
-			//     this.setState({
-			//         ...this.state,
-			//         kidsLocation: kidsLocation,
-			//         point: newLocation
-			//   });
-			// }
-			// }
-		// }
+      this.getCurrentLocation(this.props.childrens[i].id, curr.subtract(7, 'day'), i);
 		}
   }
   
