@@ -11,13 +11,6 @@ import '../../styles/footer.css';
 
 class Dashboard extends Component {
 
-    handleTabSelect(key) {
-        this.props.setCurrTab(key);
-        let zoom;
-        this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
-        this.props.setZoom(zoom);
-    }
-
     componentDidMount() {
         if(this.props.parentId !== null) {
             GetAllChildren().then(res => {  // When respond package is with status 200
@@ -35,14 +28,20 @@ class Dashboard extends Component {
         this.props.setShowLogoutIcon(true);
     }
 
+    handleTabSelect(key) {
+        this.props.setCurrTab(key);
+        let zoom;
+        this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
+        this.props.setZoom(zoom);
+    } 
 
     render() {
-        return  (   this.props.childrens.length == 0 ? this.props.currLang.children_not_found :             
+        return  (             
             <div>
                 <Grid fluid={true} className="grid">
                         <ul className="tabs-nav nav navbar-nav navbar-left" >
                         </ul>
-                        <Tabs defaultActiveKey={0} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} mountOnEnter={false} unmountOnExit={true}>
+                        <Tabs defaultActiveKey={this.props.currTab} id="Dashboard_tabs" border={0} onSelect={this.handleTabSelect.bind(this)} animation={true} mountOnEnter={false} unmountOnExit={true}>
                             { this.props.childrens.map((child,index) => 
                                 <Tab key={index} title={child.name} eventKey={index} className="card">
                                     <Row padding={'0px 10px 0px 10px'}>
@@ -59,6 +58,8 @@ class Dashboard extends Component {
             </div>
         );
     }
+
+    
 }
 
 const mapStateToProps = (state) => {
@@ -66,7 +67,8 @@ const mapStateToProps = (state) => {
         childrens: state.dashboardInfo.childrens,
         zoom: state.dashboardInfo.defaultZoom,
         currLang: state.lang.currLang,
-        parentId: state.reducerAccountInfo.parentId
+        parentId: state.reducerAccountInfo.parentId,
+        currTab: state.dashboardInfo.currTab
     };
 };
 
