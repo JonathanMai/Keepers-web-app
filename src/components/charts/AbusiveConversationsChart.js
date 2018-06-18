@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import React from 'react';
+import { Line } from 'react-chartjs-2';
 
+/*
+    Abusive conversation chart draws a chart of the word count statistics.
+    In the chart the user can see the number of offensive words sent/received by his child.
+    The words are calssified as easy/medium/harsh words.
+*/
 var AbusiveConversationsChart = (props) => {
     let line = 
         <div className="chart" style={{position: "relative", height:"100%", width:"inherit"}}>
             <Line
                 id="line"
                 data={{
-                    labels: props.labels,
+                    labels: props.labels, // x labels.
                     datasets:[
-                        // Level 1 words - lowest words
+                        // Words callsified as easy level.
                         {
-                            label:['level 1'],
+                            label:["Easy"],
                             data: props.data[0],
                             borderColor: 'rgb(255, 230, 100)',
                             pointRadius: 6,
@@ -19,9 +24,9 @@ var AbusiveConversationsChart = (props) => {
                             pointBorderColor: 'rgb(255, 255, 255)',
                             pointBorderWidth: 2
                         },
-                        // Level 2 words - medium words
+                        // Words callsified as medium level.
                         {
-                            label:['level 2'],
+                            label:["Medium"],
                             data: props.data[1],
                             borderColor: 'rgb(255, 128, 0)',
                             pointRadius: 6,
@@ -30,9 +35,9 @@ var AbusiveConversationsChart = (props) => {
                             pointBorderWidth: 2
 
                         },
-                        // Level 3 words - worst words
+                        // Words callsified as harsh level.
                         {                 
-                            label:['level 3'],
+                            label:["Harsh"],
                             data: props.data[2],
                             borderColor: 'rgb(255, 0, 0)',
                             pointRadius: 6,
@@ -43,10 +48,8 @@ var AbusiveConversationsChart = (props) => {
                         }
                     ],
                 }}
-                backgroundColor={"transperant"}
                 options={{
-                    // scaleLabel: "fuck",
-                    title: {display: false},
+                    title: {display: false}, // no title for the chart.
                     elements: {
                         line: {
                             tension: 0.5, // disables bezier curves
@@ -55,15 +58,16 @@ var AbusiveConversationsChart = (props) => {
                             borderWidth: 1
                         }
                     },
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: false, // Helps making the chart responsive
                     animation: {
-                        duration: 100,
-                        easing: 'easeInCubic'
+                        duration: 500,
+                        easing: 'linear'
                     },
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                callback: (value) =>{if(Number.isInteger(value)) return (value)} // returns the y tick label only if its a whole number.
                             }
                         }],
                         xAxes: [{
@@ -72,6 +76,8 @@ var AbusiveConversationsChart = (props) => {
                             }
                         }]
                     },
+
+                    // Tooltip options
                     tooltips: {
                         titleFontColor: "rgb(0, 0, 0)",
                         intersect: false,
@@ -84,10 +90,8 @@ var AbusiveConversationsChart = (props) => {
                         caretSize: 0,
                         mode: 'index'
                     },
-                    callbacks: {
-                        title: function() {},
-                        label: (tooltipItem, data) => this.getTooltipLabel(tooltipItem)
-                    },
+
+                    // Disables the legend.
                     legend: {
                         display: false
                     },
