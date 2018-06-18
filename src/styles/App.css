@@ -1,6 +1,6 @@
 /* Set the background image for all browsers */
 body {
-  background: url("../assets/Background.png") no-repeat center center fixed;
+  background: url("../assets/main/Background.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -21,7 +21,7 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: black;
   -webkit-box-shadow: 0 0 0px 1000px #5a171700 inset;
   box-shadow: 0 0 0px 1000px #5a171700 inset;
-  transition: transparent 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /*  Removes the blue border after click on select, button, textarea or input */

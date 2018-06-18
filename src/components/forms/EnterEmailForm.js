@@ -3,8 +3,8 @@ import { Form, Button, Grid, Image} from 'react-bootstrap';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
 import { SendRestartCode } from '../../serviceAPI';
 import { connect } from 'react-redux';
-import disableSubmitBtn from '../../assets/submit_disabled.png';
-import submitBtn from '../../assets/submit_ok.png';
+import disableSubmitBtn from '../../assets/login/submit_disabled.png';
+import submitBtn from '../../assets/login/submit_ok.png';
 import '../../styles/reset_password.css';
 
 /*

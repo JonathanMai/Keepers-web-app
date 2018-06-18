@@ -32,7 +32,7 @@
 }
 
 .main {
-    background: url("../assets/Background-image.png") no-repeat center center; 
+    background: url("../assets/main/Background-image.png") no-repeat center center; 
     -webkit-background-size: 20vh;
     -moz-background-size: 20vh;
     -o-background-size: 20vh;

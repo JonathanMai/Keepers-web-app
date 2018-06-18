@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from "recompose";
 import { GetLocation } from '../serviceAPI';
 import moment from 'moment';
-import markerIcon from'../assets/marker.png';
+import markerIcon from'../assets/map/marker.png';
 import {
   withScriptjs,
   withGoogleMap,

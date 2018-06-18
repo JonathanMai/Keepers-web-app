@@ -1,7 +1,7 @@
 import React from 'react';
 import RestoreForm from '../forms/RestorePasswordForm';
 import EnterEmailForm from '../forms/EnterEmailForm';
-import wave from '../../assets/Wave_main.png';
+import wave from '../../assets/login/Wave_main.png';
 import { Image } from 'react-bootstrap';
 
 class RestartPasswordPage extends React.Component {

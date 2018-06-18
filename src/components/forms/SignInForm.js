@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
 import '../../styles/login_page.css';
-import submitBtn from '../../assets/submit_ok.png';
-import disableSubmitBtn from '../../assets/submit_disabled.png';
-import openEye from '../../assets/open_eye.png';
-import closedEye from '../../assets/closed_eye.png';
+import submitBtn from '../../assets/login/submit_ok.png';
+import disableSubmitBtn from '../../assets/login/submit_disabled.png';
+import openEye from '../../assets/login/open_eye.png';
+import closedEye from '../../assets/login/closed_eye.png';
 import { WaitingModal } from '../modals/WaitingModal';
 
 /*

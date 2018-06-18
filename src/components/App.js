@@ -3,7 +3,7 @@ import RoutersList from './RoutersList';
 import store from '../store';
 import { Provider } from 'react-redux';
 import Banner from '../components/panels/Banner';
-import './App.css';
+import '../styles/App.css';
 
 // This is the main component called once from index.js
 class App extends Component {
