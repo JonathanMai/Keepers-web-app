@@ -4,16 +4,18 @@ import moment from 'moment';
 import { GetUsageStatistics } from '../../serviceAPI';
 import UsageTimeChart from '../charts/UsageTimeChart';
 
+/*
+    Bar chart panel get all the usage information needed.
+    Getting and parsing all the usage data and sends it to usage time chart.
+*/
 class BarChartPanel extends Component {
-
-    
     constructor(props) {
         super(props);        
         this.state = {
-            dataAssigned: false,
-            labels: [],
-            dataSet: [],
-            timeType: 'm'
+            dataAssigned: false,    // holds a boolean that indicate if the new data was assigned.
+            labels: [],             // bar labels - used in the bar chart.
+            dataSet: [],            // the data that we show on chart. 
+            timeType: 'm'           // type of the data(in minutes or hours)
         }
     }
 
@@ -28,28 +30,25 @@ class BarChartPanel extends Component {
         }
     }
 
-    render() {
-        return (this.state.dataAssigned && <UsageTimeChart style={{height: 'inherit'}} labels={this.state.labels} data={this.state.dataSet} type={this.state.timeType}/>);
-    }
-
-    // Gets the child usage data - how many hours he spent and in what.
-    getUsageStatistics(props) {
-        GetUsageStatistics(this.props.childrens[this.props.childIndex].id).then(res => {  // When respond package is with status 200
-            this.buildChartData(res.data);
-        }).catch(error => { // When respond package is with error status - 400 ...
+     // gets the child usage data - how many hours he spent and in what.
+    getUsageStatistics() {
+        GetUsageStatistics(this.props.childrens[this.props.childIndex].id).then(res => {  // when respond package is with status 200
+            this.buildChartData(res.data);// parse data
+        }).catch(error => { // when respond package is with error status - 400 ...
             console.log(error);
         });
     }
 
-    // Creates the data.
+    // parsing the data we recieved from keepers server.
+    // gets the data and put the parsed data to state data set.
     buildChartData(data) {
-        let type = 'm';
-        let apps = []
+        let type = 'm'; // default show type - in minutes.
+        let apps = [];
         data.map((usageData) => {
             let difference = moment(usageData.endTime).diff(moment(usageData.startTime), 'minutes');
-            if(difference >= 60) type = 'h';
+            if(difference >= 60) type = 'h'; // change type when there is an app with more then 60 minutes use.
             let appName = usageData.appName;
-            if(apps[appName] === undefined) {
+            if(apps[appName] === undefined) { // checks if app name already has a data set.
                 apps[appName] = 0
             }
             apps[appName] += difference;
@@ -57,6 +56,7 @@ class BarChartPanel extends Component {
 
         let tempData = [];
 
+        // arrange the data and app name in object.
         Object.keys(apps).map((appName) => {
             let difference = apps[appName];
             tempData.push({appName: appName, count: difference});
@@ -64,6 +64,8 @@ class BarChartPanel extends Component {
 
         let dataSet = [];
         let labels = [];
+        
+        // sorts the data by size and name.
         [].concat(tempData)
         .sort((a, b) => a.count === b.count ? a.appName > b.appName  : a.count < b.count)
         .map((item, i) => {
@@ -78,18 +80,24 @@ class BarChartPanel extends Component {
             dataAssigned: true
         });
     }
+
+    render() {
+        return (this.state.dataAssigned && <UsageTimeChart style={{height: 'inherit'}} labels={this.state.labels} data={this.state.dataSet} type={this.state.timeType}/>); // shows the usage chart when there is data assigned.
+    }
 }
 
+// redux variables.
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,
-        startDate: state.dashboardInfo.startDate,
-        range: state.dashboardInfo.datesRange,
-        update: state.dashboardInfo.updateData,
-        currChild: state.dashboardInfo.currTab
+        childrens: state.dashboardInfo.childrens,    // gets information of all childrens of the user through redux.
+        startDate: state.dashboardInfo.startDate,    // gets the start date the user looking for the information to start from throguh redux.
+        range: state.dashboardInfo.datesRange,       // gets the range of the dates the user picked to see the data.
+        update: state.dashboardInfo.updateData,      // gets the state of the component - if need to get the data.
+        currChild: state.dashboardInfo.currTab       // gets the current children tab user at.
     };
 };
 
+// redux functions.
 const mapDispatchToProps = (dispatch) => {
     return {
         setUpdate: (val) => {
