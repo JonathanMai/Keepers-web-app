@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import SignInForm from '../forms/SignInForm';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Image } from 'react-bootstrap';
-import '../../styles/login_page.css';
 import wave from '../../assets/login/Wave_main.png';
 import emptyV from '../../assets/login/empty_v.png';
 import fullV from '../../assets/login/full_v.png';
-import { connect } from 'react-redux';
+import '../../styles/login_page.css';
 
+/*
+    This is the main login page it called once from the router when the path is /login.
+    It has grid layout of title, form and buttom checkbox with terms. 
+    It has history in props from router component.
+*/
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +19,7 @@ class LoginPage extends Component {
     }
     
     componentDidMount() {
-        this.props.setAgreement(false);
+        this.props.setAgreement(false); // set the checkbox to be unchecked.
     }
 
     render() {
@@ -42,21 +47,25 @@ class LoginPage extends Component {
         </div>);
     }
 
+    // checkbox on change event occur
     changeTerms() {
-        this.props.setAgreement(!this.props.agreement);
+        this.props.setAgreement(!this.props.agreement); // if was checked -> uncheck it, else check it
     }
 }
 
+// variables from redux
 const mapStateToProps = (state) => {
     return {
-        agreement: state.reducerA.agreement,
-        currLang: state.lang.currLang.login_page
+        agreement: state.reducerA.agreement,        // set the checkbox state checked or unchecked
+        currLang: state.lang.currLang.login_page    // the current language of the application
     };
 };
 
+// function from redux
 const mapDispatchToProps = (dispatch) => {
     return {
         setAgreement: (val) => {
+            // val is boolean -> update the state of terms checkbox
             dispatch({
                 type: "SET_AGREEMENT",
                 value: val
@@ -64,6 +73,5 @@ const mapDispatchToProps = (dispatch) => {
         }
     };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

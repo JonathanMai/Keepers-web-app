@@ -2,6 +2,11 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 import '../../styles/waitingModal.css';
 
+/*
+    This is stateless component for loading modal.
+    It gets onShow and onHide functions from props and style
+    the modal with loading animation circle. 
+*/
 export const WaitingModal = (props) =>  {
         return (
             <Modal
@@ -17,7 +22,6 @@ export const WaitingModal = (props) =>  {
                 </Modal.Dialog>
             </Modal>
         );
-
 };
 
 
