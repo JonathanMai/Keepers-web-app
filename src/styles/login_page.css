@@ -17,13 +17,8 @@
 .intro_text {
     font-size: 9vh;
     text-align: left;
-    /* padding-left: 120px; */
-
-    /* letter-spacing: -4px; */
     color: rgb(37, 185, 204);
     font-family: "OpenSans-Light";
-    /* margin: 0px; */
-
 }
 
 .terms {
@@ -64,22 +59,18 @@
     vertical-align: middle;
 }
 
-/* .banner {
-    position: relative !important;
-} */
-
 .paper-input-bar, .has-error-text {
     margin: 0px;
 }
 
-/* On screens that are 600px or less*/
+/* On screens that are 1320px or less in width */
 @media screen and (max-width: 1320px) {
     .intro_text {
         font-size: 5vw;
     }
 }
 
-/* On screens that are 110px or less */
+/* On screens that are 1200px or less in height */
 @media screen and (max-height: 1200px) {
     .invite {
         left: 60px;
@@ -93,7 +84,7 @@
     }
 }
 
-/* On screens that are 110px or less */
+/* On screens that are 1100px or less in height */
 @media screen and (max-height: 1100px) {
     .terms {
         bottom: 15px;
@@ -104,7 +95,7 @@
     }
 }
 
-/* On screens that are 110px or less */
+/* On screens that are 1020px or less in height */
 @media screen and (max-height: 1020px) {
     .terms {
         bottom: 10px;
@@ -115,18 +106,50 @@
     }
 }
 
-/* On screens that are 992px or less */
+/* On screens that are 664px or less in height */
 @media screen and (max-height: 664px) {
     .intro_text {
         font-size: 10vh;
     }
 }
 
-/* On screens that are 992px or less */
+/* On screens that are 640px or less in height */
+@media screen and (max-aspect-ratio: 1/1) and (min-height: 640px) {
+    .login_page_row {
+        margin-top: 15; 
+        height: 80vh;
+    }
+    
+    .login_page_container {
+        display: table;
+        margin :0 auto;
+    }
+    
+    .login_page_mid {
+        display: block;
+    }
+    
+    .intro_text {
+        text-align: center;
+        margin-top: 24px;
+        padding-left: 0px;
+    }
+
+    #login_page_form {
+        height: auto;
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        width: 80%;
+    }
+}
+
+/* On screens that are 485px or less in height */
 @media screen and (max-height: 485px) {
     .intro_text {
         font-size: 40px;
     }
+
     .terms {
         left: 20px;
     }
@@ -134,41 +157,9 @@
     .terms + span {
         left: 35px;
     }
-
 }
 
-  /* On screens that are 768px or less */
-@media screen and (max-width: 768px) {
-    .intro_text {
-        font-size: 48px;
-        text-align: center;
-    }
-    .login_page_container {
-        /* margin-top: 15px; */
-        height: auto;
-        width:100%;
-        /* display: none; */
-        position: relative;
-        /* padding-left: 0px; */
-    }
-}
-  
-  /* On screens that are 768px or less */
-  @media screen and (max-aspect-ratio: 1/1) {
-    .intro_text {
-        font-size: 48px;
-        /* padding-left: 0px; */
-    }
-    .login_page_container {
-        margin-top: 15px;
-        height: auto;
-        width:100%;
-        /* display: none; */
-        position: relative;
-    }
-}
-  
-
+/* On screens that are 900px or less in width */
 @media screen and (max-width: 900px) {
     .terms {
         left: 45px;
@@ -181,13 +172,44 @@
     }
 }
 
+/* On screens that are 768px or less in width */
+@media screen and (max-width: 768px) {
+    .intro_text {
+        font-size: 48px;
+        text-align: center;
+    }
+
+    .login_page_container {
+        height: auto;
+        width:100%;
+        position: relative;
+    }
+}
+  
+/* On screens that are aspect-ratio 1:1 */
+@media screen and (max-aspect-ratio: 1/1) {
+    .intro_text {
+        font-size: 48px;
+    }
+
+    .login_page_container {
+        margin-top: 15px;
+        height: auto;
+        width:100%;
+        position: relative;
+    }
+}
+  
+/* On screens that are 690px or less in width */
 @media screen and (max-width: 690px) {
     .intro_text {
         font-size: 42px;
     }
+
     .wave {
         height: 11%;
     }
+
     .terms {
         left: 25px;
         width: 13px;
@@ -213,17 +235,19 @@
     }
 }
 
+/* On screens that are 620px or less in width */
 @media screen and (max-width: 620px) {
     .intro_text {
         font-size: 41px;
     }
 }
 
-/* On screens that are 600px or less*/
+/* On screens that are 604px or less in width */
 @media screen and (max-width: 604px) {
     .intro_text {
         font-size: 40px;
     }
+
     .invite {
         left: 5vw;
         bottom: 2vw;
@@ -241,7 +265,7 @@
     }
 }
 
-/* On screens that are 600px or less*/
+/* On screens that are 540px or less in width */
 @media screen and (max-width: 540px) {
     .invite {
         left: 2vw;
@@ -257,41 +281,6 @@
     
     .modal_arrow {
         width: 8px;
-    }
-}
-
-
-/* On screens that are 768px or less */
-@media screen and (max-aspect-ratio: 1/1) and (min-height:640px){
-
-    .login_page_row {
-        margin-top: 15; 
-        height: 80vh;
-    }
-    
-    .login_page_container {
-        /* height: 40%; */
-        display: table;
-        margin :0 auto;
-    }
-    
-    .login_page_mid {
-        /* height: 120%; */
-        display: block;
-    }
-    
-    .intro_text {
-        text-align: center;
-        margin-top: 24px;
-        padding-left: 0px;
-    }
-
-    #login_page_form {
-        height: auto;
-        position: absolute;
-        top: 40%;
-        left: 10%;
-        width: 80%;
     }
 }
 

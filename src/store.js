@@ -4,6 +4,7 @@ import reducerAccountInfo from './reducers/reducerAccountInfo';
 import dashboardInfo from './reducers/dashboardInfo';
 import language from './reducers/language';
 
+// Create global store for redux
 const store = createStore(combineReducers({
     reducerA: reducerA,
     reducerAccountInfo: reducerAccountInfo,

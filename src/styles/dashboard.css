@@ -8,27 +8,22 @@
     border-bottom: 0px;
 }
 
-/* li{
-    padding-bottom: 20px;
-} */
-
-.nav-tabs>li.active>a {
+.nav-tabs > li.active > a {
     padding-bottom: 6px; 
     margin-top: 1px;   
 }
 
-.nav-tabs>li>a{ 
+.nav-tabs > li > a { 
     padding-bottom: 0px; 
     padding-top: 0px;
     margin-top: 8px;
     background: rgb(235, 234, 234);
 }
 
-.nav-tabs>li>a:hover{ 
+.nav-tabs > li > a:hover { 
     background: rgb(37, 185, 204);
     color:white; 
     border-color: rgb(37, 185, 204);
-
 }
 
 .grid {
