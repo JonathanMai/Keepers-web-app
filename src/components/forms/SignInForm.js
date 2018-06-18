@@ -78,6 +78,8 @@ class SignInForm extends React.Component {
                     {
                        this.state.name === undefined && <Link className="link" to={"/restore-password"}>{this.props.currLang.forgot_password}</Link>
                     }
+
+                    {/* Submit button - disabled until all inputs are valid and all fields are filled. */}
                     <Button className="btn_submit" disabled={this.disableButton()} type="submit"> 
                         <Image style={{width: 70 + 'px'}} src={this.disableButton() ? disableSubmitBtn : submitBtn} 
                             circle
