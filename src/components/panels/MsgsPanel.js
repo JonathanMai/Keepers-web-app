@@ -1,50 +1,59 @@
 import React, { Component } from 'react';
 import Box from '../Box';
-// import {Fade} from 'react-bootstrap';
 import { GetMessagesHeads, GetEntireMessage } from '../../serviceAPI';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Chat from '../pages/Chat';
 import '../../styles/messagesPanel.css';
-
+/*
+    Messages panel component, build the messages panel inside it, it has
+    message boxes of all dangerous conversations between the child and third party
+    user.
+*/
 class MsgsPanel extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            showEntireMessage: false,
-            messagesHeads: [],
-            childId: this.props.childrens[this.props.childIndex].id
+            showEntireMessage: false,   // default false to show entire message
+            messagesHeads: [],      // messages heads, at default its empty
+            childId: this.props.childrens[this.props.childIndex].id     // child id
         }
         this.buildMsgPanel = this.buildMsgPanel.bind(this);
         this.handleMessageSelect = this.handleMessageSelect.bind(this);
     }
 
+    // Ajax call get data from the server
     componentDidMount() {
         this.getMessagesHeads(this.props);
     }
 
     componentDidUpdate() {
-        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[2]){
+        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[2]) {
             this.props.setUpdate(2);
             this.getMessagesHeads(this.props);
         }
     }
 
     render() {
-        return (this.state.messagesHeads !== undefined && <div className="messagePanel" ref="messagePanel">{this.buildMsgPanel()}</div>);
+        return (
+            this.state.messagesHeads !== undefined &&   // if messages heads are defined build message panel
+            <div className="messagePanel" ref="messagePanel">
+                {this.buildMsgPanel()}
+            </div>
+        );
     }
 
+    // get the message heads from the server
     getMessagesHeads(props) {
-        let messagesHeads = [];
-        this.addPageToArray(messagesHeads, 0, props, props.startDate, props.endDate);
+        let messagesHeads = [];     // empty array
+        this.addPageToArray(messagesHeads, 0, props, props.startDate, props.endDate);   // fill the array from the server resonse
     }
-        
+    
+    // Async server call get the messages heads from the server
     addPageToArray(messagesHeads, page, props, from, to) {
         GetMessagesHeads(this.state.childId, from, to.endOf('day'), page).then(res => {  // When respond package is with status 200
             if(res.data.length > 0) {
                 res.data.forEach(element => { 
-                    let key = moment(element.time).format("YY-MM-DD");
                     messagesHeads.push(element);
                 });
                 this.addPageToArray(messagesHeads, page+1, props, from, to);
@@ -59,40 +68,43 @@ class MsgsPanel extends Component {
             console.log(error);
         });
     }
-        
+    
+    // get the entire message of message id and set the state
     handleMessageSelect(message) {
         GetEntireMessage(this.state.childId, message.id).then(res => {  // When respond package is with status 200
-            this.setState({
+            this.setState({     // update the state
                 ...this.state,
-                showEntireMessage: true,
+                showEntireMessage: true,  
                 message: message,
                 chat: res.data
             });
-            
-            this.buildMsgPanel(this.state.childId, message);
+            this.buildMsgPanel(this.state.childId, message);    // build the message panel
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error);
         });
     }
 
+    // build the message panel
     buildMsgPanel() {
         let messagePanel;
-        if(!this.state.showEntireMessage && this.state.messagesHeads.length > 0) {
-            messagePanel = this.state.messagesHeads.map((message, index) =>
+        if(!this.state.showEntireMessage && this.state.messagesHeads.length > 0) {  // if we dont want to see the entire message
+            messagePanel = this.state.messagesHeads.map((message, index) =>         // for each message create a message box.
                     this.buildMessageBox(this.state.childId, message, index)
             );
-        }
-
-        else if(this.state.showEntireMessage) {
+        } else if(this.state.showEntireMessage) {   // we do want to read all the chat about this message
             messagePanel = (
                 <div>
+                    {/* The the message box we clicked on */}
                     {this.buildMessageBox(this.state.childId,this.state.message)} 
-                    <Chat chatMessages={this.state.chat} childIndex={this.props.childIndex} chatTitle={moment(this.state.message.time).format("MMM, Do")} close={this.handleSelect.bind(this)}/>                    </div>
+                    {/* show the chat of that specific message */}
+                    <Chat chatMessages={this.state.chat} childIndex={this.props.childIndex} chatTitle={moment(this.state.message.time).format("MMM, Do")} close={this.handleSelect.bind(this)}/> 
+                </div>
             );
         }
         return messagePanel;
     }
 
+    // after we click close on show chat, update the state to see all the messages
     handleSelect() {
         this.setState({
             ...this.state,
@@ -102,24 +114,27 @@ class MsgsPanel extends Component {
         });
     }
 
+    // build the message box of message and send a reference to function to show entire message
     buildMessageBox(childId, message, index) {
         return <Box key={index} childId={childId} onClick={this.state.showEntireMessage === false ? this.handleMessageSelect : undefined} message={message}/>
     }
 }
 
+// variables of redux
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,
-        startDate: state.dashboardInfo.startDate,
-        endDate: state.dashboardInfo.endDate,
-        range: state.dashboardInfo.datesRange,
-        update: state.dashboardInfo.updateData,
-        currChild: state.dashboardInfo.currTab
+        childrens: state.dashboardInfo.childrens,   // all the children array
+        startDate: state.dashboardInfo.startDate,   // start date
+        endDate: state.dashboardInfo.endDate,       // end date
+        update: state.dashboardInfo.updateData,     // check if we need to upate the component
+        currChild: state.dashboardInfo.currTab      // current child tab
     };
   };
 
+// functions of redux 
 const mapDispatchToProps = (dispatch) => {
     return {
+        // update the update variable to force/cancel the component update
         setUpdate: (val) => {
             dispatch({
                 type: "SET_UPDATE",
