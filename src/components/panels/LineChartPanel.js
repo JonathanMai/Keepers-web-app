@@ -74,7 +74,6 @@ export class LineChartPanel extends Component {
                     label += moment(tempDay).format("MMM Do").toString(); // by day for all else.
                 }
                 labels[i] = label; 
-                this.insertTickVal(tickVals, label, range, i);
                 GetMessagesStatistics(this.props.childrens[this.props.childIndex].id, startTime, endTime).then(res => {  // When respond package is with status 200
                     let result = res.data;
                     countEasy[i] = parseInt(result.easyCount); // easy count.
