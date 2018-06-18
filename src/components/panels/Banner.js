@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Image } from 'react-bootstrap';
 import { LogOut } from '../../serviceAPI';
-import logoutImg from '../../assets/logout.png';
-import logoShare from '../../assets/Share-icon.png'; 
-import logoChat from '../../assets/Home-icon.png'; 
-import closeBtn from '../../assets/close.png'; 
+import logoutImg from '../../assets/banner/logout.png';
+import logoShare from '../../assets/banner/Share-icon.png'; 
+import logoChat from '../../assets/banner/Home-icon.png'; 
+import closeBtn from '../../assets/banner/close.png'; 
 import '../../styles/banner.css';
 /*
     Banner component - in login screen it contains only choose language option.

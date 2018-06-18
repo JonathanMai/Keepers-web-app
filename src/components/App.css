@@ -1,6 +1,6 @@
 /* Set the background image for all browsers */
 body {
-  background: url("../assets/Background.png") no-repeat center center fixed;
+  background: url("../assets/main/Background.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

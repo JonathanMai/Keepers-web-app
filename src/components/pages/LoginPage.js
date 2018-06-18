@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import SignInForm from '../forms/SignInForm';
 import { Grid, Row, Col, Image } from 'react-bootstrap';
 import '../../styles/login_page.css';
-import wave from '../../assets/Wave_main.png';
-import emptyV from '../../assets/empty_v.png';
-import fullV from '../../assets/full_v.png';
+import wave from '../../assets/login/Wave_main.png';
+import emptyV from '../../assets/login/empty_v.png';
+import fullV from '../../assets/login/full_v.png';
 import { connect } from 'react-redux';
 
 class LoginPage extends Component {

@@ -6,11 +6,11 @@ import React, { Component } from 'react';
 import { Form, Button, Grid, Image} from 'react-bootstrap';
 import FloatingLabelInput from "react-floating-label-paper-input"; 
 import '../../styles/reset_password.css';
-import submitBtn from '../../assets/submit_ok.png';
-import disableSubmitBtn from '../../assets/submit_disabled.png';
+import submitBtn from '../../assets/login/submit_ok.png';
+import disableSubmitBtn from '../../assets/login/submit_disabled.png';
 import { ResetPassword } from '../../serviceAPI';
-import openEye from '../../assets/open_eye.png';
-import closedEye from '../../assets/closed_eye.png';
+import openEye from '../../assets/login/open_eye.png';
+import closedEye from '../../assets/login/closed_eye.png';
 import { connect } from 'react-redux';
 
 class RestoreForm extends Component {
