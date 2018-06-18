@@ -10,26 +10,29 @@ import b70 from '../../assets/battery/70%.png';
 import b40 from '../../assets/battery/40%.png';
 import b15 from '../../assets/battery/15%.png';
 
+/*
+    Bottom panel component, It has google maps component inside it and battery level indicator. 
+ */
 class BottomPanel extends Component {
     constructor(props) {
         super(props);
-        this.getBatteryColor = this.getBatteryColor.bind(this);
-        this.getBatteryImageIndex = this.getBatteryImageIndex.bind(this);
-        let initBatteryLevel = [37, 94, 8];
+        let initBatteryLevel = [74, 51, 38];    // array of init battery levels 
         this.state = {
             batteryLevel: initBatteryLevel,
-            color: this.getBatteryColor(initBatteryLevel),
             batteryImages: [b100, b95, b70, b40, b15],
             bIndex: [this.getBatteryImageIndex(initBatteryLevel[0]), this.getBatteryImageIndex(initBatteryLevel[1]), this.getBatteryImageIndex(initBatteryLevel[2])]
         }
+        this.getBatteryImageIndex = this.getBatteryImageIndex.bind(this);
     }
 
     render(){
         return(
             <div className="card" style={{height: 29 + 'vh', padding: 10, marginTop: 10}}>
+                {/* google maps component */ }
                 <Col xs={10} style={{padding: 0, height: 'auto'}}>
-                    <MyMap />
+                    <MyMap /> 
                 </Col>   
+                {/* battery level indicator */ }
                 <Col xs={2} style={{ padding: 0, height: '-webkit-fill-available'}}>
                     <div style={{height: '-webkit-fill-available', marginLeft: 10, padding: 5, textAlign: "center"}}>
                         <p style={{color: this.state.color}} className="battery_usage"> {this.props.currLang.batteryState} </p>
@@ -44,24 +47,8 @@ class BottomPanel extends Component {
             </div>
         );
     }
-        
 
-        // setInterval(() => {
-        //     let level = this.state.batteryLevel;
-        //     if(level <= 0) {
-        //         level = 100;
-        //     }
-        //     let color = this.getBatteryColor(level);
-        //     let index = this.getBatteryImageIndex(level);
-        //     this.setState({
-        //         ...this.state,
-        //         batteryLevel: level - 1,
-        //         color: color,
-        //         bIndex: index
-        //     });
-        // }, 2000);
-    
-
+    // returns the index of the images that describes the battery level
     getBatteryImageIndex(level) {
         if(level > 95 && level <= 100) {
             return 0;
@@ -75,26 +62,13 @@ class BottomPanel extends Component {
             return 4;
         }
     }
-
-    getBatteryColor(level) {
-        if(level > 50 && level <= 100) {
-            return "green";
-        }
-        else if(level > 15 && level <= 50) {
-            return "orange";
-        }
-        else if(level <= 15) {
-            return "red";
-        }
-    }
-
 }
 
+// variable from redux
 const mapStateToProps = (state) => {
     return {
-        childrens: state.dashboardInfo.childrens,
-        currKid: state.dashboardInfo.currTab,
-        currLang: state.lang.currLang
+        currKid: state.dashboardInfo.currTab,   // current child active tab
+        currLang: state.lang.currLang           // current language of the application
     };
 };
 
