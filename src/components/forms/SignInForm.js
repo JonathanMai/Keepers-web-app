@@ -329,7 +329,7 @@ const mapStateToProps = (state) => {
         showRegisterModal: state.Modal.showModal, // register modal - popup with register option when email entered doesn't exist.
         showWaitingModal: state.Modal.showLoadingModal, // loading modal.
         agreement: state.Modal.agreement, // agreement checkbox
-        currLang: state.lang.currLang.login_page, // use language from redux - here lets the texts the option to change all page languages.
+        currLang: state.DisplayLanguage.currLang.login_page, // use language from redux - here lets the texts the option to change all page languages.
     };
 };
 

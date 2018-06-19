@@ -19,7 +19,7 @@ const initialState = {
     updateData: [false, false, false]       // [line chart, bar chart, msg heads]
 };
 
-const dashboardInfo = (state = initialState, action) => {
+const DashboardInfo = (state = initialState, action) => {
     let newUpdateData;
     switch(action.type) {
         // set the array of children from ajax call
@@ -92,4 +92,4 @@ const dashboardInfo = (state = initialState, action) => {
     }
 };
 
-export default dashboardInfo;
+export default DashboardInfo;
