@@ -61,15 +61,15 @@ class MsgsPanel extends Component {
     }
     
     // get the entire message of message id and set the state
-    handleMessageSelect(message) {
-        GetEntireMessage(this.state.childId, message.id).then(res => {  // When respond package is with status 200
+    handleMessageSelect(childId, message) {
+        GetEntireMessage(childId, message.id).then(res => {  // When respond package is with status 200
             this.setState({     // update the state
                 ...this.state,
                 showEntireMessage: true,  
                 message: message,
                 chat: res.data
             });
-            this.buildMsgPanel(this.state.childId, message);    // build the message panel
+            this.buildMsgPanel(childId, message);    // build the message panel
         }).catch(error => { // When respond package is with error status - 400 ...
             console.log(error);
         });
@@ -86,7 +86,7 @@ class MsgsPanel extends Component {
             messagePanel = (
                 <div>
                     {/* The the message box we clicked on */}
-                    {this.buildMessageBox(this.state.childId,this.state.message)} 
+                    {this.buildMessageBox(this.state.childId, this.state.message)} 
                     {/* show the chat of that specific message */}
                     <Chat chatMessages={this.state.chat} childIndex={this.props.childIndex} chatTitle={moment(this.state.message.time).format("MMM, Do")} close={this.handleSelect.bind(this)}/> 
                 </div>

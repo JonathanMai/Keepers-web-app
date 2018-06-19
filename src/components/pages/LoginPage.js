@@ -48,6 +48,7 @@ class LoginPage extends Component {
                     <Image className="terms" onClick={this.changeTerms} src={this.props.agreement ? fullV : emptyV} />
                     <span> {this.props.currLang.i_accept} 
                         <u><a href="https://www.keeperschildsafety.net/eula" target="_blank" rel="noopener noreferrer">
+                            {" "}
                             {this.props.currLang.terms}
                         </a></u> 
                     </span>

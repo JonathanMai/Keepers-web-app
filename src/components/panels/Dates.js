@@ -155,6 +155,8 @@ class Dates extends Component {
             case 2:
                 this.props.setDate([moment(this.props.startDate).subtract(1, 'month').startOf('month'), moment(this.props.startDate).subtract(1, 'month').endOf('month')]);
                 break;
+            default: 
+                break;
         }
     }
 
@@ -182,6 +184,8 @@ class Dates extends Component {
                 newStart = start.add(1, 'month');
                 if(currDate.diff(newStart) >= 0)
                     this.props.setDate([newStart, currDate.diff(moment(newStart).endOf('month').endOf('day')) > 0 ? moment(newStart).endOf('month').endOf('day') : currDate]);
+                break;
+            default:
                 break;
             }
         }
