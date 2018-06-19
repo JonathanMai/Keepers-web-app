@@ -5,6 +5,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Chat from '../pages/Chat';
 import '../../styles/messagesPanel.css';
+
 /*
     Messages panel component, build the messages panel inside it, it has
     message boxes of all dangerous conversations between the child and third party
@@ -100,8 +101,8 @@ class MsgsPanel extends Component {
         this.setState({
             ...this.state,
             showEntireMessage: false,
-            childId: 0,
-            message: 0
+            childId: this.state.childId,
+            message: this.state.message
         });
     }
 
