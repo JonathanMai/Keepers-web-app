@@ -258,11 +258,17 @@ class Dates extends Component {
 // arrows statless component.
 // the arrows shown around the button - let the user rewind/forward dates.
 function Arrows(props) {
-    props.startDate.locale(props.lang);
-    moment(props.endDate).locale(props.lang);
-    let text = moment(props.startDate).format("MMM") + " - " + moment(props.startDate).format("ddd DD");
+    // props.startDate.locale(props.lang);
+    // moment(props.endDate).locale(props.lang);
+    console.log(props)
+    let start = moment(props.startDate);
+    let end = moment(props.endData);
+    start.locale(props.lang);
+    end.locale(props.lang);
+    let text = start.format("MMM - ddd DD") ;
     if(!props.isOneDay) {
-        text += " - " + moment(props.endDate).format("ddd DD");
+        console.log(text)
+        text += " - " + end.format("ddd DD");
     }
     return (
         <div>

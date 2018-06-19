@@ -28,6 +28,7 @@ export class LineChartPanel extends Component {
     // gets the child statistics and sets data using it.
     getChildMessagesStatisticsByRange() {
         let day = moment(this.props.startDate); // creates a moment object from the first day.
+        day.locale(this.props.lang.language)
         let range = this.props.isOneDay ? 24 : this.props.range; // holds range
         let addBy = this.props.isOneDay ? 'hours' : 'day'; // for one day 'hours'(shows hours), else 'day'(show days) 
         let tempDay =  moment(day);
