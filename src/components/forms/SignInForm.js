@@ -49,6 +49,7 @@ class SignInForm extends React.Component {
         this.isValidPassword = this.isValidPassword.bind(this);
         this.changePasswordEye = this.changePasswordEye.bind(this);
         this.disableButton = this.disableButton.bind(this);
+        this.redirectToDashboard = this.redirectToDashboard.bind(this);
     }
 
     // changes the password icon and show/hide password in input field
@@ -162,7 +163,7 @@ class SignInForm extends React.Component {
 
     // disable button - check if email is a valid email.
     disableButton() {
-        return !((this.state.emailValidation[1] === "valid") && (this.state.passwordValidation[1] === "valid") && (this.state.name === undefined || this.state.nameValidation[1] === "valid") && this.props.agreement)
+        return !((this.state.emailValidation[1] === "valid" || this.props.accountEmail !== "") && (this.state.passwordValidation[1] === "valid") && (this.state.name === undefined || this.state.nameValidation[1] === "valid") && this.props.agreement)
     }
 
     // closes the register modal - modal that asks parent if he wants to sign up when the email he entered doesn't exist.
@@ -181,14 +182,7 @@ class SignInForm extends React.Component {
         this.props.history.push("/register");
     }
 
-    // on submit - tries to sign in.
-    // handles errors recieved from api call(email doesn't exist, wront password)
-    signIn(event) {
-        event.preventDefault(); // prevent auto refresh the page after submit.
-        this.props.setShowLoadingModal(true);
-        var email = this.state.email
-        var password = this.state.password;
-
+    login(email, password) {
         // sends login package and handling the respond.
         Login(email, password).then(res => {  // When respond package is with status 200
             let token = res.data.authToken;
@@ -202,7 +196,7 @@ class SignInForm extends React.Component {
                 // save data to local storage.
                 localStorage._id = parentId;
                 localStorage._token = token;
-                
+            
                 // this.props.setShowLoadingModal(false); // stops the loading modal.
                 this.props.setShowLogoutIcon(true); // show the logout button.
                 this.props.history.push('/keepers-dashboard');  // redirect to dashboard page.
@@ -213,6 +207,7 @@ class SignInForm extends React.Component {
             setTimeout(() => {
                 this.props.setShowLoadingModal(false);
                 if(error.response.data.code === '994') {    // parent doesn't exist
+                    this.props.setEmail(email);
                     this.props.setShowModal(true);
                 } else if(error.response.data.code === '935') { // user entered wrong password.
                     this.setState({
@@ -224,17 +219,26 @@ class SignInForm extends React.Component {
         }); 
     }
 
+    // on submit - tries to sign in.
+    // handles errors recieved from api call(email doesn't exist, wront password)
+    signIn(event) {
+        event.preventDefault(); // prevent auto refresh the page after submit.
+        this.props.setShowLoadingModal(true);
+        var email = this.state.email
+        var password = this.state.password;
+        this.login(email, password);
+    }
+
     // user registration using user email, name, email and password.
     // handles errors recieved from api call(email exists already)
     register(event) {
         event.preventDefault(); // cancel auto refresh.
         this.props.setShowLoadingModal(true);
         var parentName = this.state.name;
-        var email = this.state.email;
+        var email = this.props.accountEmail;
         var password = this.state.password;
         Register(parentName, email, password).then(res => {
-            this.props.setShowLoadingModal(false);
-            this.props.history.push('/login');  // redirect to login page.
+            this.login(email, password);
         }).catch(error => {
             setTimeout(() => {
                 this.props.setShowLoadingModal(false);
@@ -246,6 +250,10 @@ class SignInForm extends React.Component {
             }
         }, 1000);
         });
+    }
+
+    redirectToDashboard() {
+
     }
 
     render() {      
@@ -271,11 +279,12 @@ class SignInForm extends React.Component {
                     {/* email input */}
                     <FloatingLabelInput type={"email"} labelName={this.props.currLang.parents_email} 
                         onFocus={this.emailOnFocus.bind(this)}
+                        disabled={this.state.name !== undefined}
                         onChange={(e) => {
                             e.preventDefault(); // prevents the event to refresh page.
                             this.handleEmail(e.currentTarget.value);}}
                         name={"EMAIL"}
-                        value={this.state.email} // puts the value of email state into input field.
+                        value={this.state.name === undefined ? this.state.email : this.props.accountEmail} // puts the value of email state into input field.
                         isValid={this.state.emailValidation[0]} // shows error if its false, if true nothing.
                         errorMessage={this.state.emailValidation[1]} // the error message shown if isValid is true.
                         /> 
@@ -331,13 +340,22 @@ const mapStateToProps = (state) => {
         showRegisterModal: state.Modal.showModal, // register modal - popup with register option when email entered doesn't exist.
         agreement: state.Modal.agreement, // agreement checkbox
         currLang: state.DisplayLanguage.currLang.login_page, // use language from redux - here lets the texts the option to change all page languages.
-        showWaitingModal: state.Modal.showLoadingModal // loading modal.
+        showWaitingModal: state.Modal.showLoadingModal, // loading modal.
+        accountEmail: state.AccountInfo.email
     };
 };
 
 // functions used to set redux states.
 const mapDispatchToProps = (dispatch) => {
     return {
+
+         // set account email
+         setEmail: (val) => {
+            dispatch({
+                type: "SET_EMAIL",
+                value: val
+            });
+        },
 
         // show/hide register modal.
         setShowModal: (val) => {

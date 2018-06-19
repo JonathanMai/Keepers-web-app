@@ -7,7 +7,8 @@
 // Initial state
 const initialState = {
     parentId: null,
-    auth: null
+    auth: null,
+    email: ""
 };
 
 const reducerAccountInfo = (state = initialState, action) => {
@@ -17,7 +18,12 @@ const reducerAccountInfo = (state = initialState, action) => {
             return {
                 ...state,
                 parentId: action.value.id,
-                auth: action.value.authKey
+                auth: action.value.authKey,
+            };
+        case "SET_EMAIL":
+            return {
+                ...state,
+                email: action.value
             };
         default: 
             return state;

@@ -58,7 +58,7 @@ class RoutersList extends Component {
 const mapStateToProps = (state) => {
     return {
         panel_color: state.Modal.panel_color,       // current banner background color
-        currLang: state.DisplayLanguage.currLang    // current language of the application
+        currLang: state.DisplayLanguage.currLang,    // current language of the application
     };
 };
 
