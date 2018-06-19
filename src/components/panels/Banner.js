@@ -81,18 +81,18 @@ class Banner extends Component {
                     {
                         this.props.showIcon &&
                         <div> 
-                            <Image alt="log out" className="logout" src={logoutImg} onClick={this.logout.bind(this)} />
+                            <Image alt="logout" className="logout" src={logoutImg} onClick={this.logout.bind(this)} />
                             <div className="logo" onClick={this.open_close_consultant.bind(this)}>
-                                <img className="img_chat" src={logoChat} />
+                                <img alt="chat" className="img_chat" src={logoChat} />
                             </div>
                             <div className="logo logo2"  onClick={this.share.bind(this)}>
-                                <img className="img_share" src={logoShare} />
+                                <img alt="share" className="img_share" src={logoShare} />
                             </div>
                             <div ref="chat_screen" className="chat_screen">
                                 <div className="closeBtn">
-                                    <img style={{width: 25 + 'px'}} src={closeBtn} onClick={this.open_close_consultant.bind(this)}/>
+                                    <img alt="close" style={{width: 25 + 'px'}} src={closeBtn} onClick={this.open_close_consultant.bind(this)}/>
                                 </div>
-                                <iframe className="chat_frame" src="https://chat-bot-55ed9.firebaseapp.com/">
+                                <iframe title="consultant center" className="chat_frame" src="https://chat-bot-55ed9.firebaseapp.com/">
                                     <p>{this.props.currLang.not_support_iframe}</p>
                                 </iframe>
                             </div>

@@ -34,11 +34,13 @@ class Chat extends Component {
         this.props.close();
     }  
     
+    // create a chat bubble to each of headers
     createChatBubbles() {
         return (
             <ul>
-                {this.props.chatMessages.messages.map((message, index) => {
-                    if(message.text !== "") {
+                {this.props.chatMessages.messages.filter((message) => {
+                    return message.text !== "";
+                }).map((message, index) => {
                         return (<ChatBubble
                             key={index} 
                             sentBy={message.name}
@@ -47,7 +49,6 @@ class Chat extends Component {
                             side={(message.is_outgoing ? "right" : "left")}
                             strength={message.strength}
                         />);
-                    }
                 })}
             </ul>);
     }

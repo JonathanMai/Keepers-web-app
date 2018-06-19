@@ -65,7 +65,7 @@ const MyMapComponent = compose(
 class MyMap extends Component {
 
 	componentDidUpdate() {
-		if(this.props.update != undefined && !this.props.update[3]){
+		if(this.props.update !== undefined && !this.props.update[3]){
 			this.getKidsCurrLocation();
 		}
 	}

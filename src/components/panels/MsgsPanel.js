@@ -28,7 +28,7 @@ class MsgsPanel extends Component {
     }
 
     componentDidUpdate() {
-        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[2]) {
+        if(this.props.childIndex ===  this.props.currChild && this.props.update !== undefined && !this.props.update[2]) {
             this.props.setUpdate(2);
             this.getMessagesHeads(this.props);
         }

@@ -19,7 +19,7 @@ export class LineChartPanel extends Component {
     }
     
     componentDidUpdate(){
-        if(this.props.childIndex ===  this.props.currChild && this.props.update != undefined && !this.props.update[0]){
+        if(this.props.childIndex ===  this.props.currChild && this.props.update !== undefined && !this.props.update[0]){
             this.props.setUpdate(0);
             this.getChildMessagesStatisticsByRange();
         }
@@ -76,9 +76,9 @@ export class LineChartPanel extends Component {
                 labels[i] = label; 
                 GetMessagesStatistics(this.props.childrens[this.props.childIndex].id, startTime, endTime).then(res => {  // When respond package is with status 200
                     let result = res.data;
-                    countEasy[i] = parseInt(result.easyCount); // easy count.
-                    countMedium[i] = parseInt(result.mediumCount); // medium count.
-                    countHarsh[i] = parseInt(result.heavyCount); // heavy count.
+                    countEasy[i] = parseInt(result.easyCount, 10); // easy count.
+                    countMedium[i] = parseInt(result.mediumCount, 10); // medium count.
+                    countHarsh[i] = parseInt(result.heavyCount, 10); // heavy count.
                         if(!this.props.isOneDay)
                         newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHarsh[i]];
                     flag++;

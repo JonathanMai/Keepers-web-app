@@ -18,9 +18,8 @@ class Dashboard extends Component {
     componentDidMount() {
         if(this.props.parentId !== null) {  // if parent id is null skip
             GetAllChildren().then(res => {  // server call to get all the children from the server
-                let childrens = [];         // childrens array
-                res.data.map(obj => {       // run on each object we get from the server
-                    childrens.push(obj);    // push it to the child array
+                let childrens = res.data.map(obj => {       // run on each object we get from the server
+                    return obj;    // push it to the child array
                 });
 
                 this.props.setChildrens(childrens); // update redux childrens

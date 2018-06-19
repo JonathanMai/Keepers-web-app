@@ -24,7 +24,7 @@ class BarChartPanel extends Component {
     }
 
     componentDidUpdate() {
-        if(this.props.childIndex === this.props.currChild && this.props.update != undefined && !this.props.update[1]){
+        if(this.props.childIndex === this.props.currChild && this.props.update !== undefined && !this.props.update[1]){
             this.props.setUpdate(1);
             this.getUsageStatistics();
         }
@@ -52,25 +52,24 @@ class BarChartPanel extends Component {
                 apps[appName] = 0
             }
             apps[appName] += difference;
+            return null;
         }) ;
 
-        let tempData = [];
-
         // arrange the data and app name in object.
-        Object.keys(apps).map((appName) => {
+        let tempData = Object.keys(apps).map((appName) => {
             let difference = apps[appName];
-            tempData.push({appName: appName, count: difference});
+            return {appName: appName, count: difference};
         });
 
         let dataSet = [];
-        let labels = [];
         
         // sorts the data by size and name.
-        [].concat(tempData)
+        let labels = [].concat(tempData)
         .sort((a, b) => a.count === b.count ? a.appName > b.appName  : a.count < b.count)
         .map((item, i) => {
-            labels.push(item.appName);
             dataSet.push(type === "m" ? item.count : item.count/60);
+            return item.appName;
+
         });
         this.setState({
             ...this.state,

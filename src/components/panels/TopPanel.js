@@ -22,7 +22,7 @@ class TopPanel extends Component {
                     {/* Row for style between two chart panels */}
                     <Row style={{height: '10%'}}>
                     <div>
-                        <span className="date_title"><span className="clock_icon">&#128340;</span>{" " + this.props.currLang.usage_time}</span>
+                        <span className="date_title"><span aria-labelledby="clock icon" role="img" className="clock_icon">&#128340;</span>{" " + this.props.currLang.usage_time}</span>
                         <hr className="line_hr"/>
                     </div>
                     </Row>
