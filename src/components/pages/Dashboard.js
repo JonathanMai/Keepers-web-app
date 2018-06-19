@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { GetAllChildren } from '../../serviceAPI';
 import { connect } from 'react-redux';
 import { Tabs, Tab, Grid, Row } from 'react-bootstrap';
+import { WaitingModal } from '../modals/WaitingModal';
 import TopPanel from '../panels/TopPanel';
 import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
@@ -15,6 +16,9 @@ import '../../styles/footer.css';
     It is the heart of the application and from here we control everything inside it.
 */
 class Dashboard extends Component {
+    componentWillMount() {
+        this.props.setShowLoadingModal(true);
+    }
     componentDidMount() {
         if(this.props.parentId !== null) {  // if parent id is null skip
             GetAllChildren().then(res => {  // server call to get all the children from the server
@@ -28,14 +32,22 @@ class Dashboard extends Component {
             });
         }
         this.props.setShowLogoutIcon(true); // set the logout logo to be visible
+        setTimeout(() => {
+            this.props.setShowLoadingModal(false);
+        }, 1500);
+
     }
 
     // on tab change event
     handleTabSelect(key) {
+        this.props.setShowLoadingModal(true);
         this.props.setCurrTab(key); // set the current tab in redux
         let zoom;
         this.props.zoom === 15 ? zoom = 16 : zoom = 15; 
         this.props.setZoom(zoom);   // change the zoom of map component
+        setTimeout(() => {
+            this.props.setShowLoadingModal(false);
+        }, 2000);
     } 
 
     render() {
@@ -57,6 +69,10 @@ class Dashboard extends Component {
                             <BottomPanel  />
                         </Tabs>
                 </Grid>
+                 {/* loading modal. */}
+                 <WaitingModal
+                    showModal={this.props.showWaitingModal} 
+                />
             </div>
         );
     } 
@@ -69,7 +85,8 @@ const mapStateToProps = (state) => {
         zoom: state.DashboardInfo.defaultZoom,          // map zoom
         currTab: state.DashboardInfo.currTab,           // current tab of the child
         parentId: state.AccountInfo.parentId,           // parent id
-        currLang: state.DisplayLanguage.currLang       // current application language
+        currLang: state.DisplayLanguage.currLang ,      // current application language
+        showWaitingModal: state.Modal.showLoadingModal // loading modal.
     };
 };
 
@@ -108,6 +125,13 @@ const mapDispatchToProps = (dispatch) => {
         setShowLogoutIcon: (val) => {
             dispatch({
                 type: "SET_ICON_VISIBILITY",
+                value: val
+            });
+        },
+        // show/hide loading modal.
+        setShowLoadingModal: (val) => {
+            dispatch({
+                type: "SET_SHOW_LOADING_MODAL",
                 value: val
             });
         }

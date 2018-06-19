@@ -203,7 +203,7 @@ class SignInForm extends React.Component {
                 localStorage._id = parentId;
                 localStorage._token = token;
                 
-                this.props.setShowLoadingModal(false); // stops the loading modal.
+                // this.props.setShowLoadingModal(false); // stops the loading modal.
                 this.props.setShowLogoutIcon(true); // show the logout button.
                 this.props.history.push('/keepers-dashboard');  // redirect to dashboard page.
             }, 1000);
@@ -228,19 +228,23 @@ class SignInForm extends React.Component {
     // handles errors recieved from api call(email exists already)
     register(event) {
         event.preventDefault(); // cancel auto refresh.
+        this.props.setShowLoadingModal(true);
         var parentName = this.state.name;
         var email = this.state.email;
         var password = this.state.password;
-
         Register(parentName, email, password).then(res => {
+            this.props.setShowLoadingModal(false);
             this.props.history.push('/login');  // redirect to login page.
         }).catch(error => {
-            if(error.response.data.code === "993") {
+            setTimeout(() => {
+                this.props.setShowLoadingModal(false);
+                if(error.response.data.code === "993") {
                 this.setState({
                     ...this.state,
                     emailValidation: [false, this.props.currLang.error_993] // sets the error that is shown to the user.
                 });
             }
+        }, 1000);
         });
     }
 
@@ -312,12 +316,10 @@ class SignInForm extends React.Component {
                     closeModal={this.closeRegisterModal.bind(this)}
                     registerUser={this.redirectToRegister.bind(this)}
                     currLang={this.props.currLang.modal}/>
-
                 {/* loading modal. */}
-                 <WaitingModal
+                <WaitingModal
                     showModal={this.props.showWaitingModal} 
-                    closeModal={this.closeWaitingModal.bind(this)}
-                    />
+                />
             </div>
         );
     }
@@ -327,9 +329,9 @@ class SignInForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         showRegisterModal: state.Modal.showModal, // register modal - popup with register option when email entered doesn't exist.
-        showWaitingModal: state.Modal.showLoadingModal, // loading modal.
         agreement: state.Modal.agreement, // agreement checkbox
         currLang: state.DisplayLanguage.currLang.login_page, // use language from redux - here lets the texts the option to change all page languages.
+        showWaitingModal: state.Modal.showLoadingModal // loading modal.
     };
 };
 

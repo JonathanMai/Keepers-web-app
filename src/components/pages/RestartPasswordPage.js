@@ -1,8 +1,11 @@
 import React from 'react';
 import RestoreForm from '../forms/RestorePasswordForm';
+import { connect } from 'react-redux';
 import EnterEmailForm from '../forms/EnterEmailForm';
 import { Image } from 'react-bootstrap';
 import wave from '../../assets/login/Wave_main.png';
+import { WaitingModal } from '../modals/WaitingModal';
+
 
 /*
     Restart password page component.
@@ -30,16 +33,41 @@ class RestartPasswordPage extends React.Component {
     render() {
         let renderPage;
         if(this.state.page === 1) { // still not asked for password recovery
-            renderPage = (<EnterEmailForm nextPage={this.goToNextPage}/>)
+            renderPage = (<EnterEmailForm showLoadingModal={this.props.setShowLoadingModal} nextPage={this.goToNextPage}/>)
         } else {                    // the server already sent him a code verification
-            renderPage = (<RestoreForm history={this.props.history}/>)            
+            renderPage = (<RestoreForm showLoadingModal={this.props.setShowLoadingModal} history={this.props.history}/>)            
         }
-        return (<div>
+        return (
+            <div>
                 {renderPage}
-                <Image className="wave" src={wave} />  
+                <Image className="wave" src={wave} />
+                 {/* loading modal. */}
+                 <WaitingModal
+                    showModal={this.props.showWaitingModal} 
+                />  
             </div>
         );    
     }
 }
 
-export default RestartPasswordPage;
+// variables used from redux.
+const mapStateToProps = (state) => {
+    return {
+        showWaitingModal: state.Modal.showLoadingModal // loading modal.
+    };
+};
+
+// functions used to set redux states.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        // show/hide loading modal.
+        setShowLoadingModal: (val) => {
+            dispatch({
+                type: "SET_SHOW_LOADING_MODAL",
+                value: val
+            });
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RestartPasswordPage);

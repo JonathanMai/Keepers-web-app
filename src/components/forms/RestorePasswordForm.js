@@ -170,6 +170,7 @@ class RestoreForm extends Component {
     // restart password using user email, code that was sent to his email and the new password.
     // handles errors recieved from api call(code not related to email, wrong email).
     restartPassword(email, code, password) {
+        this.props.showLoadingModal(true);
         // sends package and handling the respond.
         ResetPassword(email, code, password).then(res => {  // when respond package is with status 200
         this.setState({
@@ -179,9 +180,11 @@ class RestoreForm extends Component {
             resetSuccess: true
         });
         setTimeout(() => {
+            this.props.showLoadingModal(false);
             this.props.history.push("/login");   // redirect to login page.
-        }, 2000);
+        }, 1500);
         }).catch(error => { // when respond package is with error status - 400 ...
+            this.props.showLoadingModal(false);
             if(error.response.data.code === "825") { // the code is not corrent
             this.setState({
                 ...this.state,

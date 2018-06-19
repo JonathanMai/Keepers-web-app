@@ -81,10 +81,13 @@ class EnterEmailForm extends Component {
     // send restart code to users email.
     // also handles the errors recieved from api call(email doesn't exist)
     sendRestartCode() {
+        this.props.showLoadingModal(true);
         // sends package and handling the respond.
         SendRestartCode(this.state.email).then(res => {  // when respond package is with status 200
             this.props.nextPage();
+            this.props.showLoadingModal(false);
         }).catch(error => { // when respond package is with error status - 400 ...
+                this.props.showLoadingModal(false);
                  if(error.response.data.code === "994") {   // parent was not found
                     this.setState({
                         ...this.state,
