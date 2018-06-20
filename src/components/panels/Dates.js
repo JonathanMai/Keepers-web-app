@@ -260,14 +260,14 @@ class Dates extends Component {
 function Arrows(props) {
     // props.startDate.locale(props.lang);
     // moment(props.endDate).locale(props.lang);
-    console.log(props)
+    // console.log(props)
     let start = moment(props.startDate);
-    let end = moment(props.endData);
+    let end = moment(props.endDate);
     start.locale(props.lang);
     end.locale(props.lang);
     let text = start.format("MMM - ddd DD") ;
     if(!props.isOneDay) {
-        console.log(text)
+        console.log(props)
         text += " - " + end.format("ddd DD");
     }
     return (
@@ -287,7 +287,7 @@ const mapStateToProps = (state) => {
         text: state.DashboardInfo.datesText,            // date picker text.
         isOneDay: state.DashboardInfo.isOneDay,         // gets the boolean to indicate if the data is for one day.
         activeDate: state.DashboardInfo.activeDates,    // active dates indicate which button user clicked.
-        lang: state.DisplayLanguage.currLang                       // use language from redux - here lets the texts the option to change all page languages.
+        lang: state.DisplayLanguage.currLang            // use language from redux - here lets the texts the option to change all page languages.
     };
 };
 

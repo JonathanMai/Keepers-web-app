@@ -15,6 +15,7 @@ export class LineChartPanel extends Component {
             data: {}, // {"18-05-18" : {***}, "19-05-18": {***}}
             labels: [],
         }
+        this.getData = this.getData.bind(this);
         this.getChildMessagesStatisticsByRange();
     }
     
@@ -39,7 +40,7 @@ export class LineChartPanel extends Component {
         let countMedium = new Array(range+1); // count the words classified as medium
         let countHarsh = new Array(range+1); // count the words classified as harsh
         let newData = this.state.data; // holds the new data we parse to.
-        let flag = 0; // flag that indicates when all packets finished.
+        var flag = 0; // flag that indicates when all packets finished.
 
         // iterate through all days and check if there is already saved data for the date range - if not call for it.
         for(let i=0; i<=range;  i++, tempDay=moment(day).add(i,addBy)) {
@@ -75,21 +76,27 @@ export class LineChartPanel extends Component {
                     label += moment(tempDay).format("MMM Do").toString(); // by day for all else.
                 }
                 labels[i] = label; 
-                GetMessagesStatistics(this.props.childrens[this.props.childIndex].id, startTime, endTime).then(res => {  // When respond package is with status 200
-                    let result = res.data;
-                    countEasy[i] = parseInt(result.easyCount, 10); // easy count.
-                    countMedium[i] = parseInt(result.mediumCount, 10); // medium count.
-                    countHarsh[i] = parseInt(result.heavyCount, 10); // heavy count.
-                        if(!this.props.isOneDay)
-                        newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHarsh[i]];
-                    flag++;
-                    if(flag > range)
-                        this.insertNewData(newData, [countEasy, countMedium, countHarsh], labels);
-                }).catch(error => { // When respond package is with error status - 400 ...
-                    console.log(error);
-                });
+                flag++;
+                this.getData(this.props.childrens[this.props.childIndex].id, startTime, endTime, i, newData, countEasy, countMedium, countHarsh, this.props.isOneDay, flag, range, day, labels);
             };
         }
+    }
+
+    getData(id, startTime, endTime, i, newData, countEasy, countMedium, countHarsh, isOneDay, flag, range, day, labels) {
+        GetMessagesStatistics(id, startTime, endTime).then(res => {  // When respond package is with status 200
+            let result = res.data;
+            countEasy[i] = parseInt(result.easyCount, 10); // easy count.
+            countMedium[i] = parseInt(result.mediumCount, 10); // medium count.
+            countHarsh[i] = parseInt(result.heavyCount, 10); // heavy count.
+            if(!isOneDay) {
+                newData[moment(day).add(i, 'day').format("YY-MM-DD")] = [countEasy[i], countMedium[i], countHarsh[i]];
+            }
+            if(flag > range) {
+                this.insertNewData(newData, [countEasy, countMedium, countHarsh], labels);
+            }
+        }).catch(error => { // When respond package is with error status - 400 ...
+            console.log(error);
+        });
     }
 
     // insert new data to state.
