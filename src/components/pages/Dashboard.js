@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Tabs, Tab, Grid, Row } from 'react-bootstrap';
 import { WaitingModal } from '../modals/WaitingModal';
 import TopPanel from '../panels/TopPanel';
+import ChildrenNotFound from '../panels/ChildrenNotFound';
 import BottomPanel from '../panels/BottomPanel';
 import Dates from '../panels/Dates';
 import '../../styles/dashboard.css';
@@ -51,6 +52,9 @@ class Dashboard extends Component {
     } 
 
     render() {
+        if(this.props.childrens.length === 0) {
+            return <ChildrenNotFound text={this.props.currLang.children_not_found} tutorial={this.props.currLang.tutorial}/>
+        }
         return  (             
             <div>
                 <Grid fluid={true} className="grid">

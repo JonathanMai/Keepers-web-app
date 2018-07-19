@@ -13,7 +13,8 @@ const languages = {
         not_support_iframe: "Your browser does not support iframes",
         language: "en",
         page_not_found: "Page not found",
-        children_not_found: "Register children not found, Please make sure you register your children.",
+        children_not_found: "Please intall the application on children devices.",
+        tutorial: "Installation tutorial",
         login_page: {
             key_child_safety: "The Key to your Child's Safety",
             parents_name: "PARENT'S NAME",
@@ -64,7 +65,8 @@ const languages = {
         not_support_iframe: "Ваш браузер не поддерживает всплывающие окна",
         language: "ru",
         page_not_found: "Страница не найдена",
-        children_not_found: "Детей не найдено, Пожалуйста убедитесь что вы зарегистрировали их.",
+        children_not_found: "Пожалуйста, установите приложение на детских устройствах.",
+        tutorial: "Учебник по установке",
         login_page: {
             key_child_safety: "Ключ к безопасности вашего ребенка",
             parents_name: "Имя родителя",
