@@ -2,10 +2,26 @@
   <img src="http://finder.startupnationcentral.org/image_cloud/keepers-child-safety_be03ca57-524a-11e6-914d-1599937b2892?w=300&h=300"  /></p>
   
 # Keepers - Web Application
-Web application for the parent side of Keepers application.
+Keepers is an award-winning application that monitors children's text messages on
+all social media platforms simultaneously and protects them from the dangers of cyberbullying.
+
+In this project we have developed the parent dashboard to help him monitor his child phone by showing statistics of his child phone usage, abusive conversations and live information - child whereabout cell percentage.
+
+## App screenshots
+
 
 ## Tools & Practices
-We're trying to use the best tools and practices in order to produce a quality enginneered product that is thoroughly tested.
+The project was developed using React.js technologies.
+### Bootstrap
+
+### Router
+Used to manage pages routing.
+### Redux
+Redux helped us to manage information sharing between all the components.
+### Chart.js
+Helped us show the abusive words statistics in chart and child time usage.
+### ajax
+Used to communicate with keepers server API to receive the account and child information.
 
 |Category|Status|
 |---|---|
