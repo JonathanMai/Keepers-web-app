@@ -8,12 +8,20 @@ all social media platforms simultaneously and protects them from the dangers of 
 In this project we have developed the parent dashboard to help him monitor his child phone by showing statistics of his child phone usage, abusive conversations and live information - child whereabout cell percentage.
 
 ## App screenshots
+login page:  
+<p>
+  <img src="https://github.com/JonathanMai/Keepers-web-app/blob/master/app%20images/login_screen.png" />
+</p>
 
+Dashboard:
+<p>
+ <img src="https://github.com/JonathanMai/Keepers-web-app/blob/master/app%20images/dashboard.png"/>
+</p>
 
 ## Tools & Practices
 The project was developed using React.js technologies.
 ### Bootstrap
-
+Provided designed objects to use in project like buttons, tabs, etc.
 ### Router
 Used to manage pages routing.
 ### Redux
