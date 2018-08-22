@@ -7,6 +7,7 @@ all social media platforms simultaneously and protects them from the dangers of 
 
 In this project we have developed the parent dashboard to help him monitor his child phone by showing statistics of his child phone usage, abusive conversations and live information - child whereabout cell percentage.
 
+
 ## App screenshots
 login page:  
 <p>
@@ -37,8 +38,8 @@ Used to communicate with keepers server API to receive the account and child inf
 | Recommended IDE | [Visual Studio Code](https://code.visualstudio.com/) |
 | Github Issues | [![GitHub issues](https://img.shields.io/github/issues/JonathanMai/Keepers-web-app.svg?style=flat)](https://github.com/JonathanMai/Keepers-web-app/issues) |
 | Project Management Board| [Project Board](https://github.com/JonathanMai/Keepers-web-app/projects/1) |
-| Project Status | On Development |
-
+| Project report | [Final report](https://drive.google.com/file/d/1rhJDAXqObWFVxVHI6RWubWAdySadKcyv/view?usp=sharing) |
+| Project Status | Done |
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
